@@ -1,0 +1,1 @@
+# voucherify-android-sdk
