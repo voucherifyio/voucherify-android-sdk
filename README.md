@@ -87,3 +87,42 @@ client.vouchers()
             }
         });
 ```
+
+
+VoucherResponse
+=====
+
+ /*
+    {
+        "valid": true,
+        "type": "amount",
+        "discount": 9.99
+    }
+
+    OR
+
+    {
+        "valid": true,
+        "type": "percent",
+        "discount": 15
+    }
+
+    OR
+
+    {
+        "valid": false
+    }
+
+    OR
+
+    {
+        "type": "error",
+        "message": "More details will be here."
+        "context": "Here you will receive context of that error."
+    }
+ */
+
+
+### Changelog
+
+- **2015-08-11** - `0.0.1` - Initial version of the SDK.
