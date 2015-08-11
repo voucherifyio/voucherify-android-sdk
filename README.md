@@ -93,6 +93,7 @@ VoucherResponse
 =====
 
  /*
+
     {
         "valid": true,
         "type": "amount",
@@ -120,6 +121,7 @@ VoucherResponse
         "message": "More details will be here."
         "context": "Here you will receive context of that error."
     }
+
  */
 
 
