@@ -1,7 +1,7 @@
 voucherify-android-sdk
 ===============
 
-###Version: 0.0.1
+###Version: 0.0.2
 
 Android SDK for Voucherify to validate a voucher on client side.
 
@@ -37,7 +37,30 @@ Usage
 The `VoucherifyAndroidClient` manages your interaction with the Voucherify API.
 
 ```java
-VoucherifyAndroidClient client = new VoucherifyClient.Builder(YOUR-APPLICATION-ID, YOUR-APPLICATION-TOKEN).build();
+VoucherifyAndroidClient client = new VoucherifyClient.Builder(YOUR-PUBLIC-CLIENT-APPLICATION-ID, YOUR-PUBLIC-CLIENT-APPLICATION-TOKEN).build();
+```
+
+We are tracking users which are validating vouchers with those who consume them, by a `trackingId`. By that we are setting up an identity for the user. If you want to provide your custom value for `trackingId`, you have to do it when creating VoucherifyAndroidClient:
+
+```java
+androidClient = new VoucherifyAndroidClient.Builder(YOUR-PUBLIC-CLIENT-APPLICATION-ID, YOUR-PUBLIC-CLIENT-APPLICATION-TOKEN)
+       .withCustomTrackingId(YOUR-CUSTOM-TRACKNG-ID)
+       .build();
+```
+
+Otheres additional params which can be set:
+* origin
+* endpoint
+* log level
+
+```java
+androidClient = new VoucherifyAndroidClient.Builder(YOUR-PUBLIC-CLIENT-APPLICATION-ID, YOUR-PUBLIC-CLIENT-APPLICATION-TOKEN)
+       .withCustomTrackingId(YOUR-CUSTOM-TRACKNG-ID)
+       .withOrigin("android")
+       .setEndpoint("10.0.3.2:8080")
+       .setLogLevel(RestAdapter.LogLevel.FULL)
+       .build();
+
 ```
 
 Current list of features:
@@ -76,6 +99,7 @@ client.vouchers()
         .rx()
         .validate("VOUCHER_CODE")
         .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
         .subscribe(new Action1<VoucherResponse>() {
             @Override
             public void call(VoucherResponse voucher) {
@@ -97,7 +121,8 @@ VoucherResponse
     {
         "valid": true,
         "type": "amount",
-        "discount": 9.99
+        "discount": 9.99,
+        "trackingId": "generated-or-passed-tracking-id"
     }
 
     OR
@@ -105,13 +130,17 @@ VoucherResponse
     {
         "valid": true,
         "type": "percent",
-        "discount": 15
+        "discount": 15,
+        "trackingId": "generated-or-passed-tracking-id"
     }
 
     OR
 
     {
-        "valid": false
+        "valid": false,
+        "type": null,
+        "discount": null,
+        "trackingId": "generated-or-passed-tracking-id"
     }
 
     OR
@@ -127,4 +156,5 @@ VoucherResponse
 
 ### Changelog
 
+- **2015-08-15** - '0.0.2' - Added tracking id functionality
 - **2015-08-11** - `0.0.1` - Initial version of the SDK.

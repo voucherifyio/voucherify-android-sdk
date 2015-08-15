@@ -6,7 +6,7 @@ import retrofit.http.Query;
 
 public interface VoucherifyApi {
 
-    @GET("/validate")
-    VoucherResponse validateVoucher(@Query("code") String code);
+    @GET("/client/v1/validate")
+    VoucherResponse validateVoucher(@Query("code") String code, @Query("tracking_id") String trackingId, @Query("channel") String channel);
 
 }

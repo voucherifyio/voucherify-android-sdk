@@ -14,9 +14,10 @@ public final class VoucherModule extends BaseModule<VoucherResponse> {
      *
      * @param api describes Voucherif REST API
      * @param executor of threads for current platform
+     * @param trackingId custom tracking id to track voucher consumers
      */
-    public VoucherModule(VoucherifyApi api, Executor executor) {
-        super(api, executor);
+    public VoucherModule(VoucherifyApi api, Executor executor, String trackingId) {
+        super(api, executor, trackingId);
     }
 
     /**

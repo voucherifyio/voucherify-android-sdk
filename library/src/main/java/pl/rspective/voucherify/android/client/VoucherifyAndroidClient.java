@@ -36,7 +36,7 @@ public class VoucherifyAndroidClient {
         this.gson = createGson();
         this.voucherifyApi = createRetrofitService(builder);
 
-        this.voucherModule = new VoucherModule(voucherifyApi, executor);
+        this.voucherModule = new VoucherModule(voucherifyApi, executor, builder.trackingId);
     }
 
     /**
@@ -85,7 +85,7 @@ public class VoucherifyAndroidClient {
         RestAdapter.Builder restBuilder =
                 new RestAdapter.Builder()
                         .setConverter(new GsonConverter(gson))
-                        .setRequestInterceptor(createInterceptor(builder.clientId, builder.clientToken));
+                        .setRequestInterceptor(createInterceptor(builder.clientId, builder.clientToken, builder.origin));
 
         setEndPoint(builder, restBuilder);
         setClientProvider(builder, restBuilder);
@@ -100,12 +100,13 @@ public class VoucherifyAndroidClient {
      * @param clientToken
      * @return
      */
-    private RequestInterceptor createInterceptor(final String clientId, final String clientToken) {
+    private RequestInterceptor createInterceptor(final String clientId, final String clientToken, final String origin) {
         return new RequestInterceptor() {
             @Override
             public void intercept(RequestFacade request) {
                 request.addHeader(Constants.HTTP_HEADER_CLIENT_ID, clientId);
                 request.addHeader(Constants.HTTP_HEADER_CLIENT_TOKEN, clientToken);
+                request.addHeader(Constants.HTTP_HEADER_ORIGIN, origin);
             }
         };
     }
@@ -152,7 +153,9 @@ public class VoucherifyAndroidClient {
     public static class Builder {
         String clientToken;
         String clientId;
+        String trackingId;
 
+        String origin;
         String endpoint;
 
         boolean secure;
@@ -210,8 +213,18 @@ public class VoucherifyAndroidClient {
             return this;
         }
 
+        public Builder withOrigin(String origin) {
+            this.origin = origin;
+            return this;
+        }
+
         public Builder withSSL() {
             this.secure = true;
+            return this;
+        }
+
+        public Builder withCustomTrackingId(String trackingId) {
+            this.trackingId = trackingId;
             return this;
         }
 

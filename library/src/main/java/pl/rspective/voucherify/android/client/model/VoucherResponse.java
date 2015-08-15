@@ -5,6 +5,7 @@ public class VoucherResponse {
     private boolean valid;
     private String type;
     private double discount;
+    private String trackingId;
 
     public boolean isValid() {
         return valid;
@@ -16,5 +17,9 @@ public class VoucherResponse {
 
     public double getDiscount() {
         return discount;
+    }
+
+    public String getTrackingId() {
+        return trackingId;
     }
 }

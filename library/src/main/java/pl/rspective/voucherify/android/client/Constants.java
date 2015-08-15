@@ -7,6 +7,7 @@ public interface Constants {
     String SCHEME_HTTPS = "https";
     String HTTP_HEADER_CLIENT_ID = "X-Client-Application-Id";
     String HTTP_HEADER_CLIENT_TOKEN = "X-Client-Token";
+    String HTTP_HEADER_ORIGIN = "origin";
 
     // Configuration
     String ENDPOINT_VOUCHERIFY = "api.voucherify.io/v1";

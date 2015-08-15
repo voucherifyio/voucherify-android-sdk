@@ -11,8 +11,14 @@ import rx.Observable;
 
 abstract class BaseModule<T> extends AbsModule<BaseModule.ExtAsync, BaseModule.ExtRxJava> {
 
-    public BaseModule(VoucherifyApi api, Executor executor) {
+    private static final String CHANNEL = "android";
+
+    private final String trackingId;
+
+    public BaseModule(VoucherifyApi api, Executor executor, String trackingId) {
         super(api, executor);
+
+        this.trackingId = trackingId;
     }
 
     @Override
@@ -26,7 +32,7 @@ abstract class BaseModule<T> extends AbsModule<BaseModule.ExtAsync, BaseModule.E
     }
 
     public T validate(String code) {
-        return (T) api.validateVoucher(code);
+        return (T) api.validateVoucher(code, trackingId, CHANNEL);
     }
 
     /**
@@ -49,8 +55,7 @@ abstract class BaseModule<T> extends AbsModule<BaseModule.ExtAsync, BaseModule.E
             return RxUtils.defer(new RxUtils.DefFunc<T>() {
                 @Override
                 public T method() {
-                    BaseModule.this.validate(code);
-                    return null;
+                    return BaseModule.this.validate(code);
                 }
             });
         }

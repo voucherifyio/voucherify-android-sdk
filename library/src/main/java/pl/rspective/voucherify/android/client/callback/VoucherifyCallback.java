@@ -1,11 +1,9 @@
 package pl.rspective.voucherify.android.client.callback;
 
-public abstract class VoucherifyCallback<T, E> {
-    private boolean cancelled;
+public interface VoucherifyCallback<T, E> {
 
-    public abstract void onSuccess(T result);
+    void onSuccess(T result);
 
-    public void onFailure(E error) {
-    }
+    void onFailure(E error);
 
 }
