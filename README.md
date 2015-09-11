@@ -1,7 +1,7 @@
 voucherify-android-sdk
 ===============
 
-###Version: 0.0.2
+###Version: 0.0.3
 
 Android SDK for Voucherify to validate a voucher on client side.
 
@@ -156,5 +156,6 @@ VoucherResponse
 
 ### Changelog
 
+- **2015-09-11** - `0.0.3` - Updated backend URL.
 - **2015-08-15** - '0.0.2' - Added tracking id functionality
 - **2015-08-11** - `0.0.1` - Initial version of the SDK.
