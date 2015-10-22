@@ -10,6 +10,6 @@ public interface Constants {
     String HTTP_HEADER_ORIGIN = "origin";
 
     // Configuration
-    String ENDPOINT_VOUCHERIFY = "voucherify-bouncer.herokuapp.com/v1";
+    String ENDPOINT_VOUCHERIFY = "voucherify-bouncer.herokuapp.com";
 
 }
