@@ -21,7 +21,7 @@ dependencies {
 
 ```xml
 <dependency>
-    <groupId>com.github.polok.pincodepicker</groupId>
+    <groupId>pl.rspective.voucherify.android.client</groupId>
     <artifactId>voucherify-android-sdk</artifactId>
     <version>0.0.3</version>
 </dependency>
