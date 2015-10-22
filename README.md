@@ -25,7 +25,7 @@ dependencies {
     <artifactId>voucherify-android-sdk</artifactId>
     <version>0.0.3</version>
 </dependency>
-
+```
 
 NOTE:
 The SDK requires at least Java 6 or Android 2.3.3 (API 10)
