@@ -173,6 +173,7 @@ VoucherResponse
 
 ### Changelog
 
+- **2015-10-22** - `0.0.4` - New backend URL.
 - **2015-09-11** - `0.0.3` - Updated backend URL.
-- **2015-08-15** - '0.0.2' - Added tracking id functionality
+- **2015-08-15** - `0.0.2` - Added tracking id functionality
 - **2015-08-11** - `0.0.1` - Initial version of the SDK.
