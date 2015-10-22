@@ -9,6 +9,23 @@ Android SDK for Voucherify to validate a voucher on client side.
 Setup
 =====
 
+###### Using Gradle:
+
+```groovy
+dependencies {
+    compile 'pl.rspective.voucherify.android.client:voucherify-android-sdk:0.0.3'
+}
+```
+
+###### Using Maven:
+
+```xml
+<dependency>
+    <groupId>com.github.polok.pincodepicker</groupId>
+    <artifactId>voucherify-android-sdk</artifactId>
+    <version>0.0.3</version>
+</dependency>
+
 
 NOTE:
 The SDK requires at least Java 6 or Android 2.3.3 (API 10)
