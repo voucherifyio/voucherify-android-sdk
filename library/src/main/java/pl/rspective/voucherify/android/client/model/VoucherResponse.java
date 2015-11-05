@@ -7,7 +7,7 @@ public class VoucherResponse {
     private boolean valid;
     private String type;
     private double discount;
-	@SerializedName("tracking_id")
+    @SerializedName("tracking_id")
     private String trackingId;
 
     public boolean isValid() {
