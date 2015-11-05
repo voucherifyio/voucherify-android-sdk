@@ -1,7 +1,7 @@
 voucherify-android-sdk
 ===============
 
-###Version: 0.0.4
+###Version: 0.0.5
 
 Android SDK for Voucherify to validate a voucher on client side.
 
@@ -13,7 +13,7 @@ Setup
 
 ```groovy
 dependencies {
-    compile 'pl.rspective.voucherify.android.client:voucherify-android-sdk:0.0.4'
+    compile 'pl.rspective.voucherify.android.client:voucherify-android-sdk:0.0.5'
 }
 ```
 
@@ -23,7 +23,7 @@ dependencies {
 <dependency>
     <groupId>pl.rspective.voucherify.android.client</groupId>
     <artifactId>voucherify-android-sdk</artifactId>
-    <version>0.0.4</version>
+    <version>0.0.5</version>
 </dependency>
 ```
 
@@ -57,7 +57,7 @@ The `VoucherifyAndroidClient` manages your interaction with the Voucherify API.
 VoucherifyAndroidClient client = new VoucherifyClient.Builder(YOUR-PUBLIC-CLIENT-APPLICATION-ID, YOUR-PUBLIC-CLIENT-APPLICATION-TOKEN).build();
 ```
 
-We are tracking users which are validating vouchers with those who consume them, by a `trackingId`. By that we are setting up an identity for the user. If you want to provide your custom value for `trackingId`, you have to do it when creating VoucherifyAndroidClient:
+We are tracking users which are validating vouchers with those who consume them, by a `tracking_id`. By that we are setting up an identity for the user. If you want to provide your custom value for `tracking_id`, you have to do it when creating VoucherifyAndroidClient:
 
 ```java
 androidClient = new VoucherifyAndroidClient.Builder(YOUR-PUBLIC-CLIENT-APPLICATION-ID, YOUR-PUBLIC-CLIENT-APPLICATION-TOKEN)
@@ -139,7 +139,7 @@ VoucherResponse
         "valid": true,
         "type": "amount",
         "discount": 9.99,
-        "trackingId": "generated-or-passed-tracking-id"
+        "tracking_id": "generated-or-passed-tracking-id"
     }
 
     OR
@@ -148,7 +148,7 @@ VoucherResponse
         "valid": true,
         "type": "percent",
         "discount": 15,
-        "trackingId": "generated-or-passed-tracking-id"
+        "tracking_id": "generated-or-passed-tracking-id"
     }
 
     OR
@@ -157,7 +157,7 @@ VoucherResponse
         "valid": false,
         "type": null,
         "discount": null,
-        "trackingId": "generated-or-passed-tracking-id"
+        "tracking_id": "generated-or-passed-tracking-id"
     }
 
     OR
@@ -173,6 +173,7 @@ VoucherResponse
 
 ### Changelog
 
+- **2015-11-05** - `0.0.5` - Renamed trackingId to tracking_id.
 - **2015-10-22** - `0.0.4` - New backend URL.
 - **2015-09-11** - `0.0.3` - Updated backend URL.
 - **2015-08-15** - `0.0.2` - Added tracking id functionality
