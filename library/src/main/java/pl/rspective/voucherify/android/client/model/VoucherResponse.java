@@ -5,8 +5,11 @@ import com.google.gson.annotations.SerializedName;
 public class VoucherResponse {
 
     private boolean valid;
+
     private String type;
-    private double discount;
+
+    private Integer discount;
+
     @SerializedName("tracking_id")
     private String trackingId;
 
@@ -18,7 +21,7 @@ public class VoucherResponse {
         return type;
     }
 
-    public double getDiscount() {
+    public Integer getDiscount() {
         return discount;
     }
 
