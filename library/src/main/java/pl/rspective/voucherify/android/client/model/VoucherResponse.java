@@ -6,7 +6,8 @@ public class VoucherResponse {
 
     private boolean valid;
 
-    private String type;
+    @SerializedName("discount_type")
+    private DiscountType discountType;
 
     private Integer discount;
 
@@ -17,8 +18,8 @@ public class VoucherResponse {
         return valid;
     }
 
-    public String getType() {
-        return type;
+    public DiscountType getDiscountType() {
+        return discountType;
     }
 
     public Integer getDiscount() {
