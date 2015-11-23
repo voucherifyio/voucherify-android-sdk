@@ -1,7 +1,7 @@
 voucherify-android-sdk
 ===============
 
-###Version: 0.0.6
+###Version: 0.0.9
 
 Android SDK for Voucherify to validate a voucher on client side.
 
@@ -13,7 +13,7 @@ Setup
 
 ```groovy
 dependencies {
-    compile 'pl.rspective.voucherify.android.client:voucherify-android-sdk:0.0.6'
+    compile 'pl.rspective.voucherify.android.client:voucherify-android-sdk:0.0.9'
 }
 ```
 
@@ -23,7 +23,7 @@ dependencies {
 <dependency>
     <groupId>pl.rspective.voucherify.android.client</groupId>
     <artifactId>voucherify-android-sdk</artifactId>
-    <version>0.0.5</version>
+    <version>0.0.9</version>
 </dependency>
 ```
 
@@ -173,6 +173,7 @@ VoucherResponse
 
 ### Changelog
 
+- **2015-11-23** - `0.0.9` - added `X-Voucherify-Channel` header
 - **2015-11-09** - `0.0.6` - Changed discount type from double to integer
 - **2015-11-05** - `0.0.5` - Renamed trackingId to tracking_id.
 - **2015-10-22** - `0.0.4` - New backend URL.
