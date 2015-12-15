@@ -6,10 +6,7 @@ public class VoucherResponse {
 
     private boolean valid;
 
-    @SerializedName("discount_type")
-    private DiscountType discountType;
-
-    private Integer discount;
+    private Discount discount;
 
     @SerializedName("tracking_id")
     private String trackingId;
@@ -18,11 +15,7 @@ public class VoucherResponse {
         return valid;
     }
 
-    public DiscountType getDiscountType() {
-        return discountType;
-    }
-
-    public Integer getDiscount() {
+    public Discount getDiscount() {
         return discount;
     }
 

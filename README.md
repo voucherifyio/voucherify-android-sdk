@@ -1,7 +1,7 @@
 voucherify-android-sdk
 ===============
 
-###Version: 0.0.9
+###Version: 0.1.0
 
 Android SDK for Voucherify to validate a voucher on client side.
 
@@ -13,7 +13,7 @@ Setup
 
 ```groovy
 dependencies {
-    compile 'pl.rspective.voucherify.android.client:voucherify-android-sdk:0.0.9'
+    compile 'pl.rspective.voucherify.android.client:voucherify-android-sdk:0.1.0'
 }
 ```
 
@@ -23,7 +23,7 @@ dependencies {
 <dependency>
     <groupId>pl.rspective.voucherify.android.client</groupId>
     <artifactId>voucherify-android-sdk</artifactId>
-    <version>0.0.9</version>
+    <version>0.1.0</version>
 </dependency>
 ```
 
@@ -137,8 +137,10 @@ VoucherResponse
 
     {
         "valid": true,
-        "type": "amount",
-        "discount": 9.99,
+        "discount": {
+            "type": "AMOUNT",
+            "amount_off": 999,
+        },
         "tracking_id": "generated-or-passed-tracking-id"
     }
 
@@ -146,13 +148,25 @@ VoucherResponse
 
     {
         "valid": true,
-        "type": "percent",
-        "discount": 15,
+        "discount": {
+            "type": "PERCENT",
+            "amount_off": 15.0,
+        },
         "tracking_id": "generated-or-passed-tracking-id"
     }
 
     OR
+    
+    {
+        "valid": true,
+        "discount": {
+            "type": "UNIT",
+            "amount_off": 1.0,
+        },
+        "tracking_id": "generated-or-passed-tracking-id"
+    }
 
+    OR
     {
         "valid": false,
         "type": null,
@@ -173,6 +187,7 @@ VoucherResponse
 
 ### Changelog
 
+- **2015-12-14** - `0.1.0` - New discount model, new discount type: UNIT
 - **2015-11-23** - `0.0.9` - added `X-Voucherify-Channel` header
 - **2015-11-09** - `0.0.6` - Changed discount type from double to integer
 - **2015-11-05** - `0.0.5` - Renamed trackingId to tracking_id.

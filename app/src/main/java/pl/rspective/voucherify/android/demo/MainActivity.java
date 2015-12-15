@@ -78,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
     private void updateDiscountDetails(VoucherResponse result) {
         try {
             Double originalPrice = Double.valueOf(etProductPrice.getText().toString());
-            BigDecimal newPrice = VoucherifyUtils.calculatePrice(BigDecimal.valueOf(originalPrice), result);
-            BigDecimal discount = VoucherifyUtils.calculateDiscount(BigDecimal.valueOf(originalPrice), result);
+            BigDecimal newPrice = VoucherifyUtils.calculatePrice(BigDecimal.valueOf(originalPrice), result, null);
+            BigDecimal discount = VoucherifyUtils.calculateDiscount(BigDecimal.valueOf(originalPrice), result, null);
 
             tvDiscount.setText("Discount: " + discount.toString());
             tvNewPrice.setText("Price after discount: " + newPrice.toString());
