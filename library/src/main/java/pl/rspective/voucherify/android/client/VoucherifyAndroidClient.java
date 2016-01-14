@@ -106,7 +106,7 @@ public class VoucherifyAndroidClient {
             public void intercept(RequestFacade request) {
                 request.addHeader(Constants.HTTP_HEADER_CLIENT_ID, clientId);
                 request.addHeader(Constants.HTTP_HEADER_CLIENT_TOKEN, clientToken);
-                request.addHeader(Constants.HTTP_HEADER_ORIGIN, origin);
+                request.addHeader(Constants.HTTP_HEADER_ORIGIN, origin == null || origin.isEmpty() ? Constants.VOUCHERIFY_DEFAULT_ORIGIN : origin);
                 request.addHeader(Constants.HTTP_HEADER_VOUCHERIFY_CHANNEL, Constants.VOUCHERIFY_CHANNEL_NAME);
             }
         };

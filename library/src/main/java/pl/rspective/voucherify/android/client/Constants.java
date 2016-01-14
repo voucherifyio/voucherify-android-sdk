@@ -13,5 +13,6 @@ public interface Constants {
 
     // Configuration
     String ENDPOINT_VOUCHERIFY = "voucherify-bouncer.herokuapp.com";
+    String VOUCHERIFY_DEFAULT_ORIGIN = "http://voucherify-android";
 
 }
