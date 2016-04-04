@@ -172,7 +172,7 @@ public class VoucherifyAndroidClient {
 
             this.clientToken = clientToken;
             this.clientId = clientId;
-            this.secure = false;
+            this.secure = true;
         }
 
         public Builder setClient(final Client client) {
@@ -221,6 +221,11 @@ public class VoucherifyAndroidClient {
 
         public Builder withSSL() {
             this.secure = true;
+            return this;
+        }
+        
+        public Builder withoutSSL() {
+            this.secure = false;
             return this;
         }
 
