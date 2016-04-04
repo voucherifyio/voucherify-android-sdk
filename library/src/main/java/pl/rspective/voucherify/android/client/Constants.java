@@ -12,7 +12,7 @@ public interface Constants {
     String VOUCHERIFY_CHANNEL_NAME = "Android-SDK";
 
     // Configuration
-    String ENDPOINT_VOUCHERIFY = "voucherify-bouncer.herokuapp.com";
+    String ENDPOINT_VOUCHERIFY = "api.voucherify.io";
     String VOUCHERIFY_DEFAULT_ORIGIN = "http://voucherify-android";
 
 }
