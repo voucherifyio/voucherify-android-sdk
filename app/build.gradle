@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "pl.rspective.voucherify.android.demo"
-        minSdkVersion 10
+        minSdkVersion 11
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
@@ -28,6 +28,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.2.0'
     compile 'com.android.support:design:22.2.0'
 
-    compile 'pl.rspective.voucherify.android.client:voucherify-android-sdk:0.1.2'
-//    compile project (':library')
+//    compile 'pl.rspective.voucherify.android.client:voucherify-android-sdk:0.1.2'
+    compile project (':library')
 }

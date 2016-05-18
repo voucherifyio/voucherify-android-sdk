@@ -13,63 +13,55 @@ import pl.rspective.voucherify.android.client.VoucherifyAndroidClient;
 import pl.rspective.voucherify.android.client.VoucherifyUtils;
 import pl.rspective.voucherify.android.client.callback.VoucherifyCallback;
 import pl.rspective.voucherify.android.client.model.VoucherResponse;
+import pl.rspective.voucherify.android.view.OnValidatedListener;
+import pl.rspective.voucherify.android.view.VoucherCheckoutView;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText etVoucherCode;
     private EditText etProductPrice;
     private TextView tvResultLog;
     private TextView tvDiscount;
     private TextView tvNewPrice;
+    private VoucherCheckoutView voucherCheckout;
 
-    private VoucherifyAndroidClient androidClient;
+    private VoucherifyAndroidClient voucherifyClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        androidClient = new VoucherifyAndroidClient.Builder("011240bf-d5fc-4ef1-9e82-11eb68c43bf5", "9e2230c5-71fb-460a-91c6-fbee64707a20")
+        voucherifyClient = new VoucherifyAndroidClient.Builder("011240bf-d5fc-4ef1-9e82-11eb68c43bf5", "9e2230c5-71fb-460a-91c6-fbee64707a20")
                 .withCustomTrackingId("demo-android")
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
 
-        etVoucherCode = (EditText) findViewById(R.id.et_voucher_code);
         tvResultLog = (TextView) findViewById(R.id.tv_result);
         tvDiscount = (TextView) findViewById(R.id.tv_discount);
         tvNewPrice = (TextView) findViewById(R.id.tv_new_price);
         etProductPrice = (EditText) findViewById(R.id.et_product_price);
-
-
-        findViewById(R.id.btn_validate_voucher).setOnClickListener(new View.OnClickListener() {
+        voucherCheckout = (VoucherCheckoutView) findViewById(R.id.voucher_checkout);
+        voucherCheckout.setVoucherifyClient(voucherifyClient);
+        voucherCheckout.setOnValidatedListener(new OnValidatedListener() {
             @Override
-            public void onClick(View view) {
-                tvResultLog.setText("");
-
-                androidClient.voucher().async().validate(etVoucherCode.getText().toString(), new VoucherifyCallback<VoucherResponse, RetrofitError>() {
+            public void onValidated(final VoucherResponse result) {
+                tvResultLog.setText("Is voucher valid: " + result.isValid() + "");
+                updateDiscountDetails(result);
+                etProductPrice.setOnKeyListener(new View.OnKeyListener() {
                     @Override
-                    public void onSuccess(final VoucherResponse result) {
-                        tvResultLog.setText("Is voucher valid: " + result.isValid() + "");
+                    public boolean onKey(View view, int i, KeyEvent keyEvent) {
                         updateDiscountDetails(result);
-
-                        etProductPrice.setOnKeyListener(new View.OnKeyListener() {
-                            @Override
-                            public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                                updateDiscountDetails(result);
-                                return false;
-                            }
-                        });
-
-                    }
-
-                    @Override
-                    public void onFailure(RetrofitError error) {
-                        tvResultLog.setText(error.toString());
+                        return false;
                     }
                 });
+            }
+
+            @Override
+            public void onError(RetrofitError error) {
+                tvResultLog.setText(error.toString());
             }
         });
     }
