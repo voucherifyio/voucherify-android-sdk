@@ -71,7 +71,11 @@ public class VoucherCheckoutView extends LinearLayout {
             @Override
             public void onSuccess(final VoucherResponse result) {
                 if (onValidatedListener != null) {
-                    onValidatedListener.onValidated(result);
+                    if (result.isValid()) {
+                        onValidatedListener.onValid(result);
+                    } else {
+                        onValidatedListener.onInvalid(result);
+                    }
                 }
             }
 

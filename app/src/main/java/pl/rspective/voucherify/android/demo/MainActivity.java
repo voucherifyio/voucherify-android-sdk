@@ -47,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
         voucherCheckout.setVoucherifyClient(voucherifyClient);
         voucherCheckout.setOnValidatedListener(new OnValidatedListener() {
             @Override
-            public void onValidated(final VoucherResponse result) {
-                tvResultLog.setText("Is voucher valid: " + result.isValid() + "");
+            public void onValid(final VoucherResponse result) {
+                tvResultLog.setText("Voucher is valid.");
                 updateDiscountDetails(result);
                 etProductPrice.setOnKeyListener(new View.OnKeyListener() {
                     @Override
@@ -57,6 +57,14 @@ public class MainActivity extends AppCompatActivity {
                         return false;
                     }
                 });
+            }
+
+            @Override
+            public void onInvalid(final VoucherResponse result) {
+                tvResultLog.setText("Invalid voucher");
+                tvDiscount.setText(null);
+                tvNewPrice.setText(null);
+                etProductPrice.setOnKeyListener(null);
             }
 
             @Override
