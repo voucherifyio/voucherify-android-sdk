@@ -30,20 +30,15 @@ public class VoucherCheckoutView extends LinearLayout {
 
     public VoucherCheckoutView(Context context) {
         super(context);
-        init(context, null, 0);
+        init(context, null);
     }
 
     public VoucherCheckoutView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context, attrs, 0);
+        init(context, attrs);
     }
 
-    public VoucherCheckoutView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        init(context, attrs, defStyle);
-    }
-
-    private void init(Context context, AttributeSet attrs, int defStyle) {
+    private void init(Context context, AttributeSet attrs) {
         View inflatedView = inflate(context, R.layout.voucher_checkout_view, this);
         voucherCodeEditText = (EditText) inflatedView.findViewById(R.id.et_voucher_code);
         validateButton = (Button) inflatedView.findViewById(R.id.btn_validate);
@@ -55,8 +50,7 @@ public class VoucherCheckoutView extends LinearLayout {
         });
 
         // Load attributes
-        final TypedArray a = getContext().obtainStyledAttributes(
-                attrs, R.styleable.VoucherCheckoutView, defStyle, 0);
+        final TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.VoucherCheckoutView);
 
         validateButtonText = a.getString(R.styleable.VoucherCheckoutView_validateButtonText) ;
         if (validateButtonText != null) {
