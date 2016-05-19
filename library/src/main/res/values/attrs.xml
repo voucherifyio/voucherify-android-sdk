@@ -1,5 +1,6 @@
 <resources>
     <declare-styleable name="VoucherCheckoutView">
+        <attr name="voucherCodeHint" format="string" />
         <attr name="validateButtonText" format="string" />
     </declare-styleable>
 </resources>
