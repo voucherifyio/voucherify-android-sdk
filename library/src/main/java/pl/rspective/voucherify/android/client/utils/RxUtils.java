@@ -3,6 +3,7 @@ package pl.rspective.voucherify.android.client.utils;
 import java.util.concurrent.Executor;
 
 import pl.rspective.voucherify.android.client.callback.VoucherifyCallback;
+import pl.rspective.voucherify.android.client.exception.VoucherifyError;
 import retrofit.RetrofitError;
 import rx.Observable;
 import rx.functions.Action1;
@@ -19,10 +20,9 @@ public final class RxUtils {
      * @param executor
      * @param observable
      * @param callback
-     * @param <R>
      * @return
      */
-    public static <T, R> VoucherifyCallback<T, R> subscribe(final Executor executor, Observable<T> observable, final VoucherifyCallback<T, R> callback) {
+    public static <T> VoucherifyCallback<T, VoucherifyError> subscribe(final Executor executor, Observable<T> observable, final VoucherifyCallback<T, VoucherifyError> callback) {
         observable
                 .subscribe(
                         new Action1<T>() {
@@ -42,8 +42,12 @@ public final class RxUtils {
                                 executor.execute(new Runnable() {
                                     @Override
                                     public void run() {
-                                        callback.onFailure((R)RetrofitError.unexpectedError("", throwable));
-                                    }
+                                        if (throwable instanceof VoucherifyError) {
+                                            callback.onFailure((VoucherifyError) throwable);
+                                        } else {
+                                            callback.onFailure(new VoucherifyError(throwable));
+                                        }
+                                  }
                                 });
                             }
                         });
@@ -58,10 +62,14 @@ public final class RxUtils {
     public abstract static class DefFunc<T> implements Func0<Observable<T>> {
         @Override
         public final Observable<T> call() {
-            return Observable.just(method());
+            try {
+                return Observable.just(method());
+            } catch (VoucherifyError error) {
+                return Observable.error(error);
+            }
         }
 
-        public abstract T method();
+        public abstract T method() throws VoucherifyError;
     }
 
     public static <T> Observable<T> defer(DefFunc<T> func) {

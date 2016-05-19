@@ -4,6 +4,7 @@ import java.util.concurrent.Executor;
 
 import pl.rspective.voucherify.android.client.api.VoucherifyApi;
 import pl.rspective.voucherify.android.client.callback.VoucherifyCallback;
+import pl.rspective.voucherify.android.client.exception.VoucherifyError;
 import pl.rspective.voucherify.android.client.model.VoucherResponse;
 import pl.rspective.voucherify.android.client.utils.RxUtils;
 import retrofit.RetrofitError;
@@ -31,7 +32,7 @@ abstract class BaseModule<T> extends AbsModule<BaseModule.ExtAsync, BaseModule.E
         return new ExtRxJava();
     }
 
-    public T validate(String code) {
+    public T validate(String code) throws VoucherifyError {
         return (T) api.validateVoucher(code, trackingId, CHANNEL);
     }
 
@@ -40,7 +41,7 @@ abstract class BaseModule<T> extends AbsModule<BaseModule.ExtAsync, BaseModule.E
      */
     public class ExtAsync extends Async {
 
-        public void validate(String code, VoucherifyCallback<VoucherResponse, RetrofitError> callback) {
+        public void validate(String code, VoucherifyCallback<VoucherResponse, VoucherifyError> callback) {
             RxUtils.subscribe(executor, rx().validate(code), callback);
         }
 
@@ -54,7 +55,7 @@ abstract class BaseModule<T> extends AbsModule<BaseModule.ExtAsync, BaseModule.E
         public Observable<T> validate(final String code) {
             return RxUtils.defer(new RxUtils.DefFunc<T>() {
                 @Override
-                public T method() {
+                public T method() throws VoucherifyError {
                     return BaseModule.this.validate(code);
                 }
             });
