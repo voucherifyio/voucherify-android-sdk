@@ -32,7 +32,7 @@ abstract class BaseModule<T> extends AbsModule<BaseModule.ExtAsync, BaseModule.E
         return new ExtRxJava();
     }
 
-    public T validate(String code) throws VoucherifyError {
+    public T validate(String code) {
         return (T) api.validateVoucher(code, trackingId, CHANNEL);
     }
 
@@ -55,7 +55,7 @@ abstract class BaseModule<T> extends AbsModule<BaseModule.ExtAsync, BaseModule.E
         public Observable<T> validate(final String code) {
             return RxUtils.defer(new RxUtils.DefFunc<T>() {
                 @Override
-                public T method() throws VoucherifyError {
+                public T method() {
                     return BaseModule.this.validate(code);
                 }
             });

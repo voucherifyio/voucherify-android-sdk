@@ -69,7 +69,7 @@ public final class RxUtils {
             }
         }
 
-        public abstract T method() throws VoucherifyError;
+        public abstract T method();
     }
 
     public static <T> Observable<T> defer(DefFunc<T> func) {

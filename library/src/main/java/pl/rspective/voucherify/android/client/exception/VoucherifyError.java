@@ -1,6 +1,6 @@
 package pl.rspective.voucherify.android.client.exception;
 
-public class VoucherifyError extends Exception {
+public class VoucherifyError extends RuntimeException {
 
     private int code;
     private String message;
