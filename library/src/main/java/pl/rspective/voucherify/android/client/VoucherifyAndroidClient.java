@@ -6,10 +6,13 @@ import com.google.gson.GsonBuilder;
 import java.util.concurrent.Executor;
 
 import pl.rspective.voucherify.android.client.api.VoucherifyApi;
+import pl.rspective.voucherify.android.client.exception.VoucherifyError;
 import pl.rspective.voucherify.android.client.module.VoucherModule;
 import pl.rspective.voucherify.android.client.utils.Platform;
+import retrofit.ErrorHandler;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
+import retrofit.RetrofitError;
 import retrofit.client.Client;
 import retrofit.converter.GsonConverter;
 
@@ -85,7 +88,13 @@ public class VoucherifyAndroidClient {
         RestAdapter.Builder restBuilder =
                 new RestAdapter.Builder()
                         .setConverter(new GsonConverter(gson))
-                        .setRequestInterceptor(createInterceptor(builder.clientId, builder.clientToken, builder.origin));
+                        .setRequestInterceptor(createInterceptor(builder.clientId, builder.clientToken, builder.origin))
+                        .setErrorHandler(new ErrorHandler() {
+                            @Override
+                            public Throwable handleError(RetrofitError cause) {
+                                return (VoucherifyError) cause.getBodyAs(VoucherifyError.class);
+                            }
+                        });
 
         setEndPoint(builder, restBuilder);
         setClientProvider(builder, restBuilder);

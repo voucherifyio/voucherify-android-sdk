@@ -4,6 +4,7 @@ import java.util.concurrent.Executor;
 
 import pl.rspective.voucherify.android.client.api.VoucherifyApi;
 import pl.rspective.voucherify.android.client.callback.VoucherifyCallback;
+import pl.rspective.voucherify.android.client.exception.VoucherifyError;
 import pl.rspective.voucherify.android.client.model.VoucherResponse;
 import pl.rspective.voucherify.android.client.utils.RxUtils;
 import retrofit.RetrofitError;
@@ -40,7 +41,7 @@ abstract class BaseModule<T> extends AbsModule<BaseModule.ExtAsync, BaseModule.E
      */
     public class ExtAsync extends Async {
 
-        public void validate(String code, VoucherifyCallback<VoucherResponse, RetrofitError> callback) {
+        public void validate(String code, VoucherifyCallback<VoucherResponse, VoucherifyError> callback) {
             RxUtils.subscribe(executor, rx().validate(code), callback);
         }
 
