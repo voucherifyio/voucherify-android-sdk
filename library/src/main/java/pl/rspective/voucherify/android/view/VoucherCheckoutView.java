@@ -2,6 +2,8 @@ package pl.rspective.voucherify.android.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
@@ -41,6 +43,18 @@ public class VoucherCheckoutView extends LinearLayout {
     private void init(Context context, AttributeSet attrs) {
         View inflatedView = inflate(context, R.layout.voucher_checkout_view, this);
         voucherCodeEditText = (EditText) inflatedView.findViewById(R.id.et_voucher_code);
+        voucherCodeEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validateButton.setEnabled(!s.toString().trim().isEmpty());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
         validateButton = (Button) inflatedView.findViewById(R.id.btn_validate);
         validateButton.setOnClickListener(new OnClickListener() {
             @Override
