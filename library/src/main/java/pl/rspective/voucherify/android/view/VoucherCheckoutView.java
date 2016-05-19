@@ -6,9 +6,11 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import pl.rspective.voucherify.android.client.R;
 import pl.rspective.voucherify.android.client.VoucherifyAndroidClient;
@@ -22,7 +24,7 @@ import retrofit.RetrofitError;
  * voucher code and a button to send the code for validation. You can get the validation result by
  * attaching an @{link OnValidatedListener}.
  */
-public class VoucherCheckoutView extends LinearLayout {
+public class VoucherCheckoutView extends RelativeLayout {
 
     private VoucherifyAndroidClient voucherifyClient;
     private OnValidatedListener onValidatedListener;
@@ -41,6 +43,7 @@ public class VoucherCheckoutView extends LinearLayout {
     }
 
     private void init(Context context, AttributeSet attrs) {
+        setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         View inflatedView = inflate(context, R.layout.voucher_checkout_view, this);
         voucherCodeEditText = (EditText) inflatedView.findViewById(R.id.et_voucher_code);
         voucherCodeEditText.addTextChangedListener(new TextWatcher() {
