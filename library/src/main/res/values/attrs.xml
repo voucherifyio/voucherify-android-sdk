@@ -1,0 +1,5 @@
+<resources>
+    <declare-styleable name="VoucherCheckoutView">
+        <attr name="validateButtonText" format="string" />
+    </declare-styleable>
+</resources>

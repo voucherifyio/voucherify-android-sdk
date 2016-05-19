@@ -29,4 +29,6 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.0.0'
 
     compile 'io.reactivex:rxjava:1.0.0'
+
+    compile 'com.android.support:design:23.1.1'
 }
