@@ -200,7 +200,8 @@ You can use VoucherCheckoutView to quickly add a UI for discount codes validatio
 In your layout XML file add:
 
 ```xml
-  <pl.rspective.voucherify.android.view.VoucherCheckoutView android:id="@+id/voucher_checkout"/>
+<pl.rspective.voucherify.android.view.VoucherCheckoutView
+    android:id="@+id/voucher_checkout"/>
 ```
 
 Then in your activity init the VoucherCheckoutView with the VoucherifyAndroidClient.
@@ -231,6 +232,47 @@ voucherCheckout.setOnValidatedListener(new OnValidatedListener() {
     public void onError(VoucherifyError error) {
     }
 });
+```
+
+#### Customization
+
+The component is highly customizable. You can set following attributes:
+
+- validateButtonText - text displayed on the button
+- voucherCodeHint - label attached to the voucher code input
+- voucherIcon - icon appearing on the right
+- validVoucherIcon - icon appearing on the right after validation when provided code was valid
+- validInvalidVoucherIcon - icon appearing on the right after validation when provided code was invalid
+
+You can disable any of the 3 icons by specifying them as `@android:color/transparent`.
+
+Example:
+
+```xml
+<pl.rspective.voucherify.android.view.VoucherCheckoutView
+    android:id="@+id/voucher_checkout"/>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:validateButtonText="Apply"
+    app:voucherCodeHint="Coupon Code"
+    app:voucherIcon="@android:color/transparent"
+    app:validVoucherIcon="@android:color/transparent"
+    app:invalidVoucherIcon="@android:color/transparent"/>
+```
+
+You can override animations by placing `valid.xml` and `invalid.xml` in `res/anim`.
+
+You can also set your own colors and other visual properties by defining styles (in `res\values\styles.xml`):
+
+- VoucherCodeLabel
+- VoucherCodeEditText
+- VoucherValidateButton
+
+For example to set the button background color to light green:
+
+```
+    <style name="VoucherValidateButton">
+        <item name="android:background">#8BC34A</item>
+    </style>
 ```
 
 
