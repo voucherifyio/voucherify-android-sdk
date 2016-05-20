@@ -10,7 +10,8 @@
             android:id="@+id/til_voucher_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="voucher code">
+            android:hint="voucher code"
+            android:theme="@style/VoucherCodeLabel">
 
             <EditText
                 android:id="@+id/et_voucher_code"
@@ -27,6 +28,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:enabled="false"
-            android:textColor="@android:color/white" />
+            style="@style/VoucherValidateButton" />
     </LinearLayout>
 </merge>

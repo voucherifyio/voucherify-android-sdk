@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import pl.rspective.voucherify.android.client.VoucherifyAndroidClient;
 import pl.rspective.voucherify.android.client.VoucherifyUtils;
 import pl.rspective.voucherify.android.client.callback.VoucherifyCallback;
+import pl.rspective.voucherify.android.client.exception.VoucherifyError;
 import pl.rspective.voucherify.android.client.model.VoucherResponse;
 import pl.rspective.voucherify.android.view.OnValidatedListener;
 import pl.rspective.voucherify.android.view.VoucherCheckoutView;
@@ -68,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onError(RetrofitError error) {
-                tvResultLog.setText(error.toString());
+            public void onError(VoucherifyError error) {
+                tvResultLog.setText(error.getMessage());
             }
         });
     }
