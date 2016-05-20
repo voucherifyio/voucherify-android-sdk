@@ -191,10 +191,53 @@ VoucherResponse
 
  */
 
+### Voucher Checkout View
+
+You can use VoucherCheckoutView to quickly add a UI for discount codes validation.
+
+![](docs/images/android-voucher-checkout.gif)
+
+In your layout XML file add:
+
+```xml
+  <pl.rspective.voucherify.android.view.VoucherCheckoutView android:id="@+id/voucher_checkout"/>
+```
+
+Then in your activity init the VoucherCheckoutView with the VoucherifyAndroidClient.
+
+```
+VoucherifyAndroidClient voucherifyClient = new VoucherifyAndroidClient.Builder(
+            YOUR-PUBLIC-CLIENT-APPLICATION-ID,
+            YOUR-PUBLIC-CLIENT-APPLICATION-TOKEN)
+       .withCustomTrackingId(YOUR-CUSTOM-TRACKNG-ID)
+       .build();
+
+VoucherCheckoutView voucherCheckout = (VoucherCheckoutView) findViewById(R.id.voucher_checkout);
+```
+
+You will also likely want to get validation results. You can achieve that by adding OnValiadtedListener:
+
+```
+voucherCheckout.setOnValidatedListener(new OnValidatedListener() {
+    @Override
+    public void onValid(final VoucherResponse result) {
+    }
+
+    @Override
+    public void onInvalid(final VoucherResponse result) {
+    }
+
+    @Override
+    public void onError(VoucherifyError error) {
+    }
+});
+```
+
 
 ### Changelog
 
-- **2016-05-19** - `0.2.0` - Customer error handling
+- **2016-05-20** - `1.0.0` - Voucher checkout view
+- **2016-05-19** - `0.2.0` - Custom error handling
 - **2016-04-04** - `0.1.3` - Updated API URL, HTTPS enabled by default
 - **2016-01-14** - `0.1.2` - Default value for `origin` header
 - **2015-12-14** - `0.1.0` - New discount model, new discount type: UNIT
