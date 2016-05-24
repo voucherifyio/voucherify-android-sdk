@@ -1,7 +1,7 @@
 Voucherify Android SDK
 ======================
 
-###Version: 0.2.0
+###Version: 0.3.0
 
 Android SDK for Voucherify to validate a voucher on client side.
 
@@ -20,7 +20,7 @@ Setup
 
 ```groovy
 dependencies {
-    compile 'pl.rspective.voucherify.android.client:voucherify-android-sdk:0.2.0'
+    compile 'pl.rspective.voucherify.android.client:voucherify-android-sdk:0.3.0'
 }
 ```
 
@@ -30,7 +30,7 @@ dependencies {
 <dependency>
     <groupId>pl.rspective.voucherify.android.client</groupId>
     <artifactId>voucherify-android-sdk</artifactId>
-    <version>0.2.0</version>
+    <version>0.3.0</version>
 </dependency>
 ```
 
@@ -216,7 +216,7 @@ VoucherifyAndroidClient voucherifyClient = new VoucherifyAndroidClient.Builder(
 VoucherCheckoutView voucherCheckout = (VoucherCheckoutView) findViewById(R.id.voucher_checkout);
 ```
 
-You will also likely want to get validation results. You can achieve that by adding OnValiadtedListener:
+You will also likely want to get validation results. You can achieve that by adding OnValidatedListener:
 
 ```
 voucherCheckout.setOnValidatedListener(new OnValidatedListener() {
@@ -278,7 +278,7 @@ For example to set the button background color to light green:
 
 ### Changelog
 
-- **2016-05-20** - `1.0.0` - Voucher checkout view
+- **2016-05-20** - `0.3.0` - Voucher checkout view
 - **2016-05-19** - `0.2.0` - Custom error handling
 - **2016-04-04** - `0.1.3` - Updated API URL, HTTPS enabled by default
 - **2016-01-14** - `0.1.2` - Default value for `origin` header

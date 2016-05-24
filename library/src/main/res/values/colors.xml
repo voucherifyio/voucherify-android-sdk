@@ -2,4 +2,5 @@
 <resources>
     <color name="validate_button_disabled">#e1e1e1</color>
     <color name="validate_button_enabled">#ff4081</color>
+    <color name="validate_button_pressed">#ff75a4</color>
 </resources>

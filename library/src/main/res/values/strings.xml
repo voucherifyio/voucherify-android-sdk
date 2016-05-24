@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">library</string>
+    <string name="voucher_code_hint">voucher code</string>
+    <string name="validate_button_text">Validate</string>
 </resources>

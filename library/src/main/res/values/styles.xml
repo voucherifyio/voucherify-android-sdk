@@ -15,7 +15,7 @@
     </style>
 
     <style name="VoucherValidateButton">
-        <item name="android:background">@drawable/validate_button</item>
+        <item name="android:background">@drawable/selector_validate_button</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
 

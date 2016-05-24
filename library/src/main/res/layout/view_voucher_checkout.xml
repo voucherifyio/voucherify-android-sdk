@@ -10,7 +10,7 @@
             android:id="@+id/til_voucher_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="voucher code"
+            android:hint="@string/voucher_code_hint"
             android:theme="@style/VoucherCodeLabel">
 
             <EditText
@@ -24,7 +24,7 @@
 
         <Button
             android:id="@+id/btn_validate"
-            android:text="Validate"
+            android:text="@string/validate_button_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"

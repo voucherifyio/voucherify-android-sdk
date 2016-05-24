@@ -3,11 +3,8 @@ package pl.rspective.voucherify.android.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.ColorRes;
-import android.support.annotation.DrawableRes;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -61,7 +58,7 @@ public class VoucherCheckoutView extends RelativeLayout {
 
     private void init(Context context, AttributeSet attrs, int defStyle) {
         setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-        View inflatedView = inflate(context, R.layout.voucher_checkout_view, this);
+        View inflatedView = inflate(context, R.layout.view_voucher_checkout, this);
         voucherCodeLabel = (TextInputLayout) inflatedView.findViewById(R.id.til_voucher_code);
         voucherCodeEditText = (EditText) inflatedView.findViewById(R.id.et_voucher_code);
         voucherCodeEditText.addTextChangedListener(new TextWatcher() {
@@ -121,14 +118,6 @@ public class VoucherCheckoutView extends RelativeLayout {
         a.recycle();
     }
 
-    public static Drawable getTintedDrawable(Context ctx, @DrawableRes int drawableId, @ColorRes int color) {
-        Drawable drawable = ContextCompat.getDrawable(ctx, drawableId);
-        int tintColor = ContextCompat.getColor(ctx, color);
-        DrawableCompat.setTint(drawable, tintColor);
-        return drawable;
-    }
-
-
     private void doValidate() {
         if (voucherifyClient == null) {
             throw new IllegalStateException("VoucherifyClient not provided.");
@@ -142,11 +131,15 @@ public class VoucherCheckoutView extends RelativeLayout {
                 if (onValidatedListener != null) {
                     if (result.isValid()) {
                         voucherCodeEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, validVoucherIcon, null);
-                        voucherCodeEditText.startAnimation(validAnimation);
+                        if (!validAnimation.hasStarted() || validAnimation.hasEnded()) {
+                            voucherCodeEditText.startAnimation(validAnimation);
+                        }
                         onValidatedListener.onValid(result);
                     } else {
                         voucherCodeEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, invalidVoucherIcon, null);
-                        voucherCodeEditText.startAnimation(invalidAnimation);
+                        if (!validAnimation.hasStarted() || validAnimation.hasEnded()) {
+                            voucherCodeEditText.startAnimation(invalidAnimation);
+                        }
                         onValidatedListener.onInvalid(result);
                     }
                 }

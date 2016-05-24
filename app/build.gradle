@@ -28,6 +28,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
 
-//    compile 'pl.rspective.voucherify.android.client:voucherify-android-sdk:0.1.2'
+//    compile 'pl.rspective.voucherify.android.client:voucherify-android-sdk:0.3.0'
     compile project (':library')
 }
