@@ -1,7 +1,7 @@
 Voucherify Android SDK
 ======================
 
-###Version: 0.2.0
+###Version: 0.3.0
 
 Android SDK for Voucherify to validate a voucher on client side.
 
@@ -20,7 +20,7 @@ Setup
 
 ```groovy
 dependencies {
-    compile 'pl.rspective.voucherify.android.client:voucherify-android-sdk:0.2.0'
+    compile 'pl.rspective.voucherify.android.client:voucherify-android-sdk:0.3.0'
 }
 ```
 
@@ -30,7 +30,7 @@ dependencies {
 <dependency>
     <groupId>pl.rspective.voucherify.android.client</groupId>
     <artifactId>voucherify-android-sdk</artifactId>
-    <version>0.2.0</version>
+    <version>0.3.0</version>
 </dependency>
 ```
 
@@ -191,10 +191,95 @@ VoucherResponse
 
  */
 
+### Voucher Checkout View
+
+You can use VoucherCheckoutView to quickly add a UI for discount codes validation.
+
+![](docs/images/android-voucher-checkout.gif)
+
+In your layout XML file add:
+
+```xml
+<pl.rspective.voucherify.android.view.VoucherCheckoutView
+    android:id="@+id/voucher_checkout"/>
+```
+
+Then in your activity init the VoucherCheckoutView with the VoucherifyAndroidClient.
+
+```
+VoucherifyAndroidClient voucherifyClient = new VoucherifyAndroidClient.Builder(
+            YOUR-PUBLIC-CLIENT-APPLICATION-ID,
+            YOUR-PUBLIC-CLIENT-APPLICATION-TOKEN)
+       .withCustomTrackingId(YOUR-CUSTOM-TRACKNG-ID)
+       .build();
+
+VoucherCheckoutView voucherCheckout = (VoucherCheckoutView) findViewById(R.id.voucher_checkout);
+```
+
+You will also likely want to get validation results. You can achieve that by adding OnValidatedListener:
+
+```
+voucherCheckout.setOnValidatedListener(new OnValidatedListener() {
+    @Override
+    public void onValid(final VoucherResponse result) {
+    }
+
+    @Override
+    public void onInvalid(final VoucherResponse result) {
+    }
+
+    @Override
+    public void onError(VoucherifyError error) {
+    }
+});
+```
+
+#### Customization
+
+The component is highly customizable. You can set following attributes:
+
+- validateButtonText - text displayed on the button
+- voucherCodeHint - label attached to the voucher code input
+- voucherIcon - icon appearing on the right
+- validVoucherIcon - icon appearing on the right after validation when provided code was valid
+- validInvalidVoucherIcon - icon appearing on the right after validation when provided code was invalid
+
+You can disable any of the 3 icons by specifying them as `@android:color/transparent`.
+
+Example:
+
+```xml
+<pl.rspective.voucherify.android.view.VoucherCheckoutView
+    android:id="@+id/voucher_checkout"/>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:validateButtonText="Apply"
+    app:voucherCodeHint="Coupon Code"
+    app:voucherIcon="@android:color/transparent"
+    app:validVoucherIcon="@android:color/transparent"
+    app:invalidVoucherIcon="@android:color/transparent"/>
+```
+
+You can override animations by placing `valid.xml` and `invalid.xml` in `res/anim`.
+
+You can also set your own colors and other visual properties by defining styles (in `res\values\styles.xml`):
+
+- VoucherCodeLabel
+- VoucherCodeEditText
+- VoucherValidateButton
+
+For example to set the button background color to light green:
+
+```
+    <style name="VoucherValidateButton">
+        <item name="android:background">#8BC34A</item>
+    </style>
+```
+
 
 ### Changelog
 
-- **2016-05-19** - `0.2.0` - Customer error handling
+- **2016-05-20** - `0.3.0` - Voucher checkout view
+- **2016-05-19** - `0.2.0` - Custom error handling
 - **2016-04-04** - `0.1.3` - Updated API URL, HTTPS enabled by default
 - **2016-01-14** - `0.1.2` - Default value for `origin` header
 - **2015-12-14** - `0.1.0` - New discount model, new discount type: UNIT

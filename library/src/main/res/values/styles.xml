@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="VoucherCodeLabel" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">20dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorHint">@android:color/white</item>
+        <item name="colorAccent">@android:color/white</item>
+        <item name="colorControlNormal">@android:color/white</item>
+        <item name="colorControlActivated">@android:color/white</item>
+    </style>
+
+    <style name="VoucherCodeEditText">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="VoucherValidateButton">
+        <item name="android:background">@drawable/selector_validate_button</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+</resources>
