@@ -4,14 +4,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:clipChildren="false"
+        android:clipToPadding="false">
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/til_voucher_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/voucher_code_hint"
-            android:theme="@style/VoucherCodeLabel">
+            android:theme="@style/VoucherCodeLabel"
+            android:clipChildren="false"
+            android:clipToPadding="false">
 
             <EditText
                 android:id="@+id/et_voucher_code"

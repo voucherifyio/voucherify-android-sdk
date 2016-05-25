@@ -84,6 +84,7 @@ public class VoucherCheckoutView extends RelativeLayout {
 
         invalidAnimation = AnimationUtils.loadAnimation(context, R.anim.invalid);
         validAnimation = AnimationUtils.loadAnimation(context, R.anim.valid);
+        voucherCodeEditText.startAnimation(validAnimation);
         applyCustomAttributes(context, attrs, defStyle);
     }
 
