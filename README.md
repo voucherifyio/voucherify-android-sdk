@@ -13,6 +13,10 @@ Android SDK for Voucherify to validate a voucher on client side.
 
 You can find full documentation on [voucherify.readme.io](https://voucherify.readme.io).
 
+Try a demo app from Google Play:
+
+<a href='https://play.google.com/store/apps/details?id=pl.rspective.voucherify.android.demo'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' width="250"/></a>
+
 Setup
 =====
 
