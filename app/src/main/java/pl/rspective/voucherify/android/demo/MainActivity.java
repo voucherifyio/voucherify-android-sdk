@@ -23,7 +23,6 @@ import retrofit.RetrofitError;
 public class MainActivity extends AppCompatActivity {
 
     private EditText etProductPrice;
-    private TextView tvResultLog;
     private TextView tvDiscount;
     private TextView tvNewPrice;
     private VoucherCheckoutView voucherCheckout;
@@ -40,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
 
-        tvResultLog = (TextView) findViewById(R.id.tv_result);
         tvDiscount = (TextView) findViewById(R.id.tv_discount);
         tvNewPrice = (TextView) findViewById(R.id.tv_new_price);
         etProductPrice = (EditText) findViewById(R.id.et_product_price);
@@ -49,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
         voucherCheckout.setOnValidatedListener(new OnValidatedListener() {
             @Override
             public void onValid(final VoucherResponse result) {
-                tvResultLog.setText("Voucher is valid.");
                 updateDiscountDetails(result);
                 etProductPrice.setOnKeyListener(new View.OnKeyListener() {
                     @Override
@@ -62,15 +59,15 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onInvalid(final VoucherResponse result) {
-                tvResultLog.setText("Invalid voucher");
                 tvDiscount.setText(null);
                 tvNewPrice.setText(null);
                 etProductPrice.setOnKeyListener(null);
+                voucherCheckout.setVoucherErrorMessage("Invalid voucher. Try to use 'Testing7fjWdr'");
             }
 
             @Override
             public void onError(VoucherifyError error) {
-                tvResultLog.setText(error.getMessage());
+                voucherCheckout.setVoucherErrorMessage(error.getMessage());
             }
         });
     }

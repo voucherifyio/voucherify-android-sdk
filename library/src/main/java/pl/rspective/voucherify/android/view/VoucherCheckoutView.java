@@ -67,6 +67,7 @@ public class VoucherCheckoutView extends RelativeLayout {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                voucherCodeLabel.setError(null);
                 validateButton.setEnabled(!s.toString().trim().isEmpty());
                 voucherCodeEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, voucherIcon, null);
             }
@@ -111,6 +112,7 @@ public class VoucherCheckoutView extends RelativeLayout {
         if (validVoucherIcon == null) {
             validVoucherIcon = ContextCompat.getDrawable(context, R.drawable.ic_check_circle_white_24dp);
         }
+
         invalidVoucherIcon = a.getDrawable(R.styleable.VoucherCheckoutView_invalidVoucherIcon);
         if (invalidVoucherIcon == null) {
             invalidVoucherIcon = ContextCompat.getDrawable(context, R.drawable.ic_error_white_24dp);
@@ -172,5 +174,9 @@ public class VoucherCheckoutView extends RelativeLayout {
      */
     public void setOnValidatedListener(OnValidatedListener listener){
         this.onValidatedListener = listener;
+    }
+
+    public void setVoucherErrorMessage(String voucherErrorMessage) {
+        this.voucherCodeLabel.setError(voucherErrorMessage);
     }
 }

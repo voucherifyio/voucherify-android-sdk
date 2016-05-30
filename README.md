@@ -1,7 +1,7 @@
 Voucherify Android SDK
 ======================
 
-###Version: 0.3.0
+###Version: 0.3.1
 
 Android SDK for Voucherify to validate a voucher on client side.
 
@@ -24,7 +24,7 @@ Setup
 
 ```groovy
 dependencies {
-    compile 'pl.rspective.voucherify.android.client:voucherify-android-sdk:0.3.0'
+    compile 'pl.rspective.voucherify.android.client:voucherify-android-sdk:0.3.1'
 }
 ```
 
@@ -34,7 +34,7 @@ dependencies {
 <dependency>
     <groupId>pl.rspective.voucherify.android.client</groupId>
     <artifactId>voucherify-android-sdk</artifactId>
-    <version>0.3.0</version>
+    <version>0.3.1</version>
 </dependency>
 ```
 
@@ -242,11 +242,11 @@ voucherCheckout.setOnValidatedListener(new OnValidatedListener() {
 
 The component is highly customizable. You can set following attributes:
 
-- validateButtonText - text displayed on the button
-- voucherCodeHint - label attached to the voucher code input
-- voucherIcon - icon appearing on the right
-- validVoucherIcon - icon appearing on the right after validation when provided code was valid
-- validInvalidVoucherIcon - icon appearing on the right after validation when provided code was invalid
+- `validateButtonText` - text displayed on the button
+- `voucherCodeHint` - label attached to the voucher code input
+- `voucherIcon` - icon appearing on the right
+- `validVoucherIcon` - icon appearing on the right after validation when provided code was valid
+- `invalidVoucherIcon` - icon appearing on the right after validation when provided code was invalid 
 
 You can disable any of the 3 icons by specifying them as `@android:color/transparent`.
 
@@ -282,6 +282,7 @@ For example to set the button background color to light green:
 
 ### Changelog
 
+- **2016-05-20** - `0.3.1` - Enabled to show an error message below the code input.
 - **2016-05-20** - `0.3.0` - Voucher checkout view
 - **2016-05-19** - `0.2.0` - Custom error handling
 - **2016-04-04** - `0.1.3` - Updated API URL, HTTPS enabled by default
