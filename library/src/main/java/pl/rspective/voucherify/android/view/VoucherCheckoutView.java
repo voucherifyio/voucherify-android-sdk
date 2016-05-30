@@ -40,7 +40,6 @@ public class VoucherCheckoutView extends RelativeLayout {
     private Drawable voucherIcon;
     private Drawable validVoucherIcon;
     private Drawable invalidVoucherIcon;
-    private String invalidVoucherErrorMessage;
 
     public VoucherCheckoutView(Context context) {
         super(context);
@@ -119,11 +118,6 @@ public class VoucherCheckoutView extends RelativeLayout {
             invalidVoucherIcon = ContextCompat.getDrawable(context, R.drawable.ic_error_white_24dp);
         }
 
-        invalidVoucherErrorMessage = a.getString(R.styleable.VoucherCheckoutView_invalidVoucherErrorMessage);
-        if (invalidVoucherErrorMessage == null) {
-            invalidVoucherErrorMessage = context.getString(R.string.invalid_voucher_error_message);
-        }
-
         a.recycle();
     }
 
@@ -150,7 +144,6 @@ public class VoucherCheckoutView extends RelativeLayout {
                             voucherCodeEditText.startAnimation(invalidAnimation);
                         }
                         onValidatedListener.onInvalid(result);
-                        voucherCodeLabel.setError(invalidVoucherErrorMessage);
                     }
                 }
             }
@@ -183,7 +176,7 @@ public class VoucherCheckoutView extends RelativeLayout {
         this.onValidatedListener = listener;
     }
 
-    public void setInvalidVoucherErrorMessage(String invalidVoucherErrorMessage) {
-        this.invalidVoucherErrorMessage = invalidVoucherErrorMessage;
+    public void setVoucherErrorMessage(String voucherErrorMessage) {
+        this.voucherCodeLabel.setError(voucherErrorMessage);
     }
 }
