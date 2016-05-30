@@ -40,6 +40,7 @@ public class VoucherCheckoutView extends RelativeLayout {
     private Drawable voucherIcon;
     private Drawable validVoucherIcon;
     private Drawable invalidVoucherIcon;
+    private String invalidVoucherErrorMessage;
 
     public VoucherCheckoutView(Context context) {
         super(context);
@@ -67,6 +68,7 @@ public class VoucherCheckoutView extends RelativeLayout {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                voucherCodeLabel.setError(null);
                 validateButton.setEnabled(!s.toString().trim().isEmpty());
                 voucherCodeEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, voucherIcon, null);
             }
@@ -111,9 +113,15 @@ public class VoucherCheckoutView extends RelativeLayout {
         if (validVoucherIcon == null) {
             validVoucherIcon = ContextCompat.getDrawable(context, R.drawable.ic_check_circle_white_24dp);
         }
+
         invalidVoucherIcon = a.getDrawable(R.styleable.VoucherCheckoutView_invalidVoucherIcon);
         if (invalidVoucherIcon == null) {
             invalidVoucherIcon = ContextCompat.getDrawable(context, R.drawable.ic_error_white_24dp);
+        }
+
+        invalidVoucherErrorMessage = a.getString(R.styleable.VoucherCheckoutView_invalidVoucherErrorMessage);
+        if (invalidVoucherErrorMessage == null) {
+            invalidVoucherErrorMessage = context.getString(R.string.invalid_voucher_error_message);
         }
 
         a.recycle();
@@ -142,6 +150,7 @@ public class VoucherCheckoutView extends RelativeLayout {
                             voucherCodeEditText.startAnimation(invalidAnimation);
                         }
                         onValidatedListener.onInvalid(result);
+                        voucherCodeLabel.setError(invalidVoucherErrorMessage);
                     }
                 }
             }
@@ -172,5 +181,9 @@ public class VoucherCheckoutView extends RelativeLayout {
      */
     public void setOnValidatedListener(OnValidatedListener listener){
         this.onValidatedListener = listener;
+    }
+
+    public void setInvalidVoucherErrorMessage(String invalidVoucherErrorMessage) {
+        this.invalidVoucherErrorMessage = invalidVoucherErrorMessage;
     }
 }

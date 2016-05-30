@@ -5,5 +5,6 @@
         <attr name="voucherIcon" format="integer" />
         <attr name="validVoucherIcon" format="integer" />
         <attr name="invalidVoucherIcon" format="integer" />
+        <attr name="invalidVoucherErrorMessage" format="string" />
     </declare-styleable>
 </resources>

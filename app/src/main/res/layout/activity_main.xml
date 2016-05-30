@@ -41,6 +41,7 @@
                 android:layout_marginTop="30dp"
                 app:validateButtonText="Apply"
                 app:voucherCodeHint="Coupon Code"
+                app:invalidVoucherErrorMessage="Invalid code. Try 'Testing7fjWdr'"
                 android:clipChildren="false"
                 android:clipToPadding="false" />
 
