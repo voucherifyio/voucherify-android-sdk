@@ -144,9 +144,10 @@ client.vouchers()
 VoucherResponse
 =====
 
- /*
+Valid amount discount response:
 
     {
+        "code": "VOUCHER_CODE",
         "valid": true,
         "discount": {
             "type": "AMOUNT",
@@ -155,45 +156,40 @@ VoucherResponse
         "tracking_id": "generated-or-passed-tracking-id"
     }
 
-    OR
+Valid percentage discount response:
 
     {
+        "code": "VOUCHER_CODE",
         "valid": true,
         "discount": {
             "type": "PERCENT",
-            "amount_off": 15.0,
+            "percent_off": 15.0,
         },
         "tracking_id": "generated-or-passed-tracking-id"
     }
-
-    OR
+    
+Valid unit discount response:
     
     {
+        "code": "VOUCHER_CODE",
         "valid": true,
         "discount": {
             "type": "UNIT",
-            "amount_off": 1.0,
+            "unit_off": 1.0,
         },
         "tracking_id": "generated-or-passed-tracking-id"
     }
 
-    OR
+Invalid voucher response:
+
     {
+        "code": "VOUCHER_CODE",
         "valid": false,
         "type": null,
         "discount": null,
         "tracking_id": "generated-or-passed-tracking-id"
     }
 
-    OR
-
-    {
-        "type": "error",
-        "message": "More details will be here."
-        "context": "Here you will receive context of that error."
-    }
-
- */
 
 ### Voucher Checkout View
 
