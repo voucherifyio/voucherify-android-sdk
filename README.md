@@ -5,7 +5,7 @@ Voucherify Android SDK
 
 Android SDK for Voucherify to validate a voucher on client side.
 
-[Voucherify](http://voucherify.io?utm_source=inbound&utm_medium=github&utm_campaign=voucherify-android-sdk) has a new platform that will help your team automate voucher campaigns. It does this by providing composable API and the marketer-friendly interface that increases teams' productivity:
+[Voucherify](http://voucherify.io?utm_source=github&utm_medium=sdk&utm_campaign=acq) has a new platform that will help your team automate voucher campaigns. It does this by providing composable API and the marketer-friendly interface that increases teams' productivity:
 
 - **roll-out thousands** of vouchers **in minutes** instead of weeks,
 - **check status** or disable **every single** promo code in real time, 
