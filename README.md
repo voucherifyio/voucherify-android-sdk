@@ -92,8 +92,7 @@ androidClient = new VoucherifyAndroidClient.Builder(YOUR-PUBLIC-CLIENT-APPLICATI
 ```
 
 Current list of features:
-- validate voucher based on his code
-
+- validate voucher based on its code and optionally order amount (required for gift vouchers)
 
 Every method has a corresponding asynchronous extension which can be accessed through the `async()` or 'rx()' method of the vouchers module.
 
@@ -140,6 +139,15 @@ client.vouchers()
         });
 ```
 
+#### Gift vouchers
+
+Validationg a gift voucher requires to pass an amount that is intended to be withdrawn from the voucher.
+Order amount have to be expressed in cents, as an integer. For example $22.50 should be provided as 2250:
+
+```java
+    VoucherResponse voucher = client.vouchers().validate("VOUCHER_CODE", 2250);
+```
+
 
 VoucherResponse
 =====
@@ -180,16 +188,37 @@ Valid unit discount response:
         "tracking_id": "generated-or-passed-tracking-id"
     }
 
+Valid gift voucher response:
+    
+    
+    ```javascript
+    {
+        "code": "VOUCHER_CODE",
+        "valid": true,
+        "gift": {
+            "amount": 10000
+        }
+        "tracking_id": "generated-or-passed-tracking-id"
+    }
+       ```
+
 Invalid voucher response:
 
     {
         "code": "VOUCHER_CODE",
         "valid": false,
-        "type": null,
-        "discount": null,
+        "reason": "voucher expired",
         "tracking_id": "generated-or-passed-tracking-id"
     }
 
+There are several reasons why validation may fail (`valid: false` response). 
+You can find the actual cause in the `reason` field:
+
+- `voucher is disabled`
+- `voucher not active yet`
+- `voucher expired`
+- `quantity exceeded`
+- `gift amount exceeded`
 
 ### Voucher Checkout View
 
@@ -278,7 +307,8 @@ For example to set the button background color to light green:
 
 ### Changelog
 
-- **2016-05-20** - `0.3.1` - Enabled to show an error message below the code input.
+- **2016-06-23** - `0.4.0` - Added support for gift vouchers.
+- **2016-05-30** - `0.3.1` - Enabled to show an error message below the code input.
 - **2016-05-20** - `0.3.0` - Voucher checkout view
 - **2016-05-19** - `0.2.0` - Custom error handling
 - **2016-04-04** - `0.1.3` - Updated API URL, HTTPS enabled by default

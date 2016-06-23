@@ -10,6 +10,10 @@ public class VoucherResponse {
 
     private Discount discount;
 
+    private Gift gift;
+
+    private String reason;
+
     @SerializedName("tracking_id")
     private String trackingId;
 
@@ -23,6 +27,14 @@ public class VoucherResponse {
 
     public Discount getDiscount() {
         return discount;
+    }
+
+    public Gift getGift() {
+        return gift;
+    }
+
+    public String getReason() {
+        return reason;
     }
 
     public String getTrackingId() {

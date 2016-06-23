@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 tvDiscount.setText(null);
                 tvNewPrice.setText(null);
                 etProductPrice.setOnKeyListener(null);
-                voucherCheckout.setVoucherErrorMessage("Invalid voucher. Try to use 'Testing7fjWdr'");
+                voucherCheckout.setVoucherErrorMessage("Invalid - " + result.getReason() + ". Try to use 'Testing7fjWdr'");
             }
 
             @Override
