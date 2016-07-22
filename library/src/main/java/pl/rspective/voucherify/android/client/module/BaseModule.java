@@ -33,7 +33,11 @@ abstract class BaseModule<T> extends AbsModule<BaseModule.ExtAsync, BaseModule.E
     }
 
     public T validate(String code) {
-        return (T) api.validateVoucher(code, trackingId, CHANNEL);
+        return validate(code, null);
+    }
+
+    public T validate(String code, Integer amount) {
+        return (T) api.validateVoucher(code, trackingId, amount, CHANNEL);
     }
 
     /**
@@ -43,6 +47,10 @@ abstract class BaseModule<T> extends AbsModule<BaseModule.ExtAsync, BaseModule.E
 
         public void validate(String code, VoucherifyCallback<VoucherResponse, VoucherifyError> callback) {
             RxUtils.subscribe(executor, rx().validate(code), callback);
+        }
+
+        public void validate(String code, Integer amount, VoucherifyCallback<VoucherResponse, VoucherifyError> callback) {
+            RxUtils.subscribe(executor, rx().validate(code, amount), callback);
         }
 
     }
@@ -60,6 +68,16 @@ abstract class BaseModule<T> extends AbsModule<BaseModule.ExtAsync, BaseModule.E
                 }
             });
         }
+
+        public Observable<T> validate(final String code, final Integer amount) {
+            return RxUtils.defer(new RxUtils.DefFunc<T>() {
+                @Override
+                public T method() {
+                    return BaseModule.this.validate(code, amount);
+                }
+            });
+        }
+
     }
 
     public class Rx {}
