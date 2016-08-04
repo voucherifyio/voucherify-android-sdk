@@ -3,13 +3,11 @@ Voucherify Android SDK
 
 ###Version: 0.4.0
 
-Android SDK for Voucherify to validate a voucher on client side.
+[Voucherify](http://voucherify.io?utm_source=github&utm_medium=sdk&utm_campaign=acq) is an API-first platform for software developers who are dissatisfied with high-maintenance custom coupon software. Our product is a coupon infrastructure through API that provides a quicker way to build coupon generation, distribution and tracking. Unlike legacy coupon software we have:
 
-[Voucherify](http://voucherify.io?utm_source=github&utm_medium=sdk&utm_campaign=acq) has a new platform that will help your team automate voucher campaigns. It does this by providing composable API and the marketer-friendly interface that increases teams' productivity:
-
-- **roll-out thousands** of vouchers **in minutes** instead of weeks,
-- **check status** or disable **every single** promo code in real time, 
-- **track redemption** history and build reports on the fly.
+* an API-first SaaS platform that enables customisation of every aspect of coupon campaigns
+* a management console that helps cut down maintenance and reporting overhead
+* an infrastructure to scale up coupon activity in no time
 
 You can find full documentation on [voucherify.readme.io](https://voucherify.readme.io).
 
