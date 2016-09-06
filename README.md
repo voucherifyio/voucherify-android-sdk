@@ -146,6 +146,16 @@ Order amount have to be expressed in cents, as an integer. For example $22.50 sh
     VoucherResponse voucher = client.vouchers().validate("VOUCHER_CODE", 2250);
 ```
 
+### Validation rules
+
+When validating vouchers with validation rules concerning products or variants (SKUs) it's required to pass order items.
+
+```java
+    VoucherResponse voucher = client.vouchers().validate("VOUCHER_CODE", 2250, Arrays.asList(
+       new OrderItem("prod_6wY2Vvc6FrfrwX", "sku_y7WxIymNSCR138", 1),
+       new OrderItem("prod_r04XQ00xz6EVRi", "sku_XnmQ3d0jV3x3Uy", 2))
+   ));
+```
 
 VoucherResponse
 =====
@@ -305,6 +315,7 @@ For example to set the button background color to light green:
 
 ### Changelog
 
+- **2016-06-23** - `0.5.0` - Added order items.
 - **2016-06-23** - `0.4.0` - Added support for gift vouchers.
 - **2016-05-30** - `0.3.1` - Enabled to show an error message below the code input.
 - **2016-05-20** - `0.3.0` - Voucher checkout view

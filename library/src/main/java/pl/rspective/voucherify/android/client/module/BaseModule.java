@@ -1,13 +1,18 @@
 package pl.rspective.voucherify.android.client.module;
 
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executor;
 
 import pl.rspective.voucherify.android.client.api.VoucherifyApi;
 import pl.rspective.voucherify.android.client.callback.VoucherifyCallback;
 import pl.rspective.voucherify.android.client.exception.VoucherifyError;
+import pl.rspective.voucherify.android.client.model.OrderItem;
 import pl.rspective.voucherify.android.client.model.VoucherResponse;
 import pl.rspective.voucherify.android.client.utils.RxUtils;
 import retrofit.RetrofitError;
+import retrofit.http.Query;
 import rx.Observable;
 
 abstract class BaseModule<T> extends AbsModule<BaseModule.ExtAsync, BaseModule.ExtRxJava> {
@@ -37,7 +42,29 @@ abstract class BaseModule<T> extends AbsModule<BaseModule.ExtAsync, BaseModule.E
     }
 
     public T validate(String code, Integer amount) {
-        return (T) api.validateVoucher(code, trackingId, amount, CHANNEL);
+        return validate(code, amount, null);
+    }
+
+    public T validate(String code, Integer amount, List<OrderItem> orderItems) {
+        Map<String, String> queryParams = new LinkedHashMap<>();
+        queryParams.put("code", code);
+        if (trackingId != null) {
+            queryParams.put("tracking_id", trackingId);
+        }
+        if (amount != null) {
+            queryParams.put("amount", amount.toString());
+        }
+        if (orderItems != null) {
+            int index = 0;
+            for (OrderItem item : orderItems) {
+                queryParams.put("item[" + index + "][product_id]", item.getProductId());
+                queryParams.put("item[" + index + "][sku_id]", item.getSkuId());
+                queryParams.put("item[" + index + "][quantity]", item.getQuantity() != null ? item.getQuantity().toString() : null);
+                index++;
+            }
+        }
+        queryParams.put("channel", CHANNEL);
+        return (T) api.validateVoucher(queryParams);
     }
 
     /**
@@ -51,6 +78,10 @@ abstract class BaseModule<T> extends AbsModule<BaseModule.ExtAsync, BaseModule.E
 
         public void validate(String code, Integer amount, VoucherifyCallback<VoucherResponse, VoucherifyError> callback) {
             RxUtils.subscribe(executor, rx().validate(code, amount), callback);
+        }
+
+        public void validate(String code, Integer amount, List<OrderItem> orderItems, VoucherifyCallback<VoucherResponse, VoucherifyError> callback) {
+            RxUtils.subscribe(executor, rx().validate(code, amount, orderItems), callback);
         }
 
     }
@@ -74,6 +105,15 @@ abstract class BaseModule<T> extends AbsModule<BaseModule.ExtAsync, BaseModule.E
                 @Override
                 public T method() {
                     return BaseModule.this.validate(code, amount);
+                }
+            });
+        }
+
+        public Observable<T> validate(final String code, final Integer amount, final List<OrderItem> orderItems) {
+            return RxUtils.defer(new RxUtils.DefFunc<T>() {
+                @Override
+                public T method() {
+                    return BaseModule.this.validate(code, amount, orderItems);
                 }
             });
         }
