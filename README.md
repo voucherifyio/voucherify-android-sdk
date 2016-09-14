@@ -1,7 +1,7 @@
 Voucherify Android SDK
 ======================
 
-###Version: 0.4.0
+###Version: 0.5.0
 
 [Voucherify](http://voucherify.io?utm_source=github&utm_medium=sdk&utm_campaign=acq) is an API-first platform for software developers who are dissatisfied with high-maintenance custom coupon software. Our product is a coupon infrastructure through API that provides a quicker way to build coupon generation, distribution and tracking. Unlike legacy coupon software we have:
 
@@ -22,7 +22,7 @@ Setup
 
 ```groovy
 dependencies {
-    compile 'pl.rspective.voucherify.android.client:voucherify-android-sdk:0.4.0'
+    compile 'pl.rspective.voucherify.android.client:voucherify-android-sdk:0.5.0'
 }
 ```
 
@@ -32,7 +32,7 @@ dependencies {
 <dependency>
     <groupId>pl.rspective.voucherify.android.client</groupId>
     <artifactId>voucherify-android-sdk</artifactId>
-    <version>0.4.0</version>
+    <version>0.5.0</version>
 </dependency>
 ```
 
@@ -312,21 +312,6 @@ For example to set the button background color to light green:
     </style>
 ```
 
+### License
 
-### Changelog
-
-- **2016-06-23** - `0.5.0` - Added order items.
-- **2016-06-23** - `0.4.0` - Added support for gift vouchers.
-- **2016-05-30** - `0.3.1` - Enabled to show an error message below the code input.
-- **2016-05-20** - `0.3.0` - Voucher checkout view
-- **2016-05-19** - `0.2.0` - Custom error handling
-- **2016-04-04** - `0.1.3` - Updated API URL, HTTPS enabled by default
-- **2016-01-14** - `0.1.2` - Default value for `origin` header
-- **2015-12-14** - `0.1.0` - New discount model, new discount type: UNIT
-- **2015-11-23** - `0.0.9` - added `X-Voucherify-Channel` header
-- **2015-11-09** - `0.0.6` - Changed discount type from double to integer
-- **2015-11-05** - `0.0.5` - Renamed trackingId to tracking_id.
-- **2015-10-22** - `0.0.4` - New backend URL.
-- **2015-09-11** - `0.0.3` - Updated backend URL.
-- **2015-08-15** - `0.0.2` - Added tracking id functionality
-- **2015-08-11** - `0.0.1` - Initial version of the SDK.Ż
+MIT. See the [LICENSE][https://github.com/rspective/voucherify-android-sdk/blob/master/LICENSE] file for details.
