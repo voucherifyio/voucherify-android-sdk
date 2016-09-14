@@ -312,6 +312,7 @@ For example to set the button background color to light green:
     </style>
 ```
 
-### License
+License
+=====
 
 MIT. See the [LICENSE][https://github.com/rspective/voucherify-android-sdk/blob/master/LICENSE] file for details.
