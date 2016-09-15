@@ -5,10 +5,13 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 import java.util.Map;
 
-public class VoucherRedemptionResult {
+/**
+ * I hold a history information about voucher redemption
+ */
+public class RedemptionEntry {
 
     /**
-     *  An identifier for entity
+     * An identifier for entity
      */
     private String id;
 
@@ -45,25 +48,23 @@ public class VoucherRedemptionResult {
     private String reason;
 
     /**
-     * Full voucher data
-     */
-    private Voucher voucher;
-
-    /**
      * Metadata - whatever you
      */
     private Map<String, Object> metadata;
 
+    /**
+     * @return
+     */
     public String getId() {
         return id;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
     public String getObject() {
         return object;
+    }
+
+    public Date getDate() {
+        return date;
     }
 
     public String getCustomerId() {
@@ -82,12 +83,7 @@ public class VoucherRedemptionResult {
         return reason;
     }
 
-    public Voucher getVoucher() {
-        return voucher;
-    }
-
     public Map<String, Object> getMetadata() {
         return metadata;
     }
-
 }
