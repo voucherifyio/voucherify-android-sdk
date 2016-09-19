@@ -9,6 +9,7 @@ import pl.rspective.voucherify.android.client.api.VoucherifyApi;
 import pl.rspective.voucherify.android.client.callback.VoucherifyCallback;
 import pl.rspective.voucherify.android.client.exception.VoucherifyError;
 import pl.rspective.voucherify.android.client.model.OrderItem;
+import pl.rspective.voucherify.android.client.model.VoucherRedemptionContext;
 import pl.rspective.voucherify.android.client.model.VoucherRedemptionResult;
 import pl.rspective.voucherify.android.client.model.VoucherResponse;
 import pl.rspective.voucherify.android.client.utils.RxUtils;
@@ -70,6 +71,10 @@ abstract class BaseModule<T, U> extends AbsModule<BaseModule.ExtAsync, BaseModul
         return (U) api.redeemVoucher(code, trackingId);
     }
 
+    public U redeemVoucher(String code, VoucherRedemptionContext redemptionContext) {
+        return (U) api.redeemVoucher(code, redemptionContext);
+    }
+
     /**
      * Base Async extension.
      */
@@ -89,6 +94,10 @@ abstract class BaseModule<T, U> extends AbsModule<BaseModule.ExtAsync, BaseModul
 
         public void redeemVoucher(String code, VoucherifyCallback<VoucherRedemptionResult, VoucherifyError> callback) {
             RxUtils.subscribe(executor, rx().redeemVoucher(code), callback);
+        }
+
+        public void redeemVoucher(String code, final VoucherRedemptionContext redemptionContext, VoucherifyCallback<VoucherRedemptionResult,VoucherifyError> callback) {
+            RxUtils.subscribe(executor, rx().redeemVoucher(code, redemptionContext), callback);
         }
 
     }
@@ -130,6 +139,15 @@ abstract class BaseModule<T, U> extends AbsModule<BaseModule.ExtAsync, BaseModul
                 @Override
                 public U method() {
                     return BaseModule.this.redeemVoucher(code);
+                }
+            });
+        }
+
+        public Observable<U> redeemVoucher(final String code, final VoucherRedemptionContext redemptionContext) {
+            return RxUtils.defer(new RxUtils.DefFunc<U>() {
+                @Override
+                public U method() {
+                    return BaseModule.this.redeemVoucher(code, redemptionContext);
                 }
             });
         }

@@ -3,6 +3,7 @@ package pl.rspective.voucherify.android.client.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
+import java.util.Map;
 
 public class PublishEntry {
 
@@ -11,6 +12,8 @@ public class PublishEntry {
     
     @SerializedName("published_at")
     private Date publishedAt;
+
+    private Map<String, Object> metadata;
 
     public String getCustomer() {
         return customer;
@@ -24,5 +27,8 @@ public class PublishEntry {
     public Date getPublishedAt() {
         return publishedAt;
     }
-    
+
+    public Map<String, Object> getMetadata() {
+        return metadata;
+    }
 }
