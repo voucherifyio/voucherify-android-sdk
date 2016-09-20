@@ -1,7 +1,7 @@
 Voucherify Android SDK
 ======================
 
-###Version: 0.5.0
+###Version: 0.6.0
 
 [Voucherify](http://voucherify.io?utm_source=github&utm_medium=sdk&utm_campaign=acq) is an API-first platform for software developers who are dissatisfied with high-maintenance custom coupon software. Our product is a coupon infrastructure through API that provides a quicker way to build coupon generation, distribution and tracking. Unlike legacy coupon software we have:
 
@@ -22,7 +22,7 @@ Setup
 
 ```groovy
 dependencies {
-    compile 'pl.rspective.voucherify.android.client:voucherify-android-sdk:0.5.0'
+    compile 'pl.rspective.voucherify.android.client:voucherify-android-sdk:0.6.0'
 }
 ```
 
@@ -32,7 +32,7 @@ dependencies {
 <dependency>
     <groupId>pl.rspective.voucherify.android.client</groupId>
     <artifactId>voucherify-android-sdk</artifactId>
-    <version>0.5.0</version>
+    <version>0.6.0</version>
 </dependency>
 ```
 
@@ -90,7 +90,8 @@ androidClient = new VoucherifyAndroidClient.Builder(YOUR-PUBLIC-CLIENT-APPLICATI
 ```
 
 Current list of features:
-- validate voucher based on its code and optionally order amount (required for gift vouchers)
+- validate a voucher based on its code and optionally order amount (required for gift vouchers)
+- redeem a voucher
 
 Every method has a corresponding asynchronous extension which can be accessed through the `async()` or 'rx()' method of the vouchers module.
 
@@ -137,7 +138,7 @@ client.vouchers()
         });
 ```
 
-#### Gift vouchers
+### Gift vouchers
 
 Validationg a gift voucher requires to pass an amount that is intended to be withdrawn from the voucher.
 Order amount have to be expressed in cents, as an integer. For example $22.50 should be provided as 2250:
@@ -155,6 +156,67 @@ When validating vouchers with validation rules concerning products or variants (
        new OrderItem("prod_6wY2Vvc6FrfrwX", "sku_y7WxIymNSCR138", 1),
        new OrderItem("prod_r04XQ00xz6EVRi", "sku_XnmQ3d0jV3x3Uy", 2))
    ));
+```
+
+### Redeem a voucher
+
+* Just by code
+
+```java
+     VoucherRedemptionResult redemptionResult = client.voucher().redeemVoucher("test");
+```
+
+* With customer profile
+
+```java
+     Customer customer = new Customer.Builder()
+                .withSourceId("alice.morgan")
+                .withName("Alice Morgan")
+                .withEmail("alice@morgan.com")
+                .withDescription("")
+                .addMetadata("locale", "en-GB")
+                .addMetadata("shoeSize", 5)
+                .addMetadata("favouriteBrands", new String[]{"Armani", "L'Autre Chose", "Vicini"})
+                .build();
+
+        client.voucher().redeemVoucher("test", new VoucherRedemptionContext(customer));
+```
+
+* With customer id
+
+If you already created a customer profile in Voucherify's database, you can identify your customer in following redemptions by a generated id (starting with `cust_`).
+
+```java
+   Customer customer = new Customer.Builder()
+                .withId("cust_C9qJ3xKgZFqkpMw7b21MF2ow")
+                .build();
+
+   client.voucher().redeemVoucher("test", new VoucherRedemptionContext(customer));
+```
+
+* With order amount
+
+If you want to redeem a gift voucher you have to provide an amount that you wish take. You can pass the amount in VoucherRedemptionContext.order.amount:
+
+```java
+    client.voucher().redeemVoucher("test", new VoucherRedemptionContext(customer, Order.amount(5000)))
+```
+
+
+* With validation rules
+
+If your voucher includes some validation rules regarding customer (segments) then you have to supply customer (by id, source id or tracking id) when redeeming the voucher. When redeeming vouchers with validation rules concerning products or variants (SKUs) it's required to pass order items.
+
+```java
+    VoucherRedemptionContext redemptionContext = new VoucherRedemptionContext(
+        new Customer.Builder()
+                .withSourceId("alice.morgan")
+                .build(),
+        new Order(1250, Arrays.asList(
+                    new OrderItem("prod_6wY2Vvc6FrfrwX", "sku_y7WxIymNSCR138", 1),
+                    new OrderItem("prod_r04XQ00xz6EVRi", "sku_XnmQ3d0jV3x3Uy", 2))));
+
+        client.voucher().redeemVoucher("VoucherWithValidationRules", redemptionContext);
 ```
 
 VoucherResponse
@@ -208,7 +270,48 @@ Valid gift voucher response:
         }
         "tracking_id": "generated-or-passed-tracking-id"
     }
-       ```
+    ```
+
+Redeem voucher response:
+
+{
+    "id": "r_yRmanaA6EgSE9uDYvMQ5Evfp",
+    "object": "redemption",
+    "date": "2016-04-25T10:34:57Z",
+    "customer_id": null,
+    "tracking_id": "(tracking_id not set)",
+    "voucher": {
+        "code": "v1GiJYuuS",
+        "campaign": "vip",
+        "discount": {
+            "percent_off": 10.0,
+            "type": "PERCENT"
+        },
+        "expiration_date": "2016-12-31T23:59:59Z",
+        "redemption": {
+            "quantity": 3,
+            "redeemed_quantity": 2,
+            "redemption_entries": [
+                {
+                    "id": "r_gQzOnTwmhn2nTLwW4sZslNKY",
+                    "object": "redemption",
+                    "date": "2016-04-24T06:03:35Z",
+                    "customer_id": null,
+                    "tracking_id": "(tracking_id not set)"
+                },
+                {
+                    "id": "r_yRmanaA6EgSE9uDYvMQ5Evfp",
+                    "object": "redemption",
+                    "date": "2016-04-25T10:34:57Z",
+                    "customer_id": null,
+                    "tracking_id": "(tracking_id not set)"
+                }
+            ]
+        },
+        "active": true,
+        "additional_info": ""
+    }
+}
 
 Invalid voucher response:
 

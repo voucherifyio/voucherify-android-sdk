@@ -9,13 +9,13 @@ import pl.rspective.voucherify.android.client.api.VoucherifyApi;
 import pl.rspective.voucherify.android.client.callback.VoucherifyCallback;
 import pl.rspective.voucherify.android.client.exception.VoucherifyError;
 import pl.rspective.voucherify.android.client.model.OrderItem;
+import pl.rspective.voucherify.android.client.model.VoucherRedemptionContext;
+import pl.rspective.voucherify.android.client.model.VoucherRedemptionResult;
 import pl.rspective.voucherify.android.client.model.VoucherResponse;
 import pl.rspective.voucherify.android.client.utils.RxUtils;
-import retrofit.RetrofitError;
-import retrofit.http.Query;
 import rx.Observable;
 
-abstract class BaseModule<T> extends AbsModule<BaseModule.ExtAsync, BaseModule.ExtRxJava> {
+abstract class BaseModule<T, U> extends AbsModule<BaseModule.ExtAsync, BaseModule.ExtRxJava> {
 
     private static final String CHANNEL = "android";
 
@@ -67,6 +67,14 @@ abstract class BaseModule<T> extends AbsModule<BaseModule.ExtAsync, BaseModule.E
         return (T) api.validateVoucher(queryParams);
     }
 
+    public U redeemVoucher(String code) {
+        return (U) api.redeemVoucher(code, trackingId);
+    }
+
+    public U redeemVoucher(String code, VoucherRedemptionContext redemptionContext) {
+        return (U) api.redeemVoucher(code, redemptionContext);
+    }
+
     /**
      * Base Async extension.
      */
@@ -82,6 +90,14 @@ abstract class BaseModule<T> extends AbsModule<BaseModule.ExtAsync, BaseModule.E
 
         public void validate(String code, Integer amount, List<OrderItem> orderItems, VoucherifyCallback<VoucherResponse, VoucherifyError> callback) {
             RxUtils.subscribe(executor, rx().validate(code, amount, orderItems), callback);
+        }
+
+        public void redeemVoucher(String code, VoucherifyCallback<VoucherRedemptionResult, VoucherifyError> callback) {
+            RxUtils.subscribe(executor, rx().redeemVoucher(code), callback);
+        }
+
+        public void redeemVoucher(String code, final VoucherRedemptionContext redemptionContext, VoucherifyCallback<VoucherRedemptionResult,VoucherifyError> callback) {
+            RxUtils.subscribe(executor, rx().redeemVoucher(code, redemptionContext), callback);
         }
 
     }
@@ -114,6 +130,24 @@ abstract class BaseModule<T> extends AbsModule<BaseModule.ExtAsync, BaseModule.E
                 @Override
                 public T method() {
                     return BaseModule.this.validate(code, amount, orderItems);
+                }
+            });
+        }
+
+        public Observable<U> redeemVoucher(final String code) {
+            return RxUtils.defer(new RxUtils.DefFunc<U>() {
+                @Override
+                public U method() {
+                    return BaseModule.this.redeemVoucher(code);
+                }
+            });
+        }
+
+        public Observable<U> redeemVoucher(final String code, final VoucherRedemptionContext redemptionContext) {
+            return RxUtils.defer(new RxUtils.DefFunc<U>() {
+                @Override
+                public U method() {
+                    return BaseModule.this.redeemVoucher(code, redemptionContext);
                 }
             });
         }

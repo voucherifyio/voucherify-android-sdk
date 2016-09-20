@@ -3,12 +3,13 @@ package pl.rspective.voucherify.android.client.module;
 import java.util.concurrent.Executor;
 
 import pl.rspective.voucherify.android.client.api.VoucherifyApi;
+import pl.rspective.voucherify.android.client.model.VoucherRedemptionResult;
 import pl.rspective.voucherify.android.client.model.VoucherResponse;
 
 /**
  * Vouchers Module to manage communication with Voucherify
  */
-public final class VoucherModule extends BaseModule<VoucherResponse> {
+public final class VoucherModule extends BaseModule<VoucherResponse, VoucherRedemptionResult> {
 
     /**
      *
