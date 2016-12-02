@@ -1,11 +1,9 @@
 package pl.rspective.voucherify.android.client.utils;
 
-import java.util.concurrent.Executor;
-
 import pl.rspective.voucherify.android.client.callback.VoucherifyCallback;
 import pl.rspective.voucherify.android.client.exception.VoucherifyError;
-import retrofit.RetrofitError;
 import rx.Observable;
+import rx.Scheduler;
 import rx.functions.Action1;
 import rx.functions.Func0;
 import rx.schedulers.Schedulers;
@@ -16,39 +14,30 @@ import rx.schedulers.Schedulers;
 public final class RxUtils {
 
     /**
-     *
-     * @param executor
+     * @param scheduler
      * @param observable
      * @param callback
      * @return
      */
-    public static <T> VoucherifyCallback<T, VoucherifyError> subscribe(final Executor executor, Observable<T> observable, final VoucherifyCallback<T, VoucherifyError> callback) {
+    public static <T> VoucherifyCallback<T, VoucherifyError> subscribe(final Scheduler scheduler, Observable<T> observable, final VoucherifyCallback<T, VoucherifyError> callback) {
         observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(scheduler)
                 .subscribe(
                         new Action1<T>() {
                             @Override
                             public void call(final T t) {
-                                executor.execute(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        callback.onSuccess(t);
-                                    }
-                                });
+                                callback.onSuccess(t);
                             }
                         },
                         new Action1<Throwable>() {
                             @Override
                             public void call(final Throwable throwable) {
-                                executor.execute(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        if (throwable instanceof VoucherifyError) {
-                                            callback.onFailure((VoucherifyError) throwable);
-                                        } else {
-                                            callback.onFailure(new VoucherifyError(throwable));
-                                        }
-                                  }
-                                });
+                                if (throwable instanceof VoucherifyError) {
+                                    callback.onFailure((VoucherifyError) throwable);
+                                } else {
+                                    callback.onFailure(new VoucherifyError(throwable));
+                                }
                             }
                         });
 

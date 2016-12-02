@@ -3,30 +3,30 @@ package pl.rspective.voucherify.android.client;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.util.concurrent.Executor;
+import java.io.IOException;
 
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 import pl.rspective.voucherify.android.client.api.VoucherifyApi;
-import pl.rspective.voucherify.android.client.exception.VoucherifyError;
 import pl.rspective.voucherify.android.client.module.VoucherModule;
 import pl.rspective.voucherify.android.client.utils.Platform;
-import retrofit.ErrorHandler;
-import retrofit.RequestInterceptor;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Client;
-import retrofit.converter.GsonConverter;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Scheduler;
 
 public class VoucherifyAndroidClient {
 
     private final String httpScheme;
 
-    private Gson gson;
-
     private VoucherModule voucherModule;
 
     private VoucherifyApi voucherifyApi;
 
-    private Executor executor;
+    private Scheduler scheduler;
 
     private VoucherifyAndroidClient(Builder builder) {
         if (builder.clientToken.isEmpty() || builder.clientId.isEmpty() ) {
@@ -34,12 +34,11 @@ public class VoucherifyAndroidClient {
         }
 
         this.httpScheme = createHttpScheme(builder);
-        this.executor = createCallbackExecutor();
+        this.scheduler = createCallbackExecutor();
 
-        this.gson = createGson();
         this.voucherifyApi = createRetrofitService(builder);
 
-        this.voucherModule = new VoucherModule(voucherifyApi, executor, builder.trackingId);
+        this.voucherModule = new VoucherModule(voucherifyApi, scheduler, builder.trackingId);
     }
 
     /**
@@ -49,12 +48,11 @@ public class VoucherifyAndroidClient {
         return voucherModule;
     }
 
-
     /**
      *
      * @return system thread executor
      */
-    private Executor createCallbackExecutor() {
+    private Scheduler createCallbackExecutor() {
         return Platform.get().callbackExecutor();
     }
 
@@ -79,27 +77,33 @@ public class VoucherifyAndroidClient {
         }
     }
 
+    private OkHttpClient createOkHttpClient(Builder builder) {
+        return new OkHttpClient.Builder()
+                .addInterceptor(createHeaderInterceptor(builder.clientId, builder.clientToken, builder.origin))
+                .addInterceptor(createLoggerInterceptor(builder.logLevel))
+                .build();
+    }
+
     /**
      *
      * @param builder
      * @return
      */
     private VoucherifyApi createRetrofitService(Builder builder) {
-        RestAdapter.Builder restBuilder =
-                new RestAdapter.Builder()
-                        .setConverter(new GsonConverter(gson))
-                        .setRequestInterceptor(createInterceptor(builder.clientId, builder.clientToken, builder.origin))
-                        .setErrorHandler(new ErrorHandler() {
-                            @Override
-                            public Throwable handleError(RetrofitError cause) {
-                                return (VoucherifyError) cause.getBodyAs(VoucherifyError.class);
-                            }
-                        });
+        String endpoint;
 
-        setEndPoint(builder, restBuilder);
-        setClientProvider(builder, restBuilder);
-        setLogLevel(builder, restBuilder);
+        if (builder.endpoint == null) {
+            endpoint = Constants.ENDPOINT_VOUCHERIFY;
+        } else {
+            endpoint = builder.endpoint;
+        }
 
+        Retrofit.Builder restBuilder =
+                new Retrofit.Builder()
+                        .baseUrl(String.format("%s://%s", httpScheme, endpoint))
+                        .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .client(createOkHttpClient(builder));
         return restBuilder.build().create(VoucherifyApi.class);
     }
 
@@ -109,55 +113,26 @@ public class VoucherifyAndroidClient {
      * @param clientToken
      * @return
      */
-    private RequestInterceptor createInterceptor(final String clientId, final String clientToken, final String origin) {
-        return new RequestInterceptor() {
+    private Interceptor createHeaderInterceptor(final String clientId, final String clientToken, final String origin) {
+        return new Interceptor() {
             @Override
-            public void intercept(RequestFacade request) {
-                request.addHeader(Constants.HTTP_HEADER_CLIENT_ID, clientId);
-                request.addHeader(Constants.HTTP_HEADER_CLIENT_TOKEN, clientToken);
-                request.addHeader(Constants.HTTP_HEADER_ORIGIN, origin == null || origin.isEmpty() ? Constants.VOUCHERIFY_DEFAULT_ORIGIN : origin);
-                request.addHeader(Constants.HTTP_HEADER_VOUCHERIFY_CHANNEL, Constants.VOUCHERIFY_CHANNEL_NAME);
+            public Response intercept(Chain chain) throws IOException {
+                Request.Builder builder = chain.request().newBuilder();
+                builder.addHeader(Constants.HTTP_HEADER_CLIENT_ID, clientId);
+                builder.addHeader(Constants.HTTP_HEADER_CLIENT_TOKEN, clientToken);
+                builder.addHeader(Constants.HTTP_HEADER_ORIGIN, origin == null || origin.isEmpty() ? Constants.VOUCHERIFY_DEFAULT_ORIGIN : origin);
+                builder.addHeader(Constants.HTTP_HEADER_VOUCHERIFY_CHANNEL, Constants.VOUCHERIFY_CHANNEL_NAME);
+                return chain.proceed(builder.build());
             }
         };
     }
 
-    /**
-     *
-     * @param builder
-     * @param restBuilder
-     */
-    private void setLogLevel(Builder builder, RestAdapter.Builder restBuilder) {
-        if (builder.logLevel != null) {
-            restBuilder.setLogLevel(builder.logLevel);
+    private HttpLoggingInterceptor createLoggerInterceptor(HttpLoggingInterceptor.Level logLevel) {
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        if (logLevel != null) {
+            interceptor.setLevel(logLevel);
         }
-    }
-
-    /**
-     *
-     * @param builder
-     * @param restBuilder
-     */
-    private void setClientProvider(Builder builder, RestAdapter.Builder restBuilder) {
-        if (builder.clientProvider != null) {
-            restBuilder.setClient(builder.clientProvider);
-        }
-    }
-
-    /**
-     *
-     * @param builder
-     * @param restBuilder
-     */
-    private void setEndPoint(Builder builder, RestAdapter.Builder restBuilder) {
-        String endpoint;
-
-        if (builder.endpoint == null) {
-            endpoint = Constants.ENDPOINT_VOUCHERIFY;
-        } else {
-            endpoint = builder.endpoint;
-        }
-
-        restBuilder.setEndpoint(String.format("%s://%s", httpScheme, endpoint));
+        return interceptor;
     }
 
     public static class Builder {
@@ -170,9 +145,7 @@ public class VoucherifyAndroidClient {
 
         boolean secure;
 
-        RestAdapter.LogLevel logLevel;
-
-        Client.Provider clientProvider;
+        HttpLoggingInterceptor.Level logLevel;
 
         public Builder(String clientId, String clientToken) {
             if (clientId == null || clientToken == null) {
@@ -184,37 +157,7 @@ public class VoucherifyAndroidClient {
             this.secure = true;
         }
 
-        public Builder setClient(final Client client) {
-            if (client == null) {
-                throw new IllegalArgumentException("Cannot call setClient() with null.");
-            }
-
-            return setClientProvider(new Client.Provider() {
-                @Override
-                public Client get() {
-                    return client;
-                }
-            });
-        }
-
-        public Builder setEndpoint(String remoteUrl) {
-            if (remoteUrl == null) {
-                throw new IllegalArgumentException("Cannot call setEndpoint() with null.");
-            }
-            this.endpoint = remoteUrl;
-            return this;
-        }
-
-        public Builder setClientProvider(Client.Provider clientProvider) {
-            if (clientProvider == null) {
-                throw new IllegalArgumentException("Cannot call setClientProvider() with null.");
-            }
-
-            this.clientProvider = clientProvider;
-            return this;
-        }
-
-        public Builder setLogLevel(RestAdapter.LogLevel logLevel) {
+        public Builder setLogLevel(HttpLoggingInterceptor.Level logLevel) {
             if (logLevel == null) {
                 throw new IllegalArgumentException("Cannot call setLogLevel() with null.");
             }
@@ -232,7 +175,7 @@ public class VoucherifyAndroidClient {
             this.secure = true;
             return this;
         }
-        
+
         public Builder withoutSSL() {
             this.secure = false;
             return this;

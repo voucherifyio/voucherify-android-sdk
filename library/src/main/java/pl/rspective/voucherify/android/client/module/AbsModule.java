@@ -1,14 +1,13 @@
 package pl.rspective.voucherify.android.client.module;
 
-import java.util.concurrent.Executor;
-
 import pl.rspective.voucherify.android.client.api.VoucherifyApi;
+import rx.Scheduler;
 
 abstract class AbsModule<A extends BaseModule.Async, R extends BaseModule.Rx> {
     /**
-     * Represents platform thread executor
+     * Represents platform thread scheduler
      */
-    final Executor executor;
+    final Scheduler scheduler;
 
     /**
      * Describes REST API for voucherify
@@ -28,11 +27,11 @@ abstract class AbsModule<A extends BaseModule.Async, R extends BaseModule.Rx> {
     /**
      *
      * @param api describes Voucherif REST API
-     * @param executor of threads for current platform
+     * @param scheduler of threads for current platform
      */
-    AbsModule(VoucherifyApi api, Executor executor) {
+    AbsModule(VoucherifyApi api, Scheduler scheduler) {
         this.api = api;
-        this.executor = executor;
+        this.scheduler = scheduler;
 
         this.extAsync = createAsyncExtension();
         this.extRxJava = createRxJavaExtension();

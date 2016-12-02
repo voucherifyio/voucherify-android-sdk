@@ -3,7 +3,6 @@ package pl.rspective.voucherify.android.client.module;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Executor;
 
 import pl.rspective.voucherify.android.client.api.VoucherifyApi;
 import pl.rspective.voucherify.android.client.callback.VoucherifyCallback;
@@ -14,15 +13,16 @@ import pl.rspective.voucherify.android.client.model.VoucherRedemptionResult;
 import pl.rspective.voucherify.android.client.model.VoucherResponse;
 import pl.rspective.voucherify.android.client.utils.RxUtils;
 import rx.Observable;
+import rx.Scheduler;
 
-abstract class BaseModule<T, U> extends AbsModule<BaseModule.ExtAsync, BaseModule.ExtRxJava> {
+abstract class BaseModule<T extends Observable, U extends Observable> extends AbsModule<BaseModule.ExtAsync, BaseModule.ExtRxJava> {
 
     private static final String CHANNEL = "android";
 
     private final String trackingId;
 
-    public BaseModule(VoucherifyApi api, Executor executor, String trackingId) {
-        super(api, executor);
+    public BaseModule(VoucherifyApi api, Scheduler scheduler, String trackingId) {
+        super(api, scheduler);
 
         this.trackingId = trackingId;
     }
@@ -81,23 +81,23 @@ abstract class BaseModule<T, U> extends AbsModule<BaseModule.ExtAsync, BaseModul
     public class ExtAsync extends Async {
 
         public void validate(String code, VoucherifyCallback<VoucherResponse, VoucherifyError> callback) {
-            RxUtils.subscribe(executor, rx().validate(code), callback);
+            RxUtils.subscribe(scheduler, rx().validate(code), callback);
         }
 
         public void validate(String code, Integer amount, VoucherifyCallback<VoucherResponse, VoucherifyError> callback) {
-            RxUtils.subscribe(executor, rx().validate(code, amount), callback);
+            RxUtils.subscribe(scheduler, rx().validate(code, amount), callback);
         }
 
         public void validate(String code, Integer amount, List<OrderItem> orderItems, VoucherifyCallback<VoucherResponse, VoucherifyError> callback) {
-            RxUtils.subscribe(executor, rx().validate(code, amount, orderItems), callback);
+            RxUtils.subscribe(scheduler, rx().validate(code, amount, orderItems), callback);
         }
 
         public void redeemVoucher(String code, VoucherifyCallback<VoucherRedemptionResult, VoucherifyError> callback) {
-            RxUtils.subscribe(executor, rx().redeemVoucher(code), callback);
+            RxUtils.subscribe(scheduler, rx().redeemVoucher(code), callback);
         }
 
         public void redeemVoucher(String code, final VoucherRedemptionContext redemptionContext, VoucherifyCallback<VoucherRedemptionResult,VoucherifyError> callback) {
-            RxUtils.subscribe(executor, rx().redeemVoucher(code, redemptionContext), callback);
+            RxUtils.subscribe(scheduler, rx().redeemVoucher(code, redemptionContext), callback);
         }
 
     }
@@ -107,49 +107,24 @@ abstract class BaseModule<T, U> extends AbsModule<BaseModule.ExtAsync, BaseModul
      */
     public class ExtRxJava extends Rx {
 
-        public Observable<T> validate(final String code) {
-            return RxUtils.defer(new RxUtils.DefFunc<T>() {
-                @Override
-                public T method() {
-                    return BaseModule.this.validate(code);
-                }
-            });
+        public T validate(final String code) {
+            return BaseModule.this.validate(code);
         }
 
-        public Observable<T> validate(final String code, final Integer amount) {
-            return RxUtils.defer(new RxUtils.DefFunc<T>() {
-                @Override
-                public T method() {
-                    return BaseModule.this.validate(code, amount);
-                }
-            });
+        public T validate(final String code, final Integer amount) {
+            return BaseModule.this.validate(code, amount);
         }
 
-        public Observable<T> validate(final String code, final Integer amount, final List<OrderItem> orderItems) {
-            return RxUtils.defer(new RxUtils.DefFunc<T>() {
-                @Override
-                public T method() {
-                    return BaseModule.this.validate(code, amount, orderItems);
-                }
-            });
+        public T validate(final String code, final Integer amount, final List<OrderItem> orderItems) {
+            return BaseModule.this.validate(code, amount, orderItems);
         }
 
-        public Observable<U> redeemVoucher(final String code) {
-            return RxUtils.defer(new RxUtils.DefFunc<U>() {
-                @Override
-                public U method() {
-                    return BaseModule.this.redeemVoucher(code);
-                }
-            });
+        public U redeemVoucher(final String code) {
+            return BaseModule.this.redeemVoucher(code);
         }
 
-        public Observable<U> redeemVoucher(final String code, final VoucherRedemptionContext redemptionContext) {
-            return RxUtils.defer(new RxUtils.DefFunc<U>() {
-                @Override
-                public U method() {
-                    return BaseModule.this.redeemVoucher(code, redemptionContext);
-                }
-            });
+        public U redeemVoucher(final String code, final VoucherRedemptionContext redemptionContext) {
+            return BaseModule.this.redeemVoucher(code, redemptionContext);
         }
 
     }
