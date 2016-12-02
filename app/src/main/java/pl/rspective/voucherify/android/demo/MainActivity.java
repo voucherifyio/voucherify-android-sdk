@@ -11,13 +11,11 @@ import java.math.BigDecimal;
 
 import pl.rspective.voucherify.android.client.VoucherifyAndroidClient;
 import pl.rspective.voucherify.android.client.VoucherifyUtils;
-import pl.rspective.voucherify.android.client.callback.VoucherifyCallback;
 import pl.rspective.voucherify.android.client.exception.VoucherifyError;
 import pl.rspective.voucherify.android.client.model.VoucherResponse;
 import pl.rspective.voucherify.android.view.OnValidatedListener;
 import pl.rspective.voucherify.android.view.VoucherCheckoutView;
 import retrofit.RestAdapter;
-import retrofit.RetrofitError;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -62,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 tvDiscount.setText(null);
                 tvNewPrice.setText(null);
                 etProductPrice.setOnKeyListener(null);
-                voucherCheckout.setVoucherErrorMessage("Invalid - " + result.getReason() + ". Try to use 'Testing7fjWdr'");
+                voucherCheckout.setVoucherErrorMessage(String.format(getString(R.string.errorVoucherMessage), result.getReason()));
             }
 
             @Override
@@ -78,8 +76,8 @@ public class MainActivity extends AppCompatActivity {
             BigDecimal newPrice = VoucherifyUtils.calculatePrice(BigDecimal.valueOf(originalPrice), result, null);
             BigDecimal discount = VoucherifyUtils.calculateDiscount(BigDecimal.valueOf(originalPrice), result, null);
 
-            tvDiscount.setText("Discount: " + discount.toString());
-            tvNewPrice.setText("Price after discount: " + newPrice.toString());
+            tvDiscount.setText(String.format(getString(R.string.discountTitle), discount.toString()));
+            tvNewPrice.setText(String.format(getString(R.string.priceAfterDiscountTitle), newPrice.toString()));
         } catch(Exception e) {/* ignoring wrong etProductPrice value */}
     }
 
