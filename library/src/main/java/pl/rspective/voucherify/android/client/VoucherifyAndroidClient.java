@@ -77,6 +77,11 @@ public class VoucherifyAndroidClient {
         }
     }
 
+    /**
+     *
+     * @param builder
+     * @return
+     */
     private OkHttpClient createOkHttpClient(Builder builder) {
         return new OkHttpClient.Builder()
                 .addInterceptor(createHeaderInterceptor(builder.clientId, builder.clientToken, builder.origin))
@@ -127,6 +132,11 @@ public class VoucherifyAndroidClient {
         };
     }
 
+    /**
+     *
+     * @param logLevel
+     * @return
+     */
     private HttpLoggingInterceptor createLoggerInterceptor(HttpLoggingInterceptor.Level logLevel) {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         if (logLevel != null) {
