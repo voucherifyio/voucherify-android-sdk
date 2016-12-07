@@ -1,5 +1,7 @@
 package pl.rspective.voucherify.android.client.utils;
 
+import java.io.IOException;
+
 import pl.rspective.voucherify.android.client.callback.VoucherifyCallback;
 import pl.rspective.voucherify.android.client.exception.VoucherifyError;
 import rx.Observable;
@@ -55,10 +57,12 @@ public final class RxUtils {
                 return Observable.just(method());
             } catch (VoucherifyError error) {
                 return Observable.error(error);
+            } catch (IOException error) {
+                return Observable.error(error);
             }
         }
 
-        public abstract T method();
+        public abstract T method() throws IOException;
     }
 
     public static <T> Observable<T> defer(DefFunc<T> func) {

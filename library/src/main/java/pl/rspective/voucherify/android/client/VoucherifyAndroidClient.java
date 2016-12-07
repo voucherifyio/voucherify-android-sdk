@@ -1,8 +1,5 @@
 package pl.rspective.voucherify.android.client;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -14,13 +11,14 @@ import pl.rspective.voucherify.android.client.api.VoucherifyApi;
 import pl.rspective.voucherify.android.client.module.VoucherModule;
 import pl.rspective.voucherify.android.client.utils.Platform;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Scheduler;
 
 public class VoucherifyAndroidClient {
 
     private final String httpScheme;
+
+    private final String endpoint;
 
     private VoucherModule voucherModule;
 
@@ -29,11 +27,12 @@ public class VoucherifyAndroidClient {
     private Scheduler scheduler;
 
     private VoucherifyAndroidClient(Builder builder) {
-        if (builder.clientToken.isEmpty() || builder.clientId.isEmpty() ) {
+        if (builder.clientToken.isEmpty() || builder.clientId.isEmpty()) {
             throw new IllegalArgumentException("Client token and client id must be defined.");
         }
 
         this.httpScheme = createHttpScheme(builder);
+        this.endpoint = createEndpoint(builder);
         this.scheduler = createCallbackExecutor();
 
         this.voucherifyApi = createRetrofitService(builder);
@@ -49,7 +48,6 @@ public class VoucherifyAndroidClient {
     }
 
     /**
-     *
      * @return system thread executor
      */
     private Scheduler createCallbackExecutor() {
@@ -57,15 +55,6 @@ public class VoucherifyAndroidClient {
     }
 
     /**
-     *
-     * @return
-     */
-    private Gson createGson() {
-        return new GsonBuilder().create();
-    }
-
-    /**
-     *
      * @param builder
      * @return
      */
@@ -78,7 +67,18 @@ public class VoucherifyAndroidClient {
     }
 
     /**
-     *
+     * @param builder
+     * @return
+     */
+    private String createEndpoint(Builder builder) {
+        if (builder.endpoint != null) {
+            return builder.endpoint;
+        } else {
+            return Constants.ENDPOINT_VOUCHERIFY;
+        }
+    }
+
+    /**
      * @param builder
      * @return
      */
@@ -90,30 +90,19 @@ public class VoucherifyAndroidClient {
     }
 
     /**
-     *
      * @param builder
      * @return
      */
     private VoucherifyApi createRetrofitService(Builder builder) {
-        String endpoint;
-
-        if (builder.endpoint == null) {
-            endpoint = Constants.ENDPOINT_VOUCHERIFY;
-        } else {
-            endpoint = builder.endpoint;
-        }
-
-        Retrofit.Builder restBuilder =
-                new Retrofit.Builder()
-                        .baseUrl(String.format("%s://%s", httpScheme, endpoint))
-                        .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .client(createOkHttpClient(builder));
-        return restBuilder.build().create(VoucherifyApi.class);
+        return new Retrofit.Builder()
+                .baseUrl(String.format("%s://%s", httpScheme, endpoint))
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(createOkHttpClient(builder))
+                .build()
+                .create(VoucherifyApi.class);
     }
 
     /**
-     *
      * @param clientId
      * @param clientToken
      * @return
@@ -133,7 +122,6 @@ public class VoucherifyAndroidClient {
     }
 
     /**
-     *
      * @param logLevel
      * @return
      */

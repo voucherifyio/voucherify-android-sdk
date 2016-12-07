@@ -5,12 +5,12 @@ import java.util.Map;
 import pl.rspective.voucherify.android.client.model.VoucherRedemptionContext;
 import pl.rspective.voucherify.android.client.model.VoucherRedemptionResult;
 import pl.rspective.voucherify.android.client.model.VoucherResponse;
+import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
-import rx.Observable;
 
 public interface VoucherifyApi {
 
@@ -23,7 +23,7 @@ public interface VoucherifyApi {
      * @return
      */
     @GET("/client/v1/validate")
-    Observable<VoucherResponse> validateVoucher(@QueryMap Map<String, String> queryParams);
+    Call<VoucherResponse> validateVoucher(@QueryMap Map<String, String> queryParams);
 
     /**
      * Method used to redeem a voucher identified by code
@@ -34,7 +34,7 @@ public interface VoucherifyApi {
      * @return
      */
     @POST("/client/v1/redeem")
-    Observable<VoucherRedemptionResult> redeemVoucher(@Query("code") String code, @Query("tracking_id") String trackingId);
+    Call<VoucherRedemptionResult> redeemVoucher(@Query("code") String code, @Query("tracking_id") String trackingId);
 
     /**
      * Method used to redeem a voucher and provide a context information.
@@ -46,6 +46,6 @@ public interface VoucherifyApi {
      * @return redemption result (including redemption id)
      */
     @POST("/client/v1/redeem")
-    Observable<VoucherRedemptionResult> redeemVoucher(@Query("code") String code, @Body VoucherRedemptionContext redemptionContext);
+    Call<VoucherRedemptionResult> redeemVoucher(@Query("code") String code, @Body VoucherRedemptionContext redemptionContext);
 
 }

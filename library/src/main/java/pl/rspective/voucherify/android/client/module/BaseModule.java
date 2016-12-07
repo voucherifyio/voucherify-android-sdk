@@ -1,5 +1,6 @@
 package pl.rspective.voucherify.android.client.module;
 
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +16,7 @@ import pl.rspective.voucherify.android.client.utils.RxUtils;
 import rx.Observable;
 import rx.Scheduler;
 
-abstract class BaseModule<T extends Observable, U extends Observable> extends AbsModule<BaseModule.ExtAsync, BaseModule.ExtRxJava> {
+abstract class BaseModule<T, U> extends AbsModule<BaseModule.ExtAsync, BaseModule.ExtRxJava> {
 
     private static final String CHANNEL = "android";
 
@@ -37,15 +38,15 @@ abstract class BaseModule<T extends Observable, U extends Observable> extends Ab
         return new ExtRxJava();
     }
 
-    public T validate(String code) {
+    public T validate(String code) throws IOException {
         return validate(code, null);
     }
 
-    public T validate(String code, Integer amount) {
+    public T validate(String code, Integer amount) throws IOException {
         return validate(code, amount, null);
     }
 
-    public T validate(String code, Integer amount, List<OrderItem> orderItems) {
+    public T validate(String code, Integer amount, List<OrderItem> orderItems) throws IOException {
         Map<String, String> queryParams = new LinkedHashMap<>();
         queryParams.put("code", code);
         if (trackingId != null) {
@@ -64,15 +65,15 @@ abstract class BaseModule<T extends Observable, U extends Observable> extends Ab
             }
         }
         queryParams.put("channel", CHANNEL);
-        return (T) api.validateVoucher(queryParams);
+        return (T) api.validateVoucher(queryParams).execute().body();
     }
 
-    public U redeemVoucher(String code) {
-        return (U) api.redeemVoucher(code, trackingId);
+    public U redeemVoucher(String code) throws IOException {
+        return (U) api.redeemVoucher(code, trackingId).execute().body();
     }
 
-    public U redeemVoucher(String code, VoucherRedemptionContext redemptionContext) {
-        return (U) api.redeemVoucher(code, redemptionContext);
+    public U redeemVoucher(String code, VoucherRedemptionContext redemptionContext) throws IOException {
+        return (U) api.redeemVoucher(code, redemptionContext).execute().body();
     }
 
     /**
@@ -102,29 +103,51 @@ abstract class BaseModule<T extends Observable, U extends Observable> extends Ab
 
     }
 
-    /**
-     * Base RxJava extension.
-     */
     public class ExtRxJava extends Rx {
 
-        public T validate(final String code) {
-            return BaseModule.this.validate(code);
+        public Observable<T> validate(final String code) {
+            return RxUtils.defer(new RxUtils.DefFunc<T>() {
+                @Override
+                public T method() throws IOException {
+                    return BaseModule.this.validate(code);
+                }
+            });
         }
 
-        public T validate(final String code, final Integer amount) {
-            return BaseModule.this.validate(code, amount);
+        public Observable<T> validate(final String code, final Integer amount) {
+            return RxUtils.defer(new RxUtils.DefFunc<T>() {
+                @Override
+                public T method() throws IOException {
+                    return BaseModule.this.validate(code, amount);
+                }
+            });
         }
 
-        public T validate(final String code, final Integer amount, final List<OrderItem> orderItems) {
-            return BaseModule.this.validate(code, amount, orderItems);
+        public Observable<T> validate(final String code, final Integer amount, final List<OrderItem> orderItems) {
+            return RxUtils.defer(new RxUtils.DefFunc<T>() {
+                @Override
+                public T method() throws IOException {
+                    return BaseModule.this.validate(code, amount, orderItems);
+                }
+            });
         }
 
-        public U redeemVoucher(final String code) {
-            return BaseModule.this.redeemVoucher(code);
+        public Observable<U> redeemVoucher(final String code) {
+            return RxUtils.defer(new RxUtils.DefFunc<U>() {
+                @Override
+                public U method() throws IOException {
+                    return BaseModule.this.redeemVoucher(code);
+                }
+            });
         }
 
-        public U redeemVoucher(final String code, final VoucherRedemptionContext redemptionContext) {
-            return BaseModule.this.redeemVoucher(code, redemptionContext);
+        public Observable<U> redeemVoucher(final String code, final VoucherRedemptionContext redemptionContext) {
+            return RxUtils.defer(new RxUtils.DefFunc<U>() {
+                @Override
+                public U method() throws IOException {
+                    return BaseModule.this.redeemVoucher(code, redemptionContext);
+                }
+            });
         }
 
     }
