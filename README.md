@@ -50,8 +50,8 @@ If you want you can also specify a custom client to be used (see javadoc).
 ```
 -keepattributes Signature
 -dontwarn rx.**
--dontwarn retrofit.**
--keep class retrofit.** { *; }
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
 -keep class com.rspective.voucherify.android.client.** { *; }
 -keep class * extends com.rspective.voucherify.android.client.model.** { *; }
 -keep class com.google.gson.** { *; }
@@ -98,7 +98,7 @@ Every method has a corresponding asynchronous extension which can be accessed th
 ```java
 try {
     VoucherResponse voucher = client.vouchers().validate(VOUCHER_CODE);
-} catch (RetrofitError e) {
+} catch (IOExceptions e) {
     // error
 }
 ```
@@ -112,7 +112,7 @@ client.vouchers().async().validate("VOUCHER_CODE", new VoucherifyCallback<Vouche
     }
 
     @Override
-    public void onFailure(RetrofitError error) {
+    public void onFailure(IOExceptions error) {
     // error
   }
 });

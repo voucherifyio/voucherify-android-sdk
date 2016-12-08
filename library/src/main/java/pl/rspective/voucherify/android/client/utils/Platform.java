@@ -2,7 +2,8 @@ package pl.rspective.voucherify.android.client.utils;
 
 import java.util.concurrent.Executor;
 
-import retrofit.android.MainThreadExecutor;
+import rx.Scheduler;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Util class to get information about current system platform.
@@ -38,7 +39,7 @@ public abstract class Platform {
      *
      * @return
      */
-    public abstract Executor callbackExecutor();
+    public abstract Scheduler callbackExecutor();
 
     private static class Android extends Platform {
         /**
@@ -46,8 +47,8 @@ public abstract class Platform {
          * @return
          */
         @Override
-        public Executor callbackExecutor() {
-            return new MainThreadExecutor();
+        public Scheduler callbackExecutor() {
+            return AndroidSchedulers.mainThread();
         }
     }
 

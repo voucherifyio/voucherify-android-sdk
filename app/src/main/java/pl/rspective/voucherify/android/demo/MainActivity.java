@@ -9,13 +9,13 @@ import android.widget.TextView;
 
 import java.math.BigDecimal;
 
+import okhttp3.logging.HttpLoggingInterceptor;
 import pl.rspective.voucherify.android.client.VoucherifyAndroidClient;
 import pl.rspective.voucherify.android.client.VoucherifyUtils;
 import pl.rspective.voucherify.android.client.exception.VoucherifyError;
 import pl.rspective.voucherify.android.client.model.VoucherResponse;
 import pl.rspective.voucherify.android.view.OnValidatedListener;
 import pl.rspective.voucherify.android.view.VoucherCheckoutView;
-import retrofit.RestAdapter;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         voucherifyClient = new VoucherifyAndroidClient.Builder("011240bf-d5fc-4ef1-9e82-11eb68c43bf5", "9e2230c5-71fb-460a-91c6-fbee64707a20")
                 .withCustomTrackingId("demo-android")
-                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .setLogLevel(HttpLoggingInterceptor.Level.BODY)
                 .build();
 
         tvDiscount = (TextView) findViewById(R.id.tv_discount);

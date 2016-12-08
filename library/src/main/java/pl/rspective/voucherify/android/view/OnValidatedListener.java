@@ -2,7 +2,6 @@ package pl.rspective.voucherify.android.view;
 
 import pl.rspective.voucherify.android.client.exception.VoucherifyError;
 import pl.rspective.voucherify.android.client.model.VoucherResponse;
-import retrofit.RetrofitError;
 
 public interface OnValidatedListener {
 
