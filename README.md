@@ -50,8 +50,8 @@ If you want you can also specify a custom client to be used (see javadoc).
 ```
 -keepattributes Signature
 -dontwarn rx.**
--dontwarn retrofit.**
--keep class retrofit.** { *; }
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
 -keep class com.rspective.voucherify.android.client.** { *; }
 -keep class * extends com.rspective.voucherify.android.client.model.** { *; }
 -keep class com.google.gson.** { *; }
