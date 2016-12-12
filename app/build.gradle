@@ -5,7 +5,7 @@ android {
     buildToolsVersion "25.0.0"
 
     defaultConfig {
-        applicationId "pl.rspective.voucherify.android.demo"
+        applicationId "io.voucherify.android.demo"
         minSdkVersion 10
         targetSdkVersion 25
         versionCode 5
@@ -29,6 +29,6 @@ dependencies {
     compile 'com.android.support:design:25.0.1'
 
 
-//    compile 'pl.rspective.voucherify.android.client:voucherify-android-sdk:0.6.0'
+//    compile 'io.voucherify.android.client:voucherify-android-sdk:0.6.0'
     compile project (':library')
 }
