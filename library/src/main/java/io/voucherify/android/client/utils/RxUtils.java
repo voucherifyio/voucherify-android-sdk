@@ -1,14 +1,14 @@
 package io.voucherify.android.client.utils;
 
 import java.io.IOException;
+import java.util.concurrent.Callable;
 
+import io.reactivex.Observable;
+import io.reactivex.Scheduler;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import io.voucherify.android.client.callback.VoucherifyCallback;
 import io.voucherify.android.client.exception.VoucherifyError;
-import rx.Observable;
-import rx.Scheduler;
-import rx.functions.Action1;
-import rx.functions.Func0;
-import rx.schedulers.Schedulers;
 
 /**
  * Utils's class used to wrap sync and async calls into RX world
@@ -26,15 +26,16 @@ public final class RxUtils {
                 .subscribeOn(Schedulers.io())
                 .observeOn(scheduler)
                 .subscribe(
-                        new Action1<T>() {
+                        new Consumer<T>() {
                             @Override
-                            public void call(final T t) {
+                            public void accept(T t) throws Exception {
                                 callback.onSuccess(t);
                             }
+
                         },
-                        new Action1<Throwable>() {
+                        new Consumer<Throwable>() {
                             @Override
-                            public void call(final Throwable throwable) {
+                            public void accept(Throwable throwable) throws Exception {
                                 if (throwable instanceof VoucherifyError) {
                                     callback.onFailure((VoucherifyError) throwable);
                                 } else {
@@ -50,7 +51,7 @@ public final class RxUtils {
      * Convert method into observable
      * @param <T> represents return type of the wrapped method
      */
-    public abstract static class DefFunc<T> implements Func0<Observable<T>> {
+    public abstract static class DefFunc<T> implements Callable<Observable<T>> {
         @Override
         public final Observable<T> call() {
             try {

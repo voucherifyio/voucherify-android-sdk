@@ -1,9 +1,9 @@
 package io.voucherify.android.client.module;
 
+import io.reactivex.Scheduler;
 import io.voucherify.android.client.api.VoucherifyApi;
 import io.voucherify.android.client.model.VoucherRedemptionResult;
 import io.voucherify.android.client.model.VoucherResponse;
-import rx.Scheduler;
 
 /**
  * Vouchers Module to manage communication with Voucherify

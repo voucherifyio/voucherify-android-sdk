@@ -2,6 +2,7 @@ package io.voucherify.android.client;
 
 import java.io.IOException;
 
+import io.reactivex.Scheduler;
 import io.voucherify.android.client.api.VoucherifyApi;
 import io.voucherify.android.client.module.VoucherModule;
 import io.voucherify.android.client.utils.Platform;
@@ -12,7 +13,6 @@ import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import rx.Scheduler;
 
 public class VoucherifyAndroidClient {
 
