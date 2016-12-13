@@ -2,8 +2,8 @@ package io.voucherify.android.client.utils;
 
 import java.util.concurrent.Executor;
 
-import rx.Scheduler;
-import rx.android.schedulers.AndroidSchedulers;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
  * Util class to get information about current system platform.

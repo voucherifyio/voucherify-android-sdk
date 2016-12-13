@@ -5,6 +5,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.reactivex.Observable;
+import io.reactivex.Scheduler;
 import io.voucherify.android.client.api.VoucherifyApi;
 import io.voucherify.android.client.callback.VoucherifyCallback;
 import io.voucherify.android.client.exception.VoucherifyError;
@@ -13,8 +15,6 @@ import io.voucherify.android.client.model.VoucherRedemptionContext;
 import io.voucherify.android.client.model.VoucherRedemptionResult;
 import io.voucherify.android.client.model.VoucherResponse;
 import io.voucherify.android.client.utils.RxUtils;
-import rx.Observable;
-import rx.Scheduler;
 
 abstract class BaseModule<T, U> extends AbsModule<BaseModule.ExtAsync, BaseModule.ExtRxJava> {
 
