@@ -3,7 +3,7 @@ package io.voucherify.android.client.module;
 import io.reactivex.Scheduler;
 import io.voucherify.android.client.api.VoucherifyApi;
 
-abstract class AbsModule<A extends BaseModule.Async, R extends BaseModule.Rx> {
+abstract class AbsModule<A, R> {
     /**
      * Represents platform thread scheduler
      */
@@ -52,11 +52,15 @@ abstract class AbsModule<A extends BaseModule.Async, R extends BaseModule.Rx> {
     /**
      * Returns the asynchronous extension of this module.
      */
-    public abstract A async();
+    public A async() {
+        return extAsync;
+    }
 
     /**
      * Returns the RxJava extension of this module.
      */
-    public abstract R rx();
+    public R rx() {
+        return extRxJava;
+    }
 
 }

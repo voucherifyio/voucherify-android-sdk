@@ -2,13 +2,14 @@ package io.voucherify.android.client.module;
 
 import io.reactivex.Scheduler;
 import io.voucherify.android.client.api.VoucherifyApi;
-import io.voucherify.android.client.model.VoucherRedemptionResult;
-import io.voucherify.android.client.model.VoucherResponse;
 
 /**
  * Vouchers Module to manage communication with Voucherify
  */
-public final class VoucherModule extends BaseModule<VoucherResponse, VoucherRedemptionResult> {
+public final class VoucherModule {
+
+    private Validation validation;
+    private Redemption redemption;
 
     /**
      *
@@ -17,25 +18,16 @@ public final class VoucherModule extends BaseModule<VoucherResponse, VoucherRede
      * @param trackingId custom tracking id to track voucher consumers
      */
     public VoucherModule(VoucherifyApi api, Scheduler scheduler, String trackingId) {
-        super(api, scheduler, trackingId);
+        this.validation = new Validation(api, scheduler, trackingId);
+        this.redemption = new Redemption(api, scheduler, trackingId);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    public ExtAsync async() {
-        return extAsync;
+    public Validation validations() {
+        return this.validation;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    public ExtRxJava rx() {
-        return extRxJava;
+    public Redemption redemptions() {
+        return this.redemption;
     }
 
 }
