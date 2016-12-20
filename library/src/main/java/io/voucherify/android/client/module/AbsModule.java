@@ -37,16 +37,8 @@ abstract class AbsModule<A, R> {
         this.extRxJava = createRxJavaExtension();
     }
 
-    /**
-     *
-     * @return
-     */
     abstract A createAsyncExtension();
 
-    /**
-     *
-     * @return
-     */
     abstract R createRxJavaExtension();
 
     /**
@@ -62,5 +54,4 @@ abstract class AbsModule<A, R> {
     public R rx() {
         return extRxJava;
     }
-
 }
