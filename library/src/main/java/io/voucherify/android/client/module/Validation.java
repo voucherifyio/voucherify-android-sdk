@@ -30,15 +30,15 @@ public class Validation extends AbsModule<Validation.ExtAsync, Validation.ExtRxJ
         this.trackingId = trackingId;
     }
 
-    public VoucherResponse validate(String code) throws IOException {
-        return validate(code, null);
+    public VoucherResponse validateVoucher(String code) throws IOException {
+        return validateVoucher(code, null);
     }
 
-    public VoucherResponse validate(String code, Integer amount) throws IOException {
-        return validate(code, amount, null);
+    public VoucherResponse validateVoucher(String code, Integer amount) throws IOException {
+        return validateVoucher(code, amount, null);
     }
 
-    public VoucherResponse validate(String code, Integer amount, List<OrderItem> orderItems) throws IOException {
+    public VoucherResponse validateVoucher(String code, Integer amount, List<OrderItem> orderItems) throws IOException {
         Map<String, String> queryParams = new LinkedHashMap<>();
         queryParams.put("code", code);
         if (trackingId != null) {
@@ -72,45 +72,45 @@ public class Validation extends AbsModule<Validation.ExtAsync, Validation.ExtRxJ
 
     public class ExtAsync extends Async {
 
-        public void validate(String code, VoucherifyCallback<VoucherResponse, VoucherifyError> callback) {
-            RxUtils.subscribe(scheduler, rx().validate(code), callback);
+        public void validateVoucher(String code, VoucherifyCallback<VoucherResponse, VoucherifyError> callback) {
+            RxUtils.subscribe(scheduler, rx().validateVoucher(code), callback);
         }
 
-        public void validate(String code, Integer amount, VoucherifyCallback<VoucherResponse, VoucherifyError> callback) {
-            RxUtils.subscribe(scheduler, rx().validate(code, amount), callback);
+        public void validateVoucher(String code, Integer amount, VoucherifyCallback<VoucherResponse, VoucherifyError> callback) {
+            RxUtils.subscribe(scheduler, rx().validateVoucher(code, amount), callback);
         }
 
-        public void validate(String code, Integer amount, List<OrderItem> orderItems, VoucherifyCallback<VoucherResponse, VoucherifyError> callback) {
-            RxUtils.subscribe(scheduler, rx().validate(code, amount, orderItems), callback);
+        public void validateVoucher(String code, Integer amount, List<OrderItem> orderItems, VoucherifyCallback<VoucherResponse, VoucherifyError> callback) {
+            RxUtils.subscribe(scheduler, rx().validateVoucher(code, amount, orderItems), callback);
         }
 
     }
 
     class ExtRxJava extends Rx {
 
-        public Observable<VoucherResponse> validate(final String code) {
+        public Observable<VoucherResponse> validateVoucher(final String code) {
             return RxUtils.defer(new RxUtils.DefFunc<VoucherResponse>() {
                 @Override
                 public VoucherResponse method() throws IOException {
-                    return Validation.this.validate(code);
+                    return Validation.this.validateVoucher(code);
                 }
             });
         }
 
-        public Observable<VoucherResponse> validate(final String code, final Integer amount) {
+        public Observable<VoucherResponse> validateVoucher(final String code, final Integer amount) {
             return RxUtils.defer(new RxUtils.DefFunc<VoucherResponse>() {
                 @Override
                 public VoucherResponse method() throws IOException {
-                    return Validation.this.validate(code, amount);
+                    return Validation.this.validateVoucher(code, amount);
                 }
             });
         }
 
-        public Observable<VoucherResponse> validate(final String code, final Integer amount, final List<OrderItem> orderItems) {
+        public Observable<VoucherResponse> validateVoucher(final String code, final Integer amount, final List<OrderItem> orderItems) {
             return RxUtils.defer(new RxUtils.DefFunc<VoucherResponse>() {
                 @Override
                 public VoucherResponse method() throws IOException {
-                    return Validation.this.validate(code, amount, orderItems);
+                    return Validation.this.validateVoucher(code, amount, orderItems);
                 }
             });
         }
