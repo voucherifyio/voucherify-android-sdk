@@ -23,7 +23,13 @@ public class Validation extends AbsModule<Validation.ExtAsync, Validation.ExtRxJ
 
     private final Scheduler scheduler;
 
-    Validation(VoucherifyApi api, Scheduler scheduler, String trackingId) {
+    /**
+     *
+     * @param api describes Voucherif REST API
+     * @param scheduler of threads for current platform
+     * @param trackingId custom tracking id to track voucher consumers
+     */
+    public Validation(VoucherifyApi api, Scheduler scheduler, String trackingId) {
         super(api, scheduler);
         this.api = api;
         this.scheduler = scheduler;

@@ -19,7 +19,13 @@ public class Redemption extends AbsModule<Redemption.ExtAsync, Redemption.ExtRxJ
 
     private final String trackingId;
 
-    Redemption(VoucherifyApi api, Scheduler scheduler, String trackingId) {
+    /**
+     *
+     * @param api describes Voucherif REST API
+     * @param scheduler of threads for current platform
+     * @param trackingId custom tracking id to track voucher consumers
+     */
+    public Redemption(VoucherifyApi api, Scheduler scheduler, String trackingId) {
         super(api, scheduler);
         this.api = api;
         this.scheduler = scheduler;
