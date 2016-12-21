@@ -76,7 +76,7 @@ public class Validation extends AbsModule<Validation.ExtAsync, Validation.ExtRxJ
         return new ExtRxJava();
     }
 
-    class ExtRxJava extends Rx {
+    class ExtRxJava {
         public Observable<VoucherResponse> validateVoucher(final String code) {
             return RxUtils.defer(new RxUtils.DefFunc<VoucherResponse>() {
                 @Override
@@ -105,7 +105,7 @@ public class Validation extends AbsModule<Validation.ExtAsync, Validation.ExtRxJ
         }
     }
 
-    public class ExtAsync extends Async {
+    public class ExtAsync {
         public void validateVoucher(String code, VoucherifyCallback<VoucherResponse, VoucherifyError> callback) {
             RxUtils.subscribe(scheduler, rx().validateVoucher(code), callback);
         }
@@ -118,9 +118,5 @@ public class Validation extends AbsModule<Validation.ExtAsync, Validation.ExtRxJ
             RxUtils.subscribe(scheduler, rx().validateVoucher(code, amount, orderItems), callback);
         }
     }
-
-    class Rx {}
-
-    class Async {}
 
 }

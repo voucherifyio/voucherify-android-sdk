@@ -50,7 +50,7 @@ public class Redemption extends AbsModule<Redemption.ExtAsync, Redemption.ExtRxJ
         return api.redeemVoucher(code, redemptionContext).execute().body();
     }
 
-    class ExtRxJava extends Rx {
+    class ExtRxJava {
         public Observable<VoucherRedemptionResult> redeem(final String code) {
             return RxUtils.defer(new RxUtils.DefFunc<VoucherRedemptionResult>() {
                 @Override
@@ -70,7 +70,7 @@ public class Redemption extends AbsModule<Redemption.ExtAsync, Redemption.ExtRxJ
         }
     }
 
-    class ExtAsync extends Async {
+    class ExtAsync {
         public void redeem(String code, VoucherifyCallback<VoucherRedemptionResult, VoucherifyError> callback) {
             RxUtils.subscribe(scheduler, rx().redeem(code), callback);
         }
@@ -79,8 +79,4 @@ public class Redemption extends AbsModule<Redemption.ExtAsync, Redemption.ExtRxJ
             RxUtils.subscribe(scheduler, rx().redeem(code, redemptionContext), callback);
         }
     }
-
-    class Rx {}
-
-    class Async {}
 }
