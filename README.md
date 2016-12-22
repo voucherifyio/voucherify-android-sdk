@@ -1,22 +1,27 @@
-Voucherify Android SDK
-======================
+<h3 align="center">Official <a href="http://voucherify.io?utm_source=github&utm_medium=sdk&utm_campaign=acq">Voucherify</a> SDK for Android</h3>
 
-###Version: 0.6.0
+<p align="center">
+<b><a href="#setup">Setup</a></b>
+|
+<b><a href="#synchronous-rx-or-async">Synchronous, Rx or Async?</a></b>
+|
+<b><a href="#error-handling">Error handling</a></b>
+|
+<b><a href="#contributing">Contributing</a></b>
+|
+</p>
 
-[Voucherify](http://voucherify.io?utm_source=github&utm_medium=sdk&utm_campaign=acq) is an API-first platform for software developers who are dissatisfied with high-maintenance custom coupon software. Our product is a coupon infrastructure through API that provides a quicker way to build coupon generation, distribution and tracking. Unlike legacy coupon software we have:
+<p align="center">
+API:
+<a href="#vouchers-api">Vouchers</a>
+|
+<a href="#redemptions-api">Redemptions</a>
+|
+</p>
 
-* an API-first SaaS platform that enables customisation of every aspect of coupon campaigns
-* a management console that helps cut down maintenance and reporting overhead
-* an infrastructure to scale up coupon activity in no time
+---
 
-You can find full documentation on [voucherify.readme.io](https://voucherify.readme.io).
-
-Try a demo app from Google Play:
-
-<a href='https://play.google.com/store/apps/details?id=pl.rspective.voucherify.android.demo'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' width="250"/></a>
-
-Setup
-=====
+## Setup
 
 ###### Using Gradle:
 
@@ -36,17 +41,7 @@ dependencies {
 </dependency>
 ```
 
-NOTE:
-The SDK requires at least Java 6 or Android 2.3.3 (API 10)
-
-
-### Default Client
-
-The Voucherify Android SDK uses [Retrofit](http://square.github.io/retrofit/) under the hood as a REST client, which detects [OkHttp](http://square.github.io/okhttp/) in your classpath and uses it if it's available, otherwise falls back to the default `HttpURLConnection`.
-If you want you can also specify a custom client to be used (see javadoc).
-
-
-### Proguard
+###### Proguard
 ```
 -keepattributes Signature
 -dontwarn rx.**
@@ -58,46 +53,18 @@ If you want you can also specify a custom client to be used (see javadoc).
 -keep class sun.misc.Unsafe { *; }
 ```
 
-Usage
-=====
-The `VoucherifyAndroidClient` manages your interaction with the Voucherify API.
+NOTE:
+The SDK requires at least Java 6 or Android 2.3.3 (API 10)
 
-```java
-VoucherifyAndroidClient client = new VoucherifyClient.Builder(YOUR-PUBLIC-CLIENT-APPLICATION-ID, YOUR-PUBLIC-CLIENT-APPLICATION-TOKEN).build();
-```
+## Synchronous, Rx or Async?
 
-We are tracking users which are validating vouchers with those who consume them, by a `tracking_id`. By that we are setting up an identity for the user. If you want to provide your custom value for `tracking_id`, you have to do it when creating VoucherifyAndroidClient:
-
-```java
-androidClient = new VoucherifyAndroidClient.Builder(YOUR-PUBLIC-CLIENT-APPLICATION-ID, YOUR-PUBLIC-CLIENT-APPLICATION-TOKEN)
-       .withCustomTrackingId(YOUR-CUSTOM-TRACKNG-ID)
-       .build();
-```
-
-Otheres additional params which can be set:
-* origin
-* endpoint
-* log level
-
-```java
-androidClient = new VoucherifyAndroidClient.Builder(YOUR-PUBLIC-CLIENT-APPLICATION-ID, YOUR-PUBLIC-CLIENT-APPLICATION-TOKEN)
-       .withCustomTrackingId(YOUR-CUSTOM-TRACKNG-ID)
-       .withOrigin("http://my-android-origin")
-       .setEndpoint("10.0.3.2:8080")
-       .setLogLevel(RestAdapter.LogLevel.FULL)
-       .build();
-
-```
-
-Current list of features:
-- validate a voucher based on its code and optionally order amount (required for gift vouchers)
-- redeem a voucher
+All the methods in SDK are provided directly or in asynchronous or rx version:
 
 Every method has a corresponding asynchronous extension which can be accessed through the `async()` or 'rx()' method of the vouchers module.
 
 ```java
 try {
-    VoucherResponse voucher = client.vouchers().validate(VOUCHER_CODE);
+    VoucherResponse voucher = client.vouchers().validations().validate(VOUCHER_CODE);
 } catch (IOExceptions e) {
     // error
 }
@@ -106,7 +73,7 @@ try {
 or asynchronously:
 
 ```java
-client.vouchers().async().validate("VOUCHER_CODE", new VoucherifyCallback<VoucherResponse>() {
+client.vouchers().validations().async().validate("VOUCHER_CODE", new VoucherifyCallback<VoucherResponse>() {
     @Override
     public void onSuccess(VoucherResponse result) {
     }
@@ -121,7 +88,7 @@ client.vouchers().async().validate("VOUCHER_CODE", new VoucherifyCallback<Vouche
 or using RxJava:
 
 ```java
-client.vouchers()
+client.vouchers().validations()
         .rx()
         .validate("VOUCHER_CODE")
         .subscribeOn(Schedulers.io())
@@ -138,32 +105,65 @@ client.vouchers()
         });
 ```
 
-### Gift vouchers
+## API
+
+The `VoucherifyAndroidClient` manages your interaction with the Voucherify API.
+
+```java
+VoucherifyAndroidClient client = new VoucherifyClient.Builder(YOUR-PUBLIC-CLIENT-APPLICATION-ID, YOUR-PUBLIC-CLIENT-APPLICATION-TOKEN).build();
+```
+
+We are tracking users which are validating vouchers with those who consume them, by a `tracking_id`. By that we are setting up an identity for the user. If you want to provide your custom value for `tracking_id`, you have to do it when creating VoucherifyAndroidClient:
+
+```java
+androidClient = new VoucherifyAndroidClient.Builder(YOUR-PUBLIC-CLIENT-APPLICATION-ID, YOUR-PUBLIC-CLIENT-APPLICATION-TOKEN)
+       .withCustomTrackingId(YOUR-CUSTOM-TRACKNG-ID)
+       .build();
+```
+
+Other additional params which can be set:
+* origin
+* endpoint
+* log level
+
+```java
+androidClient = new VoucherifyAndroidClient.Builder(YOUR-PUBLIC-CLIENT-APPLICATION-ID, YOUR-PUBLIC-CLIENT-APPLICATION-TOKEN)
+       .withCustomTrackingId(YOUR-CUSTOM-TRACKNG-ID)
+       .withOrigin("http://my-android-origin")
+       .setEndpoint("10.0.3.2:8080")
+       .setLogLevel(RestAdapter.LogLevel.FULL)
+       .build();
+
+```
+
+#### Vouchers API
+
+##### Gift vouchers
 
 Validationg a gift voucher requires to pass an amount that is intended to be withdrawn from the voucher.
 Order amount have to be expressed in cents, as an integer. For example $22.50 should be provided as 2250:
 
 ```java
-    VoucherResponse voucher = client.vouchers().validate("VOUCHER_CODE", 2250);
+    VoucherResponse voucher = client.vouchers().validations().validate("VOUCHER_CODE", 2250);
 ```
 
-### Validation rules
+##### Validation rules
 
 When validating vouchers with validation rules concerning products or variants (SKUs) it's required to pass order items.
 
 ```java
-    VoucherResponse voucher = client.vouchers().validate("VOUCHER_CODE", 2250, Arrays.asList(
+    VoucherResponse voucher = client.vouchers().validations().validate("VOUCHER_CODE", 2250, Arrays.asList(
        new OrderItem("prod_6wY2Vvc6FrfrwX", "sku_y7WxIymNSCR138", 1),
        new OrderItem("prod_r04XQ00xz6EVRi", "sku_XnmQ3d0jV3x3Uy", 2))
    ));
 ```
 
-### Redeem a voucher
+#### Redemptions API
 
 * Just by code
 
 ```java
-     VoucherRedemptionResult redemptionResult = client.voucher().redeemVoucher("test");
+     VoucherRedemptionResult redemptionResult = client.voucher().redemptions().redeemVoucher("test");
 ```
 
 * With customer profile
@@ -179,7 +179,7 @@ When validating vouchers with validation rules concerning products or variants (
                 .addMetadata("favouriteBrands", new String[]{"Armani", "L'Autre Chose", "Vicini"})
                 .build();
 
-        client.voucher().redeemVoucher("test", new VoucherRedemptionContext(customer));
+        client.voucher().redemptions().redeemVoucher("test", new VoucherRedemptionContext(customer));
 ```
 
 * With customer id
@@ -219,8 +219,7 @@ If your voucher includes some validation rules regarding customer (segments) the
         client.voucher().redeemVoucher("VoucherWithValidationRules", redemptionContext);
 ```
 
-VoucherResponse
-=====
+#### VoucherResponse
 
 Valid amount discount response:
 
