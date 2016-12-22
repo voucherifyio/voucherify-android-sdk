@@ -76,7 +76,7 @@ public class Validation extends AbsModule<Validation.ExtAsync, Validation.ExtRxJ
         return new ExtRxJava();
     }
 
-    class ExtRxJava {
+    public class ExtRxJava {
         public Observable<VoucherResponse> validateVoucher(final String code) {
             return RxUtils.defer(new RxUtils.DefFunc<VoucherResponse>() {
                 @Override
