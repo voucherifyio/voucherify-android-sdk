@@ -417,6 +417,10 @@ For example to set the button background color to light green:
     </style>
 ```
 
+## Contributing
+
+Bug reports and pull requests are welcome through [GitHub Issues](https://github.com/rspective/voucherify-android-sdk/issues).
+
 License
 =====
 
