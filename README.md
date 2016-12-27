@@ -81,7 +81,7 @@ androidClient = new VoucherifyAndroidClient.Builder(YOUR-PUBLIC-CLIENT-APPLICATI
        .withCustomTrackingId(YOUR-CUSTOM-TRACKNG-ID)
        .withOrigin("http://my-android-origin")
        .setEndpoint("10.0.3.2:8080")
-       .setLogLevel(RestAdapter.LogLevel.FULL)
+       .setLogLevel(HttpLoggingInterceptor.Level.BODY)
        .build();
 
 ```
@@ -159,6 +159,7 @@ When validating vouchers with validation rules concerning products or variants (
    ));
 ```
 
+---
 #### Redemptions API
 
 * Just by code
@@ -192,7 +193,7 @@ If you already created a customer profile in Voucherify's database, you can iden
                 .withId("cust_C9qJ3xKgZFqkpMw7b21MF2ow")
                 .build();
 
-   client.voucher().redeemVoucher("test", new VoucherRedemptionContext(customer));
+   client.voucher().redemptions().redeemVoucher("test", new VoucherRedemptionContext(customer));
 ```
 
 * With order amount
@@ -200,7 +201,7 @@ If you already created a customer profile in Voucherify's database, you can iden
 If you want to redeem a gift voucher you have to provide an amount that you wish take. You can pass the amount in VoucherRedemptionContext.order.amount:
 
 ```java
-    client.voucher().redeemVoucher("test", new VoucherRedemptionContext(customer, Order.amount(5000)))
+    client.voucher().redemptions().redeemVoucher("test", new VoucherRedemptionContext(customer, Order.amount(5000)))
 ```
 
 
@@ -217,9 +218,10 @@ If your voucher includes some validation rules regarding customer (segments) the
                     new OrderItem("prod_6wY2Vvc6FrfrwX", "sku_y7WxIymNSCR138", 1),
                     new OrderItem("prod_r04XQ00xz6EVRi", "sku_XnmQ3d0jV3x3Uy", 2))));
 
-        client.voucher().redeemVoucher("VoucherWithValidationRules", redemptionContext);
+        client.voucher().redemptions().redeemVoucher("VoucherWithValidationRules", redemptionContext);
 ```
 
+---
 #### VoucherResponse
 
 Valid amount discount response:
