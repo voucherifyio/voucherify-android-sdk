@@ -56,6 +56,37 @@ dependencies {
 NOTE:
 The SDK requires at least Java 6 or Android 2.3.3 (API 10)
 
+###### Configuration
+The `VoucherifyAndroidClient` manages your interaction with the Voucherify API.
+
+```java
+VoucherifyAndroidClient client = new VoucherifyClient.Builder(YOUR-PUBLIC-CLIENT-APPLICATION-ID, YOUR-PUBLIC-CLIENT-APPLICATION-TOKEN).build();
+```
+
+We are tracking users which are validating vouchers with those who consume them, by a `tracking_id`. By that we are setting up an identity for the user. If you want to provide your custom value for `tracking_id`, you have to do it when creating VoucherifyAndroidClient:
+
+```java
+androidClient = new VoucherifyAndroidClient.Builder(YOUR-PUBLIC-CLIENT-APPLICATION-ID, YOUR-PUBLIC-CLIENT-APPLICATION-TOKEN)
+       .withCustomTrackingId(YOUR-CUSTOM-TRACKNG-ID)
+       .build();
+```
+
+Other additional params which can be set:
+* origin
+* endpoint
+* log level
+
+```java
+androidClient = new VoucherifyAndroidClient.Builder(YOUR-PUBLIC-CLIENT-APPLICATION-ID, YOUR-PUBLIC-CLIENT-APPLICATION-TOKEN)
+       .withCustomTrackingId(YOUR-CUSTOM-TRACKNG-ID)
+       .withOrigin("http://my-android-origin")
+       .setEndpoint("10.0.3.2:8080")
+       .setLogLevel(RestAdapter.LogLevel.FULL)
+       .build();
+
+```
+
+
 ## Synchronous, Rx or Async?
 
 All the methods in SDK are provided directly or in asynchronous or rx version:
@@ -106,36 +137,6 @@ client.vouchers().validations()
 ```
 
 ## API
-
-The `VoucherifyAndroidClient` manages your interaction with the Voucherify API.
-
-```java
-VoucherifyAndroidClient client = new VoucherifyClient.Builder(YOUR-PUBLIC-CLIENT-APPLICATION-ID, YOUR-PUBLIC-CLIENT-APPLICATION-TOKEN).build();
-```
-
-We are tracking users which are validating vouchers with those who consume them, by a `tracking_id`. By that we are setting up an identity for the user. If you want to provide your custom value for `tracking_id`, you have to do it when creating VoucherifyAndroidClient:
-
-```java
-androidClient = new VoucherifyAndroidClient.Builder(YOUR-PUBLIC-CLIENT-APPLICATION-ID, YOUR-PUBLIC-CLIENT-APPLICATION-TOKEN)
-       .withCustomTrackingId(YOUR-CUSTOM-TRACKNG-ID)
-       .build();
-```
-
-Other additional params which can be set:
-* origin
-* endpoint
-* log level
-
-```java
-androidClient = new VoucherifyAndroidClient.Builder(YOUR-PUBLIC-CLIENT-APPLICATION-ID, YOUR-PUBLIC-CLIENT-APPLICATION-TOKEN)
-       .withCustomTrackingId(YOUR-CUSTOM-TRACKNG-ID)
-       .withOrigin("http://my-android-origin")
-       .setEndpoint("10.0.3.2:8080")
-       .setLogLevel(RestAdapter.LogLevel.FULL)
-       .build();
-
-```
-
 #### Vouchers API
 
 ##### Gift vouchers
@@ -330,7 +331,7 @@ You can find the actual cause in the `reason` field:
 - `quantity exceeded`
 - `gift amount exceeded`
 
-### Voucher Checkout View
+## Voucher Checkout View
 
 You can use VoucherCheckoutView to quickly add a UI for discount codes validation.
 
