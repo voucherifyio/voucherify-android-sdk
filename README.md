@@ -146,199 +146,37 @@ client.vouchers().validations()
 
 #### Validations API
 
-##### Gift vouchers
+- [Validate Voucher](#validate-voucher)
 
-Validationg a gift voucher requires to pass an amount that is intended to be withdrawn from the voucher.
-Order amount have to be expressed in cents, as an integer. For example $22.50 should be provided as 2250:
+### [Validate Voucher]
 
 ```java
-    VoucherResponse voucher = client.voucher().validations().validateVoucher("VOUCHER_CODE", 2250);
+    client.voucher().validations().validateVoucher(String code)
 ```
 
-##### Validation rules
-
-When validating vouchers with validation rules concerning products or variants (SKUs) it's required to pass order items.
+```java
+    client.voucher().validations().validateVoucher(String code, Integer amount)
+```
 
 ```java
-    VoucherResponse voucher = client.voucher().validations().validateVoucher("VOUCHER_CODE", 2250, Arrays.asList(
-       new OrderItem("prod_6wY2Vvc6FrfrwX", "sku_y7WxIymNSCR138", 1),
-       new OrderItem("prod_r04XQ00xz6EVRi", "sku_XnmQ3d0jV3x3Uy", 2))
-   ));
+    client.voucher().validations().validateVoucher(String code, Integer amount, List<OrderItem> orderItems)
 ```
 
 ---
+
 #### Redemptions API
 
-* Just by code
+- [Redeem Voucher](#redeem-voucher)
+
+### [Redeem Voucher]
 
 ```java
-     VoucherRedemptionResult redemptionResult = client.voucher().redemptions().redeem("test");
+    client.voucher().redemptions().redeem(String code)
 ```
-
-* With customer profile
 
 ```java
-     Customer customer = new Customer.Builder()
-                .withSourceId("alice.morgan")
-                .withName("Alice Morgan")
-                .withEmail("alice@morgan.com")
-                .withDescription("")
-                .addMetadata("locale", "en-GB")
-                .addMetadata("shoeSize", 5)
-                .addMetadata("favouriteBrands", new String[]{"Armani", "L'Autre Chose", "Vicini"})
-                .build();
-
-        client.voucher().redemptions().redeem("test", new VoucherRedemptionContext(customer));
+    client.voucher().redemptions().redeem(String code, VoucherRedemptionContext redemptionContext)
 ```
-
-* With customer id
-
-If you already created a customer profile in Voucherify's database, you can identify your customer in following redemptions by a generated id (starting with `cust_`).
-
-```java
-   Customer customer = new Customer.Builder()
-                .withId("cust_C9qJ3xKgZFqkpMw7b21MF2ow")
-                .build();
-
-   client.voucher().redemptions().redeem("test", new VoucherRedemptionContext(customer));
-```
-
-* With order amount
-
-If you want to redeem a gift voucher you have to provide an amount that you wish take. You can pass the amount in VoucherRedemptionContext.order.amount:
-
-```java
-    client.voucher().redemptions().redeem("test", new VoucherRedemptionContext(customer, Order.amount(5000)))
-```
-
-
-* With validation rules
-
-If your voucher includes some validation rules regarding customer (segments) then you have to supply customer (by id, source id or tracking id) when redeeming the voucher. When redeeming vouchers with validation rules concerning products or variants (SKUs) it's required to pass order items.
-
-```java
-    VoucherRedemptionContext redemptionContext = new VoucherRedemptionContext(
-        new Customer.Builder()
-                .withSourceId("alice.morgan")
-                .build(),
-        new Order(1250, Arrays.asList(
-                    new OrderItem("prod_6wY2Vvc6FrfrwX", "sku_y7WxIymNSCR138", 1),
-                    new OrderItem("prod_r04XQ00xz6EVRi", "sku_XnmQ3d0jV3x3Uy", 2))));
-
-        client.voucher().redemptions().redeem("VoucherWithValidationRules", redemptionContext);
-```
-
----
-#### VoucherResponse
-
-Valid amount discount response:
-
-    {
-        "code": "VOUCHER_CODE",
-        "valid": true,
-        "discount": {
-            "type": "AMOUNT",
-            "amount_off": 999,
-        },
-        "tracking_id": "generated-or-passed-tracking-id"
-    }
-
-Valid percentage discount response:
-
-    {
-        "code": "VOUCHER_CODE",
-        "valid": true,
-        "discount": {
-            "type": "PERCENT",
-            "percent_off": 15.0,
-        },
-        "tracking_id": "generated-or-passed-tracking-id"
-    }
-    
-Valid unit discount response:
-    
-    {
-        "code": "VOUCHER_CODE",
-        "valid": true,
-        "discount": {
-            "type": "UNIT",
-            "unit_off": 1.0,
-        },
-        "tracking_id": "generated-or-passed-tracking-id"
-    }
-
-Valid gift voucher response:
-    
-    
-    ```javascript
-    {
-        "code": "VOUCHER_CODE",
-        "valid": true,
-        "gift": {
-            "amount": 10000
-        }
-        "tracking_id": "generated-or-passed-tracking-id"
-    }
-    ```
-
-Redeem voucher response:
-
-{
-    "id": "r_yRmanaA6EgSE9uDYvMQ5Evfp",
-    "object": "redemption",
-    "date": "2016-04-25T10:34:57Z",
-    "customer_id": null,
-    "tracking_id": "(tracking_id not set)",
-    "voucher": {
-        "code": "v1GiJYuuS",
-        "campaign": "vip",
-        "discount": {
-            "percent_off": 10.0,
-            "type": "PERCENT"
-        },
-        "expiration_date": "2016-12-31T23:59:59Z",
-        "redemption": {
-            "quantity": 3,
-            "redeemed_quantity": 2,
-            "redemption_entries": [
-                {
-                    "id": "r_gQzOnTwmhn2nTLwW4sZslNKY",
-                    "object": "redemption",
-                    "date": "2016-04-24T06:03:35Z",
-                    "customer_id": null,
-                    "tracking_id": "(tracking_id not set)"
-                },
-                {
-                    "id": "r_yRmanaA6EgSE9uDYvMQ5Evfp",
-                    "object": "redemption",
-                    "date": "2016-04-25T10:34:57Z",
-                    "customer_id": null,
-                    "tracking_id": "(tracking_id not set)"
-                }
-            ]
-        },
-        "active": true,
-        "additional_info": ""
-    }
-}
-
-Invalid voucher response:
-
-    {
-        "code": "VOUCHER_CODE",
-        "valid": false,
-        "reason": "voucher expired",
-        "tracking_id": "generated-or-passed-tracking-id"
-    }
-
-There are several reasons why validation may fail (`valid: false` response). 
-You can find the actual cause in the `reason` field:
-
-- `voucher is disabled`
-- `voucher not active yet`
-- `voucher expired`
-- `quantity exceeded`
-- `gift amount exceeded`
 
 ## Voucher Checkout View
 
