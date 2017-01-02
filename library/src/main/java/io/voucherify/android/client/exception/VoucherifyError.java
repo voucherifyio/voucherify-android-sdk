@@ -15,15 +15,15 @@ public class VoucherifyError extends RuntimeException {
     public int getCode() {
         return code;
     }
-    
+
     public String getMessage() {
         return message;
     }
-    
+
     public String getDetails() {
         return details;
     }
-    
+
     @Override
     public String toString() {
         return "VoucherifyError[code=" + code + ", message='" + message + "', details='" + details + "']";

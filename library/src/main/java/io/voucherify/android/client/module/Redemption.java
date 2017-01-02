@@ -11,7 +11,7 @@ import io.voucherify.android.client.model.VoucherRedemptionContext;
 import io.voucherify.android.client.model.VoucherRedemptionResult;
 import io.voucherify.android.client.utils.RxUtils;
 
-public class Redemption extends AbsModule<Redemption.ExtAsync, Redemption.ExtRxJava>{
+public class Redemption extends AbsModule<Redemption.ExtAsync, Redemption.ExtRxJava> {
 
     private final VoucherifyApi api;
 
@@ -46,7 +46,8 @@ public class Redemption extends AbsModule<Redemption.ExtAsync, Redemption.ExtRxJ
         return api.redeemVoucher(code, trackingId).execute().body();
     }
 
-    public VoucherRedemptionResult redeem(String code, VoucherRedemptionContext redemptionContext) throws IOException {
+    public VoucherRedemptionResult redeem(String code,
+                                          VoucherRedemptionContext redemptionContext) throws IOException {
         return api.redeemVoucher(code, redemptionContext).execute().body();
     }
 
@@ -60,7 +61,8 @@ public class Redemption extends AbsModule<Redemption.ExtAsync, Redemption.ExtRxJ
             });
         }
 
-        public Observable<VoucherRedemptionResult> redeem(final String code, final VoucherRedemptionContext redemptionContext) {
+        public Observable<VoucherRedemptionResult> redeem(final String code,
+                                                          final VoucherRedemptionContext redemptionContext) {
             return RxUtils.defer(new RxUtils.DefFunc<VoucherRedemptionResult>() {
                 @Override
                 public VoucherRedemptionResult method() throws IOException {
@@ -71,11 +73,16 @@ public class Redemption extends AbsModule<Redemption.ExtAsync, Redemption.ExtRxJ
     }
 
     public class ExtAsync {
-        public void redeem(String code, VoucherifyCallback<VoucherRedemptionResult, VoucherifyError> callback) {
+        public void redeem(String code,
+                           VoucherifyCallback<VoucherRedemptionResult,
+                                   VoucherifyError> callback) {
             RxUtils.subscribe(scheduler, rx().redeem(code), callback);
         }
 
-        public void redeem(String code, final VoucherRedemptionContext redemptionContext, VoucherifyCallback<VoucherRedemptionResult,VoucherifyError> callback) {
+        public void redeem(String code,
+                           final VoucherRedemptionContext redemptionContext,
+                           VoucherifyCallback<VoucherRedemptionResult,
+                                   VoucherifyError> callback) {
             RxUtils.subscribe(scheduler, rx().redeem(code, redemptionContext), callback);
         }
     }

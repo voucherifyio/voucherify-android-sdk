@@ -15,13 +15,19 @@ import io.voucherify.android.client.exception.VoucherifyError;
  */
 public final class RxUtils {
 
+    private RxUtils() {
+    }
+
     /**
      * @param scheduler
      * @param observable
      * @param callback
      * @return
      */
-    public static <T> VoucherifyCallback<T, VoucherifyError> subscribe(final Scheduler scheduler, Observable<T> observable, final VoucherifyCallback<T, VoucherifyError> callback) {
+    public static <T> VoucherifyCallback<T, VoucherifyError> subscribe(
+            final Scheduler scheduler,
+            Observable<T> observable,
+            final VoucherifyCallback<T, VoucherifyError> callback) {
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(scheduler)

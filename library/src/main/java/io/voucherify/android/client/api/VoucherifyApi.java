@@ -34,7 +34,8 @@ public interface VoucherifyApi {
      * @return
      */
     @POST("/client/v1/redeem")
-    Call<VoucherRedemptionResult> redeemVoucher(@Query("code") String code, @Query("tracking_id") String trackingId);
+    Call<VoucherRedemptionResult> redeemVoucher(@Query("code") String code,
+                                                @Query("tracking_id") String trackingId);
 
     /**
      * Method used to redeem a voucher and provide a context information.
@@ -46,6 +47,7 @@ public interface VoucherifyApi {
      * @return redemption result (including redemption id)
      */
     @POST("/client/v1/redeem")
-    Call<VoucherRedemptionResult> redeemVoucher(@Query("code") String code, @Body VoucherRedemptionContext redemptionContext);
+    Call<VoucherRedemptionResult> redeemVoucher(@Query("code") String code,
+                                                @Body VoucherRedemptionContext redemptionContext);
 
 }

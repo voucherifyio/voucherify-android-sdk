@@ -11,20 +11,23 @@ import static java.math.BigDecimal.valueOf;
 
 public class VoucherifyUtils {
 
+    private VoucherifyUtils() {
+    }
+
     private static void validateAmountDiscount(Discount discount) {
-        if(discount.getAmountOff() < 0) {
+        if (discount.getAmountOff() < 0) {
             throw new RuntimeException("Invalid voucher, amount discount must be higher than zero.");
         }
     }
 
     private static void validateUnitDiscount(Discount discount) {
-        if(discount.getUnitOff() < 0) {
+        if (discount.getUnitOff() < 0) {
             throw new RuntimeException("Invalid voucher, unit discount must be higher than zero.");
         }
     }
 
     private static void validatePercentDiscount(Discount discount) {
-        if(discount.getPercentOff() < 0.0 || discount.getPercentOff() > 100.0) {
+        if (discount.getPercentOff() < 0.0 || discount.getPercentOff() > 100.0) {
             throw new RuntimeException("Invalid voucher, percent discount should be between 0-100.");
         }
     }
