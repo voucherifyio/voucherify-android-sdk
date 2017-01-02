@@ -148,8 +148,6 @@ client.vouchers().validations()
 
 #### Validations API
 
-- [Validate Voucher](#validate-voucher)
-
 ### [Validate Voucher]
 
 ```java
@@ -167,8 +165,6 @@ client.vouchers().validations()
 ---
 
 #### Redemptions API
-
-- [Redeem Voucher](#redeem-voucher)
 
 ### [Redeem Voucher]
 
