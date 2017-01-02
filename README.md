@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="./docs/images/voucherify-android-sdk.png"/>
+</p>
+
 <h3 align="center">Official <a href="http://voucherify.io?utm_source=github&utm_medium=sdk&utm_campaign=acq">Voucherify</a> SDK for Android</h3>
 
 <p align="center">
