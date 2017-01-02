@@ -31,7 +31,7 @@ API:
 
 ```groovy
 dependencies {
-    compile 'pl.rspective.voucherify.android.client:voucherify-android-sdk:0.6.0'
+    compile 'pl.rspective.voucherify.android.client:voucherify-android-sdk:1.0.0'
 }
 ```
 
@@ -41,7 +41,7 @@ dependencies {
 <dependency>
     <groupId>pl.rspective.voucherify.android.client</groupId>
     <artifactId>voucherify-android-sdk</artifactId>
-    <version>0.6.0</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 
@@ -95,7 +95,7 @@ androidClient = new VoucherifyAndroidClient.Builder(YOUR-PUBLIC-CLIENT-APPLICATI
 
 All the methods in SDK are provided directly or in asynchronous or rx version:
 
-Every method has a corresponding asynchronous extension which can be accessed through the `async()` or 'rx()' method of the vouchers module.
+Every method has a corresponding asynchronous extension which can be accessed through the `async()` or `rx()` method of the vouchers module.
 
 ```java
 try {
@@ -141,6 +141,7 @@ client.vouchers().validations()
 ```
 
 ## API
+
 #### Validations API
 
 ##### Gift vouchers
