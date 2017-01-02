@@ -48,7 +48,7 @@ public class VoucherifyAndroidClient {
     /**
      * Returns the Vouchers module.
      */
-    public VoucherModule voucher() {
+    public VoucherModule vouchers() {
         return voucherModule;
     }
 

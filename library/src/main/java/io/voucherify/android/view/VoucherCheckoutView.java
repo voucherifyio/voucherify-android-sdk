@@ -128,7 +128,7 @@ public class VoucherCheckoutView extends RelativeLayout {
 
         String voucherCode = voucherCodeEditText.getText().toString();
 
-        voucherifyClient.voucher().validations().async().validateVoucher(voucherCode, new VoucherifyCallback<VoucherResponse, VoucherifyError>() {
+        voucherifyClient.vouchers().validations().async().validateVoucher(voucherCode, new VoucherifyCallback<VoucherResponse, VoucherifyError>() {
             @Override
             public void onSuccess(final VoucherResponse result) {
                 if (onValidatedListener != null) {

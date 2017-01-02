@@ -151,15 +151,15 @@ client.vouchers().validations()
 ### [Validate Voucher]
 
 ```java
-    client.voucher().validations().validateVoucher(String code)
+    client.vouchers().validations().validateVoucher(String code)
 ```
 
 ```java
-    client.voucher().validations().validateVoucher(String code, Integer amount)
+    client.vouchers().validations().validateVoucher(String code, Integer amount)
 ```
 
 ```java
-    client.voucher().validations().validateVoucher(String code, Integer amount, List<OrderItem> orderItems)
+    client.vouchers().validations().validateVoucher(String code, Integer amount, List<OrderItem> orderItems)
 ```
 
 ---
@@ -169,11 +169,11 @@ client.vouchers().validations()
 ### [Redeem Voucher]
 
 ```java
-    client.voucher().redemptions().redeem(String code)
+    client.vouchers().redemptions().redeem(String code)
 ```
 
 ```java
-    client.voucher().redemptions().redeem(String code, VoucherRedemptionContext redemptionContext)
+    client.vouchers().redemptions().redeem(String code, VoucherRedemptionContext redemptionContext)
 ```
 
 ## Voucher Checkout View
