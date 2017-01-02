@@ -5,9 +5,9 @@
 |
 <b><a href="#synchronous-rx-or-async">Synchronous, Rx or Async?</a></b>
 |
-<b><a href="#error-handling">Error handling</a></b>
-|
 <b><a href="#contributing">Contributing</a></b>
+|
+<b><a href="#license">License</a></b>
 |
 </p>
 
@@ -56,7 +56,7 @@ dependencies {
 NOTE:
 The SDK requires at least Java 6 or Android 2.3.3 (API 10)
 
-###### Configuration
+### Configuration
 The `VoucherifyAndroidClient` manages your interaction with the Voucherify API.
 
 ```java
@@ -95,7 +95,7 @@ Every method has a corresponding asynchronous extension which can be accessed th
 
 ```java
 try {
-    VoucherResponse voucher = client.vouchers().validations().validate(VOUCHER_CODE);
+    VoucherResponse voucher = client.vouchers().validations().validateVoucher(VOUCHER_CODE);
 } catch (IOExceptions e) {
     // error
 }
@@ -104,7 +104,7 @@ try {
 or asynchronously:
 
 ```java
-client.vouchers().validations().async().validate("VOUCHER_CODE", new VoucherifyCallback<VoucherResponse>() {
+client.vouchers().validations().async().validateVoucher("VOUCHER_CODE", new VoucherifyCallback<VoucherResponse>() {
     @Override
     public void onSuccess(VoucherResponse result) {
     }
@@ -121,7 +121,7 @@ or using RxJava:
 ```java
 client.vouchers().validations()
         .rx()
-        .validate("VOUCHER_CODE")
+        .validateVoucher("VOUCHER_CODE")
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(new Action1<VoucherResponse>() {
@@ -137,7 +137,7 @@ client.vouchers().validations()
 ```
 
 ## API
-#### Vouchers API
+#### Validations API
 
 ##### Gift vouchers
 
@@ -145,7 +145,7 @@ Validationg a gift voucher requires to pass an amount that is intended to be wit
 Order amount have to be expressed in cents, as an integer. For example $22.50 should be provided as 2250:
 
 ```java
-    VoucherResponse voucher = client.vouchers().validations().validate("VOUCHER_CODE", 2250);
+    VoucherResponse voucher = client.voucher().validations().validateVoucher("VOUCHER_CODE", 2250);
 ```
 
 ##### Validation rules
@@ -153,7 +153,7 @@ Order amount have to be expressed in cents, as an integer. For example $22.50 sh
 When validating vouchers with validation rules concerning products or variants (SKUs) it's required to pass order items.
 
 ```java
-    VoucherResponse voucher = client.vouchers().validations().validate("VOUCHER_CODE", 2250, Arrays.asList(
+    VoucherResponse voucher = client.voucher().validations().validateVoucher("VOUCHER_CODE", 2250, Arrays.asList(
        new OrderItem("prod_6wY2Vvc6FrfrwX", "sku_y7WxIymNSCR138", 1),
        new OrderItem("prod_r04XQ00xz6EVRi", "sku_XnmQ3d0jV3x3Uy", 2))
    ));
@@ -165,7 +165,7 @@ When validating vouchers with validation rules concerning products or variants (
 * Just by code
 
 ```java
-     VoucherRedemptionResult redemptionResult = client.voucher().redemptions().redeemVoucher("test");
+     VoucherRedemptionResult redemptionResult = client.voucher().redemptions().redeem("test");
 ```
 
 * With customer profile
@@ -181,7 +181,7 @@ When validating vouchers with validation rules concerning products or variants (
                 .addMetadata("favouriteBrands", new String[]{"Armani", "L'Autre Chose", "Vicini"})
                 .build();
 
-        client.voucher().redemptions().redeemVoucher("test", new VoucherRedemptionContext(customer));
+        client.voucher().redemptions().redeem("test", new VoucherRedemptionContext(customer));
 ```
 
 * With customer id
@@ -193,7 +193,7 @@ If you already created a customer profile in Voucherify's database, you can iden
                 .withId("cust_C9qJ3xKgZFqkpMw7b21MF2ow")
                 .build();
 
-   client.voucher().redemptions().redeemVoucher("test", new VoucherRedemptionContext(customer));
+   client.voucher().redemptions().redeem("test", new VoucherRedemptionContext(customer));
 ```
 
 * With order amount
@@ -201,7 +201,7 @@ If you already created a customer profile in Voucherify's database, you can iden
 If you want to redeem a gift voucher you have to provide an amount that you wish take. You can pass the amount in VoucherRedemptionContext.order.amount:
 
 ```java
-    client.voucher().redemptions().redeemVoucher("test", new VoucherRedemptionContext(customer, Order.amount(5000)))
+    client.voucher().redemptions().redeem("test", new VoucherRedemptionContext(customer, Order.amount(5000)))
 ```
 
 
@@ -218,7 +218,7 @@ If your voucher includes some validation rules regarding customer (segments) the
                     new OrderItem("prod_6wY2Vvc6FrfrwX", "sku_y7WxIymNSCR138", 1),
                     new OrderItem("prod_r04XQ00xz6EVRi", "sku_XnmQ3d0jV3x3Uy", 2))));
 
-        client.voucher().redemptions().redeemVoucher("VoucherWithValidationRules", redemptionContext);
+        client.voucher().redemptions().redeem("VoucherWithValidationRules", redemptionContext);
 ```
 
 ---
@@ -421,7 +421,6 @@ For example to set the button background color to light green:
 
 Bug reports and pull requests are welcome through [GitHub Issues](https://github.com/rspective/voucherify-android-sdk/issues).
 
-License
-=====
+## License
 
 MIT. See the [LICENSE](https://github.com/rspective/voucherify-android-sdk/blob/master/LICENSE) file for details.
