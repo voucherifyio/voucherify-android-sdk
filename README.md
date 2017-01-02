@@ -290,3 +290,6 @@ Bug reports and pull requests are welcome through [GitHub Issues](https://github
 ## License
 
 MIT. See the [LICENSE](https://github.com/rspective/voucherify-android-sdk/blob/master/LICENSE) file for details.
+
+[Validate Voucher]: https://docs.voucherify.io/reference#vouchers-validate
+[Redeem Voucher]: https://docs.voucherify.io/reference#redeem-voucher-client-side
