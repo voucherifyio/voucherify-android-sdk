@@ -9,6 +9,8 @@
 |
 <b><a href="#synchronous-rx-or-async">Synchronous, Rx or Async?</a></b>
 |
+<b><a href="#voucher-checkout-view">Voucher Checkout View</a></b>
+|
 <b><a href="#contributing">Contributing</a></b>
 |
 <b><a href="#license">License</a></b>
