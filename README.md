@@ -35,7 +35,7 @@ API:
 
 ```groovy
 dependencies {
-    compile 'pl.rspective.voucherify.android.client:voucherify-android-sdk:1.0.0'
+    compile 'io.voucherify.android.client:voucherify-android-sdk:1.0.0'
 }
 ```
 
@@ -43,7 +43,7 @@ dependencies {
 
 ```xml
 <dependency>
-    <groupId>pl.rspective.voucherify.android.client</groupId>
+    <groupId>io.voucherify.android.client</groupId>
     <artifactId>voucherify-android-sdk</artifactId>
     <version>1.0.0</version>
 </dependency>
@@ -55,8 +55,8 @@ dependencies {
 -dontwarn rx.**
 -dontwarn retrofit2.**
 -keep class retrofit2.** { *; }
--keep class com.rspective.voucherify.android.client.** { *; }
--keep class * extends com.rspective.voucherify.android.client.model.** { *; }
+-keep class io.voucherify.android.client.** { *; }
+-keep class * extends io.voucherify.android.client.model.** { *; }
 -keep class com.google.gson.** { *; }
 -keep class sun.misc.Unsafe { *; }
 ```
@@ -185,7 +185,7 @@ You can use VoucherCheckoutView to quickly add a UI for discount codes validatio
 In your layout XML file add:
 
 ```xml
-<pl.rspective.voucherify.android.view.VoucherCheckoutView
+<io.voucherify.android.view.VoucherCheckoutView
     android:id="@+id/voucher_checkout"/>
 ```
 
@@ -234,7 +234,7 @@ You can disable any of the 3 icons by specifying them as `@android:color/transpa
 Example:
 
 ```xml
-<pl.rspective.voucherify.android.view.VoucherCheckoutView
+<io.voucherify.android.view.VoucherCheckoutView
     android:id="@+id/voucher_checkout"/>
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:validateButtonText="Apply"
@@ -262,7 +262,7 @@ For example to set the button background color to light green:
 
 ## Contributing
 
-Bug reports and pull requests are welcome through [GitHub Issues](https://github.com/rspective/voucherify-android-sdk/issues).
+Bug reports and pull requests are welcome through [GitHub Issues](https://github.com/voucherifyio/voucherify-android-sdk/issues).
 
 ## Changelog
 - **2017-01-02** - `1.0.0` - Unify API with other voucherify SDKs.
@@ -285,7 +285,7 @@ Bug reports and pull requests are welcome through [GitHub Issues](https://github
 
 ## License
 
-MIT. See the [LICENSE](https://github.com/rspective/voucherify-android-sdk/blob/master/LICENSE) file for details.
+MIT. See the [LICENSE](https://github.com/voucherifyio/voucherify-android-sdk/blob/master/LICENSE) file for details.
 
 [Validate Voucher]: https://docs.voucherify.io/reference#vouchers-validate
 [Redeem Voucher]: https://docs.voucherify.io/reference#redeem-voucher-client-side
