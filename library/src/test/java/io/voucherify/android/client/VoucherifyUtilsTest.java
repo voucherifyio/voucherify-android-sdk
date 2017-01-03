@@ -91,8 +91,80 @@ public class VoucherifyUtilsTest {
     }
 
     @Test
-    public void calculateDiscount() throws Exception {
+    public void calculateDiscountPercentage() throws Exception {
+        testDiscountPercentage("discount > 0", 10.0, 10.0, 1.0);
+        testDiscountPercentage("discount == 0", 10.0, 0.0, 0.0);
+    }
 
+    @Test
+    public void calculateDiscountAmount() throws Exception {
+        testDiscountAmount("discount < price", 10.0, 10, 0.1);
+        testDiscountAmount("discount == price", 10.0, 1000, 10.0);
+        testDiscountAmount("discount > price", 10.0, 2000, 10.0);
+        testDiscountAmount("discount == 0", 10.0, 0, 0.0);
+    }
+
+    @Test
+    public void calculateDiscountUnit() throws Exception {
+        testDiscountUnit("unitOff > 0", 10.0, 1.0, 2.0, 2.0);
+        testDiscountUnit("unitOff == 0", 10.0, 1.0, 0.0, 0.0);
+    }
+
+    @Test
+    public void calculateDiscountGift() throws Exception {
+        testDiscountGift("giftBalance < price", 10.0, 100, 1.0);
+        testDiscountGift("giftBalance == 0", 10.0, 0, 0.0);
+        testDiscountGift("giftBalance == price", 10.0, 10000, 10.0);
+        testDiscountGift("giftBalance > price", 10.0, 20000, 10.0);
+        testDiscountGift("giftBalance < 0", 10.0, -100, -1.0);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void calculateDiscountInvalidType() throws Exception {
+        BigDecimal basePrice = new BigDecimal(10);
+        Discount discount = createDiscount(null, null, null, null, null);
+        VoucherResponse voucherResponse = createVoucherResponse("", true, discount, null, null, null);
+        VoucherifyUtils.calculateDiscount(basePrice, voucherResponse, null);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void calculateDiscountPercentageMoreThanHundred() throws Exception {
+        testDiscountPercentage("discount > 100", 10.0, 110.0, 0.0);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void calculateDiscountPercentageLessThanZero() throws Exception {
+        testPricePercentageDiscount("discount < 0", 10.0, -10.0, 0.0);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void calculateDiscountPercentageNull() throws Exception {
+        testDiscountPercentage("discount == null", 10.0, null, 0.0);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void calculateDiscountAmountLessThanZero() throws Exception {
+        testDiscountAmount("discount < 0", 10.0, -10, 0.0);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void calculateDiscountAmountNull() throws Exception {
+        testDiscountAmount("discount == null", 10.0, null, 0.0);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void calculateDiscountUnitLessThanZero() throws Exception {
+        testDiscountUnit("unitOff < 0", 10.0, 1.0, -2.0, 0.0);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void calculateDiscountUnitNull() throws Exception {
+        testDiscountUnit("unitOff == null", 10.0, 1.0, null, 0.0);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void calculateDiscountGiftNull() throws Exception {
+        testDiscountGift("giftBalance == null", 10.0, null, 0.0);
     }
 
     private void testPricePercentageDiscount(String description,
@@ -138,6 +210,52 @@ public class VoucherifyUtilsTest {
         Gift gift = new Gift(giftBalanceInt, giftBalanceInt);
         VoucherResponse voucherResponse = createVoucherResponse("", true, null, gift, null, null);
         BigDecimal actual = VoucherifyUtils.calculatePrice(basePrice, voucherResponse, null);
+        assertEquals(description, expectedDouble, actual.doubleValue(), 0.01);
+    }
+
+    private void testDiscountPercentage(String description,
+                                        Double basePriceDouble,
+                                        Double discountDouble,
+                                        Double expectedDouble) {
+        BigDecimal basePrice = new BigDecimal(basePriceDouble);
+        Discount discount = createDiscount(DiscountType.PERCENT, null, discountDouble, null, null);
+        VoucherResponse voucherResponse = createVoucherResponse("", true, discount, null, null, null);
+        BigDecimal actual = VoucherifyUtils.calculateDiscount(basePrice, voucherResponse, null);
+        assertEquals(description, expectedDouble, actual.doubleValue(), 0.01);
+    }
+
+    private void testDiscountAmount(String description,
+                                    Double basePriceDouble,
+                                    Integer discountInt,
+                                    Double expectedDouble) {
+        BigDecimal basePrice = new BigDecimal(basePriceDouble);
+        Discount discount = createDiscount(DiscountType.AMOUNT, discountInt, null, null, null);
+        VoucherResponse voucherResponse = createVoucherResponse("", true, discount, null, null, null);
+        BigDecimal actual = VoucherifyUtils.calculateDiscount(basePrice, voucherResponse, null);
+        assertEquals(description, expectedDouble, actual.doubleValue(), 0.01);
+    }
+
+    private void testDiscountUnit(String description,
+                                  Double basePriceDouble,
+                                  Double unitPriceDouble,
+                                  Double unitOffDouble,
+                                  Double expectedDouble) {
+        BigDecimal basePrice = new BigDecimal(basePriceDouble);
+        BigDecimal unitPrice = new BigDecimal(unitPriceDouble);
+        Discount discount = createDiscount(DiscountType.UNIT, null, null, unitOffDouble, null);
+        VoucherResponse voucherResponse = createVoucherResponse("", true, discount, null, null, null);
+        BigDecimal actual = VoucherifyUtils.calculateDiscount(basePrice, voucherResponse, unitPrice);
+        assertEquals(description, expectedDouble, actual.doubleValue(), 0.01);
+    }
+
+    private void testDiscountGift(String description,
+                                  Double basePriceDouble,
+                                  Integer giftBalanceInt,
+                                  Double expectedDouble) {
+        BigDecimal basePrice = new BigDecimal(basePriceDouble);
+        Gift gift = new Gift(giftBalanceInt, giftBalanceInt);
+        VoucherResponse voucherResponse = createVoucherResponse("", true, null, gift, null, null);
+        BigDecimal actual = VoucherifyUtils.calculateDiscount(basePrice, voucherResponse, null);
         assertEquals(description, expectedDouble, actual.doubleValue(), 0.01);
     }
 
