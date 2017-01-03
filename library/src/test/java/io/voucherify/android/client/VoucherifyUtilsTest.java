@@ -33,6 +33,15 @@ public class VoucherifyUtilsTest {
         testPriceUnitDiscount("unitOff == 0", 10.0, 1.0, 0.0, 10.0);
     }
 
+    @Test
+    public void calculatePriceGift() throws Exception {
+        testPriceGift("giftBalance < price", 10.0, 100, 9.0);
+        testPriceGift("giftBalance == 0", 10.0, 0, 10.0);
+        testPriceGift("giftBalance == price", 10.0, 10000, 0.0);
+        testPriceGift("giftBalance > price", 10.0, 20000, 0.0);
+        testPriceGift("giftBalance < 0", 10.0, -100, 11.0);
+    }
+
     @Test(expected = RuntimeException.class)
     public void calculatePriceInvalidType() throws Exception {
         BigDecimal basePrice = new BigDecimal(10);
@@ -76,6 +85,11 @@ public class VoucherifyUtilsTest {
         testPriceUnitDiscount("unitOff == null", 10.0, 1.0, null, 0.0);
     }
 
+    @Test(expected = RuntimeException.class)
+    public void calculatePriceGiftNull() throws Exception {
+        testPriceGift("giftBalance == null", 10.0, null, 0.0);
+    }
+
     @Test
     public void calculateDiscount() throws Exception {
 
@@ -113,6 +127,17 @@ public class VoucherifyUtilsTest {
         Discount discount = createDiscount(DiscountType.UNIT, null, null, unitOffDouble, null);
         VoucherResponse voucherResponse = createVoucherResponse("", true, discount, null, null, null);
         BigDecimal actual = VoucherifyUtils.calculatePrice(basePrice, voucherResponse, unitPrice);
+        assertEquals(description, expectedDouble, actual.doubleValue(), 0.01);
+    }
+
+    private void testPriceGift(String description,
+                               Double basePriceDouble,
+                               Integer giftBalanceInt,
+                               Double expectedDouble) {
+        BigDecimal basePrice = new BigDecimal(basePriceDouble);
+        Gift gift = new Gift(giftBalanceInt, giftBalanceInt);
+        VoucherResponse voucherResponse = createVoucherResponse("", true, null, gift, null, null);
+        BigDecimal actual = VoucherifyUtils.calculatePrice(basePrice, voucherResponse, null);
         assertEquals(description, expectedDouble, actual.doubleValue(), 0.01);
     }
 
