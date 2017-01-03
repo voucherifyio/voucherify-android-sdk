@@ -15,22 +15,22 @@ public class VoucherifyUtilsTest {
 
     @Test
     public void calculatePricePercentage() throws Exception {
-        testPricePercentageDiscount("discount > 0", 10.0, 10.0, 9.0);
-        testPricePercentageDiscount("discount == 0", 10.0, 0.0, 10.0);
+        testPricePercentage("discount > 0", 10.0, 10.0, 9.0);
+        testPricePercentage("discount == 0", 10.0, 0.0, 10.0);
     }
 
     @Test
     public void calculatePriceAmount() throws Exception {
-        testPriceAmountDiscount("discount < price", 10.0, 10, 9.9);
-        testPriceAmountDiscount("discount == price", 10.0, 1000, 0.0);
-        testPriceAmountDiscount("discount > price", 10.0, 2000, 0.0);
-        testPriceAmountDiscount("discount == 0", 10.0, 0, 10.0);
+        testPriceAmount("discount < price", 10.0, 10, 9.9);
+        testPriceAmount("discount == price", 10.0, 1000, 0.0);
+        testPriceAmount("discount > price", 10.0, 2000, 0.0);
+        testPriceAmount("discount == 0", 10.0, 0, 10.0);
     }
 
     @Test
     public void calculatePriceUnit() throws Exception {
-        testPriceUnitDiscount("unitOff > 0", 10.0, 1.0, 2.0, 8.0);
-        testPriceUnitDiscount("unitOff == 0", 10.0, 1.0, 0.0, 10.0);
+        testPriceUnit("unitOff > 0", 10.0, 1.0, 2.0, 8.0);
+        testPriceUnit("unitOff == 0", 10.0, 1.0, 0.0, 10.0);
     }
 
     @Test
@@ -52,37 +52,37 @@ public class VoucherifyUtilsTest {
 
     @Test(expected = RuntimeException.class)
     public void calculatePricePercentageMoreThanHundred() throws Exception {
-        testPricePercentageDiscount("discount > 100", 10.0, 110.0, 0.0);
+        testPricePercentage("discount > 100", 10.0, 110.0, 0.0);
     }
 
     @Test(expected = RuntimeException.class)
     public void calculatePricePercentageLessThanZero() throws Exception {
-        testPricePercentageDiscount("discount < 0", 10.0, -10.0, 0.0);
+        testPricePercentage("discount < 0", 10.0, -10.0, 0.0);
     }
 
     @Test(expected = RuntimeException.class)
     public void calculatePricePercentageNull() throws Exception {
-        testPricePercentageDiscount("discount == null", 10.0, null, 0.0);
+        testPricePercentage("discount == null", 10.0, null, 0.0);
     }
 
     @Test(expected = RuntimeException.class)
     public void calculatePriceAmountLessThanZero() throws Exception {
-        testPriceAmountDiscount("discount < 0", 10.0, -10, 0.0);
+        testPriceAmount("discount < 0", 10.0, -10, 0.0);
     }
 
     @Test(expected = RuntimeException.class)
     public void calculatePriceAmountNull() throws Exception {
-        testPriceAmountDiscount("discount == null", 10.0, null, 0.0);
+        testPriceAmount("discount == null", 10.0, null, 0.0);
     }
 
     @Test(expected = RuntimeException.class)
     public void calculatePriceUnitLessThanZero() throws Exception {
-        testPriceUnitDiscount("unitOff < 0", 10.0, 1.0, -2.0, 0.0);
+        testPriceUnit("unitOff < 0", 10.0, 1.0, -2.0, 0.0);
     }
 
     @Test(expected = RuntimeException.class)
     public void calculatePriceUnitNull() throws Exception {
-        testPriceUnitDiscount("unitOff == null", 10.0, 1.0, null, 0.0);
+        testPriceUnit("unitOff == null", 10.0, 1.0, null, 0.0);
     }
 
     @Test(expected = RuntimeException.class)
@@ -134,7 +134,7 @@ public class VoucherifyUtilsTest {
 
     @Test(expected = RuntimeException.class)
     public void calculateDiscountPercentageLessThanZero() throws Exception {
-        testPricePercentageDiscount("discount < 0", 10.0, -10.0, 0.0);
+        testPricePercentage("discount < 0", 10.0, -10.0, 0.0);
     }
 
     @Test(expected = RuntimeException.class)
@@ -167,10 +167,10 @@ public class VoucherifyUtilsTest {
         testDiscountGift("giftBalance == null", 10.0, null, 0.0);
     }
 
-    private void testPricePercentageDiscount(String description,
-                                             Double basePriceDouble,
-                                             Double discountDouble,
-                                             Double expectedDouble) {
+    private void testPricePercentage(String description,
+                                     Double basePriceDouble,
+                                     Double discountDouble,
+                                     Double expectedDouble) {
         BigDecimal basePrice = new BigDecimal(basePriceDouble);
         Discount discount = createDiscount(DiscountType.PERCENT, null, discountDouble, null, null);
         VoucherResponse voucherResponse = createVoucherResponse("", true, discount, null, null, null);
@@ -178,10 +178,10 @@ public class VoucherifyUtilsTest {
         assertEquals(description, expectedDouble, actual.doubleValue(), 0.01);
     }
 
-    private void testPriceAmountDiscount(String description,
-                                         Double basePriceDouble,
-                                         Integer discountInt,
-                                         Double expectedDouble) {
+    private void testPriceAmount(String description,
+                                 Double basePriceDouble,
+                                 Integer discountInt,
+                                 Double expectedDouble) {
         BigDecimal basePrice = new BigDecimal(basePriceDouble);
         Discount discount = createDiscount(DiscountType.AMOUNT, discountInt, null, null, null);
         VoucherResponse voucherResponse = createVoucherResponse("", true, discount, null, null, null);
@@ -189,11 +189,11 @@ public class VoucherifyUtilsTest {
         assertEquals(description, expectedDouble, actual.doubleValue(), 0.01);
     }
 
-    private void testPriceUnitDiscount(String description,
-                                       Double basePriceDouble,
-                                       Double unitPriceDouble,
-                                       Double unitOffDouble,
-                                       Double expectedDouble) {
+    private void testPriceUnit(String description,
+                               Double basePriceDouble,
+                               Double unitPriceDouble,
+                               Double unitOffDouble,
+                               Double expectedDouble) {
         BigDecimal basePrice = new BigDecimal(basePriceDouble);
         BigDecimal unitPrice = new BigDecimal(unitPriceDouble);
         Discount discount = createDiscount(DiscountType.UNIT, null, null, unitOffDouble, null);
