@@ -9,7 +9,9 @@ android:
     - extra-google-m2repository
     - extra-android-m2repository
   licenses:
-      - android-sdk-license-.+
+    - 'android-sdk-preview-license-.+'
+    - 'android-sdk-license-.+'
+    - 'google-gdk-license-.+'
 before_install:
    - export JAVA8_HOME=/usr/lib/jvm/java-8-oracle
 script:
