@@ -47,5 +47,4 @@ public class RedemptionTest {
         redemption.redeem("SAMPLE_CODE", voucherRedemptionContext);
         verify(api, times(1)).redeemVoucher("SAMPLE_CODE", voucherRedemptionContext);
     }
-
 }

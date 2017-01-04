@@ -74,5 +74,4 @@ public class ValidationTest {
 
         verify(api, times(1)).validateVoucher(queryParams);
     }
-
 }
