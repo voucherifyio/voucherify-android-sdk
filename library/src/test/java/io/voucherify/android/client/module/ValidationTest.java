@@ -7,7 +7,6 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -17,10 +16,7 @@ import io.reactivex.schedulers.Schedulers;
 import io.voucherify.android.client.api.VoucherifyApi;
 import io.voucherify.android.client.model.OrderItem;
 import io.voucherify.android.client.model.VoucherResponse;
-import okhttp3.Request;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.voucherify.android.helper.MockSuccessCall;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -33,16 +29,18 @@ public class ValidationTest {
     VoucherifyApi api;
 
     private Validation validation;
+    private MockSuccessCall<VoucherResponse> mockSuccessCall;
 
     @Before
     public void setUp() {
         validation = new Validation(api, Schedulers.trampoline(), null);
+        mockSuccessCall = new MockSuccessCall<>();
     }
 
     @Test
-    public void validateVoucher() throws Exception {
+    public void validateVoucher_passCode_invokeApiValidateVoucherWithRightQuery() throws Exception {
         when(api.validateVoucher(ArgumentMatchers.<String, String>anyMap()))
-                .thenReturn(mockSuccessApiCall());
+                .thenReturn(mockSuccessCall);
         validation.validateVoucher("SAMPLE_CODE");
         Map<String, String> queryParams = new LinkedHashMap<>();
         queryParams.put("channel", "android");
@@ -52,9 +50,9 @@ public class ValidationTest {
     }
 
     @Test
-    public void validateVoucherWithAmount() throws Exception {
+    public void validateVoucher_passCodeAndAmount_invokeApiValidateVoucherWithRightQuery() throws Exception {
         when(api.validateVoucher(ArgumentMatchers.<String, String>anyMap()))
-                .thenReturn(mockSuccessApiCall());
+                .thenReturn(mockSuccessCall);
         validation.validateVoucher("SAMPLE_CODE", 100);
         Map<String, String> queryParams = new LinkedHashMap<>();
         queryParams.put("channel", "android");
@@ -65,9 +63,9 @@ public class ValidationTest {
     }
 
     @Test
-    public void validateVoucherWithAmountAndItemList() throws Exception {
+    public void validateVoucher_passCodeAndAmountAndOrderItem_invokeApiValidateVoucherWithRightQuery() throws Exception {
         when(api.validateVoucher(ArgumentMatchers.<String, String>anyMap()))
-                .thenReturn(mockSuccessApiCall());
+                .thenReturn(mockSuccessCall);
         List<OrderItem> orderItems = new ArrayList<>();
         orderItems.add(new OrderItem("0", "sku_0", 1));
         validation.validateVoucher("SAMPLE_CODE", 100, orderItems);
@@ -83,42 +81,4 @@ public class ValidationTest {
         verify(api, times(1)).validateVoucher(queryParams);
     }
 
-    private Call<VoucherResponse> mockSuccessApiCall() {
-        return new Call<VoucherResponse>() {
-            @Override
-            public Response<VoucherResponse> execute() throws IOException {
-                return Response.success(null);
-            }
-
-            @Override
-            public void enqueue(Callback<VoucherResponse> callback) {
-
-            }
-
-            @Override
-            public boolean isExecuted() {
-                return false;
-            }
-
-            @Override
-            public void cancel() {
-
-            }
-
-            @Override
-            public boolean isCanceled() {
-                return false;
-            }
-
-            @Override
-            public Call<VoucherResponse> clone() {
-                return null;
-            }
-
-            @Override
-            public Request request() {
-                return null;
-            }
-        };
-    }
 }
