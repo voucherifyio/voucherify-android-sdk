@@ -6,10 +6,18 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import io.voucherify.android.client.model.Discount;
-import io.voucherify.android.client.model.DiscountType;
-import io.voucherify.android.client.model.Gift;
 import io.voucherify.android.client.model.VoucherResponse;
 
+import static io.voucherify.android.helper.ModelHelper.createDiscount;
+import static io.voucherify.android.helper.ModelHelper.createVoucherResponse;
+import static io.voucherify.android.helper.VoucherifyUtilsHelper.calculateDiscountAmount;
+import static io.voucherify.android.helper.VoucherifyUtilsHelper.calculateDiscountGift;
+import static io.voucherify.android.helper.VoucherifyUtilsHelper.calculateDiscountPercentage;
+import static io.voucherify.android.helper.VoucherifyUtilsHelper.calculateDiscountUnit;
+import static io.voucherify.android.helper.VoucherifyUtilsHelper.calculatePriceAmount;
+import static io.voucherify.android.helper.VoucherifyUtilsHelper.calculatePriceGift;
+import static io.voucherify.android.helper.VoucherifyUtilsHelper.calculatePricePercentage;
+import static io.voucherify.android.helper.VoucherifyUtilsHelper.calculatePriceUnit;
 import static org.junit.Assert.assertEquals;
 
 public class VoucherifyUtilsTest {
@@ -302,93 +310,5 @@ public class VoucherifyUtilsTest {
     @Test(expected = RuntimeException.class)
     public void calculateDiscount_giftNull_throwException() throws Exception {
         calculateDiscountGift(10.0, null);
-    }
-
-    private BigDecimal calculatePricePercentage(Double basePriceDouble, Double discountDouble) {
-        BigDecimal basePrice = new BigDecimal(basePriceDouble);
-        Discount discount = createDiscount(DiscountType.PERCENT, null, discountDouble, null, null);
-        VoucherResponse voucherResponse = createVoucherResponse("", true, discount, null, null, null);
-        return VoucherifyUtils.calculatePrice(basePrice, voucherResponse, null);
-    }
-
-    private BigDecimal calculatePriceAmount(Double basePriceDouble, Integer discountInt) {
-        BigDecimal basePrice = new BigDecimal(basePriceDouble);
-        Discount discount = createDiscount(DiscountType.AMOUNT, discountInt, null, null, null);
-        VoucherResponse voucherResponse = createVoucherResponse("", true, discount, null, null, null);
-        return VoucherifyUtils.calculatePrice(basePrice, voucherResponse, null);
-    }
-
-    private BigDecimal calculatePriceUnit(Double basePriceDouble, Double unitPriceDouble, Double unitOffDouble) {
-        BigDecimal basePrice = new BigDecimal(basePriceDouble);
-        BigDecimal unitPrice = new BigDecimal(unitPriceDouble);
-        Discount discount = createDiscount(DiscountType.UNIT, null, null, unitOffDouble, null);
-        VoucherResponse voucherResponse = createVoucherResponse("", true, discount, null, null, null);
-        return VoucherifyUtils.calculatePrice(basePrice, voucherResponse, unitPrice);
-    }
-
-    private BigDecimal calculatePriceGift(Double basePriceDouble, Integer giftBalanceInt) {
-        BigDecimal basePrice = new BigDecimal(basePriceDouble);
-        Gift gift = new Gift(giftBalanceInt, giftBalanceInt);
-        VoucherResponse voucherResponse = createVoucherResponse("", true, null, gift, null, null);
-        return VoucherifyUtils.calculatePrice(basePrice, voucherResponse, null);
-    }
-
-    private BigDecimal calculateDiscountPercentage(Double basePriceDouble, Double discountDouble) {
-        BigDecimal basePrice = new BigDecimal(basePriceDouble);
-        Discount discount = createDiscount(DiscountType.PERCENT, null, discountDouble, null, null);
-        VoucherResponse voucherResponse = createVoucherResponse("", true, discount, null, null, null);
-        return VoucherifyUtils.calculateDiscount(basePrice, voucherResponse, null);
-    }
-
-    private BigDecimal calculateDiscountAmount(Double basePriceDouble, Integer discountInt) {
-        BigDecimal basePrice = new BigDecimal(basePriceDouble);
-        Discount discount = createDiscount(DiscountType.AMOUNT, discountInt, null, null, null);
-        VoucherResponse voucherResponse = createVoucherResponse("", true, discount, null, null, null);
-        return VoucherifyUtils.calculateDiscount(basePrice, voucherResponse, null);
-    }
-
-    private BigDecimal calculateDiscountUnit(Double basePriceDouble, Double unitPriceDouble, Double unitOffDouble) {
-        BigDecimal basePrice = new BigDecimal(basePriceDouble);
-        BigDecimal unitPrice = new BigDecimal(unitPriceDouble);
-        Discount discount = createDiscount(DiscountType.UNIT, null, null, unitOffDouble, null);
-        VoucherResponse voucherResponse = createVoucherResponse("", true, discount, null, null, null);
-        return VoucherifyUtils.calculateDiscount(basePrice, voucherResponse, unitPrice);
-    }
-
-    private BigDecimal calculateDiscountGift(Double basePriceDouble, Integer giftBalanceInt) {
-        BigDecimal basePrice = new BigDecimal(basePriceDouble);
-        Gift gift = new Gift(giftBalanceInt, giftBalanceInt);
-        VoucherResponse voucherResponse = createVoucherResponse("", true, null, gift, null, null);
-        return VoucherifyUtils.calculateDiscount(basePrice, voucherResponse, null);
-    }
-
-    private VoucherResponse createVoucherResponse(String code,
-                                                  boolean valid,
-                                                  Discount discount,
-                                                  Gift gift,
-                                                  String reason,
-                                                  String trackingId) {
-        VoucherResponse result = new VoucherResponse();
-        result.setCode(code);
-        result.setValid(valid);
-        result.setDiscount(discount);
-        result.setGift(gift);
-        result.setReason(reason);
-        result.setTrackingId(trackingId);
-        return result;
-    }
-
-    private Discount createDiscount(DiscountType type,
-                                    Integer amountOff,
-                                    Double percentOff,
-                                    Double unitOff,
-                                    String unitType) {
-        Discount result = new Discount();
-        result.setType(type);
-        result.setAmountOff(amountOff);
-        result.setPercentOff(percentOff);
-        result.setUnitOff(unitOff);
-        result.setUnitType(unitType);
-        return result;
     }
 }
