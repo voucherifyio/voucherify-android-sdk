@@ -3,6 +3,7 @@ package io.voucherify.android.client;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import io.voucherify.android.client.model.Discount;
 import io.voucherify.android.client.model.DiscountType;
@@ -17,70 +18,96 @@ public class VoucherifyUtilsTest {
     //percentage
     @Test
     public void calculatePrice_percentageDiscountGreaterThanZero_returnRightValue() throws Exception {
-        assertPricePercentage("discount > 0", 10.0, 10.0, 9.0);
+        BigDecimal expected = BigDecimal.valueOf(9.00).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal actual = calculatePricePercentage(10.0, 10.0);
+        assertEquals("discount > 0", expected, actual);
     }
 
     @Test
     public void calculatePrice_percentageDiscountEqualsZero_returnRightValue() throws Exception {
-        assertPricePercentage("discount == 0", 10.0, 0.0, 10.0);
+        BigDecimal expected = BigDecimal.valueOf(10.0).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal actual = calculatePricePercentage(10.0, 0.0);
+        assertEquals("discount > 0", expected, actual);
     }
 
     //amount
     @Test
     public void calculatePrice_amountDiscountLessThanPrice_returnRightValue() throws Exception {
-        assertPriceAmount("discount < price", 10.0, 10, 9.9);
+        BigDecimal expected = BigDecimal.valueOf(9.9).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal actual = calculatePriceAmount(10.0, 10);
+        assertEquals("discount < price", expected, actual);
     }
 
     @Test
     public void calculatePrice_amountDiscountEqualsPrice_returnZero() throws Exception {
-        assertPriceAmount("discount == price", 10.0, 1000, 0.0);
+        BigDecimal expected = BigDecimal.valueOf(0.0).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal actual = calculatePriceAmount(10.0, 1000);
+        assertEquals("discount == price", expected, actual);
     }
 
     @Test
     public void calculatePrice_amountDiscountGreaterThanPrice_returnZero() throws Exception {
-        assertPriceAmount("discount > price", 10.0, 2000, 0.0);
+        BigDecimal expected = BigDecimal.valueOf(0.0).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal actual = calculatePriceAmount(10.0, 2000);
+        assertEquals("discount > price", expected, actual);
     }
 
     @Test
     public void calculatePrice_amountDiscountEqualsZero_returnRightValue() throws Exception {
-        assertPriceAmount("discount == 0", 10.0, 0, 10.0);
+        BigDecimal expected = BigDecimal.valueOf(10.0).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal actual = calculatePriceAmount(10.0, 0);
+        assertEquals("discount == 0", expected, actual);
     }
 
     // unit
     @Test
     public void calculatePrice_unitDiscountGreaterThanZero_returnRightValue() throws Exception {
-        assertPriceUnit("unitOff > 0", 10.0, 1.0, 2.0, 8.0);
+        BigDecimal expected = BigDecimal.valueOf(8.0).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal actual = calculatePriceUnit(10.0, 1.0, 2.0);
+        assertEquals("unitOff > 0", expected, actual);
     }
 
     @Test
     public void calculatePrice_unitDiscountEqualZero_returnRightValue() throws Exception {
-        assertPriceUnit("unitOff == 0", 10.0, 1.0, 0.0, 10.0);
+        BigDecimal expected = BigDecimal.valueOf(10.0).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal actual = calculatePriceUnit(10.0, 1.0, 0.0);
+        assertEquals("unitOff == 0", expected, actual);
     }
 
     // gift
     @Test
     public void calculatePrice_giftBalanceLessThanPrice_returnRightValue() throws Exception {
-        assertPriceGift("giftBalance < price", 10.0, 100, 9.0);
+        BigDecimal expected = BigDecimal.valueOf(9.0).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal actual = calculatePriceGift(10.0, 100);
+        assertEquals("giftBalance < price", expected, actual);
     }
 
     @Test
     public void calculatePrice_giftBalanceEqualPrice_returnZero() throws Exception {
-        assertPriceGift("giftBalance == price", 10.0, 10000, 0.0);
+        BigDecimal expected = BigDecimal.valueOf(0.0).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal actual = calculatePriceGift(10.0, 10000);
+        assertEquals("giftBalance == price", expected, actual);
     }
 
     @Test
     public void calculatePrice_giftBalanceGreaterThanPrice_returnZero() throws Exception {
-        assertPriceGift("giftBalance > price", 10.0, 20000, 0.0);
+        BigDecimal expected = BigDecimal.valueOf(0.0).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal actual = calculatePriceGift(10.0, 20000);
+        assertEquals("giftBalance > price", expected, actual);
     }
 
     @Test
     public void calculatePrice_giftBalanceEqualZero_returnRightValue() throws Exception {
-        assertPriceGift("giftBalance == 0", 10.0, 0, 10.0);
+        BigDecimal expected = BigDecimal.valueOf(10.0).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal actual = calculatePriceGift(10.0, 0);
+        assertEquals("giftBalance == 0", expected, actual);
     }
 
     @Test
     public void calculatePrice_giftBalanceLessThanZero_returnRightValue() throws Exception {
-        assertPriceGift("giftBalance < 0", 10.0, -100, 11.0);
+        BigDecimal expected = BigDecimal.valueOf(11.0).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal actual = calculatePriceGift(10.0, -100);
+        assertEquals("giftBalance < 0", expected, actual);
     }
 
     // exception
@@ -94,112 +121,138 @@ public class VoucherifyUtilsTest {
 
     @Test(expected = RuntimeException.class)
     public void calculatePrice_percentageMoreThanHundred_throwException() throws Exception {
-        assertPricePercentage("discount > 100", 10.0, 110.0, 0.0);
+        calculatePricePercentage(10.0, 110.0);
     }
 
     @Test(expected = RuntimeException.class)
     public void calculatePrice_percentageLessThanZero_throwException() throws Exception {
-        assertPricePercentage("discount < 0", 10.0, -10.0, 0.0);
+        calculatePricePercentage(10.0, -10.0);
     }
 
     @Test(expected = RuntimeException.class)
     public void calculatePrice_percentageNull_throwException() throws Exception {
-        assertPricePercentage("discount == null", 10.0, null, 0.0);
+        calculatePricePercentage(10.0, null);
     }
 
     @Test(expected = RuntimeException.class)
     public void calculatePrice_amountLessThanZero_throwException() throws Exception {
-        assertPriceAmount("discount < 0", 10.0, -10, 0.0);
+        calculatePriceAmount(10.0, -10);
     }
 
     @Test(expected = RuntimeException.class)
     public void calculatePrice_amountNull_throwException() throws Exception {
-        assertPriceAmount("discount == null", 10.0, null, 0.0);
+        calculatePriceAmount(10.0, null);
     }
 
     @Test(expected = RuntimeException.class)
     public void calculatePrice_unitLessThanZero_throwException() throws Exception {
-        assertPriceUnit("unitOff < 0", 10.0, 1.0, -2.0, 0.0);
+        calculatePriceUnit(10.0, 1.0, -2.0);
     }
 
     @Test(expected = RuntimeException.class)
     public void calculatePrice_unitNull_throwException() throws Exception {
-        assertPriceUnit("unitOff == null", 10.0, 1.0, null, 0.0);
+        calculatePriceUnit(10.0, 1.0, null);
     }
 
     @Test(expected = RuntimeException.class)
     public void calculatePrice_giftNull_throwException() throws Exception {
-        assertPriceGift("giftBalance == null", 10.0, null, 0.0);
+        calculatePriceGift(10.0, null);
     }
 
     // discount
     // percentage
     @Test
     public void calculateDiscount_percentageDiscountGreaterThanZero_returnRightValue() throws Exception {
-        assertDiscountPercentage("discount > 0", 10.0, 10.0, 1.0);
+        BigDecimal expected = BigDecimal.valueOf(1.0).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal actual = calculateDiscountPercentage(10.0, 10.0);
+        assertEquals("discount > 0", expected, actual);
     }
 
     @Test
     public void calculateDiscount_percentageDiscountEqualsZero_returnZero() throws Exception {
-        assertDiscountPercentage("discount == 0", 10.0, 0.0, 0.0);
+        BigDecimal expected = BigDecimal.valueOf(0.0).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal actual = calculateDiscountPercentage(10.0, 0.0);
+        assertEquals("discount == 0", expected, actual);
     }
 
     // amount
     @Test
     public void calculateDiscount_amountDiscountLessThanPrice_returnRightValue() throws Exception {
-        assertDiscountAmount("discount < price", 10.0, 10, 0.1);
+        BigDecimal expected = BigDecimal.valueOf(0.1).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal actual = calculateDiscountAmount(10.0, 10);
+        assertEquals("discount < price", expected, actual);
     }
 
     @Test
     public void calculateDiscount_amountDiscountEqualPrice_returnRightValue() throws Exception {
-        assertDiscountAmount("discount == price", 10.0, 1000, 10.0);
+        BigDecimal expected = BigDecimal.valueOf(10.0).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal actual = calculateDiscountAmount(10.0, 1000);
+        assertEquals("discount == price", expected, actual);
     }
 
     @Test
     public void calculateDiscount_amountDiscountGreaterThanPrice_returnRightValue() throws Exception {
-        assertDiscountAmount("discount > price", 10.0, 2000, 10.0);
+        BigDecimal expected = BigDecimal.valueOf(10.0).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal actual = calculateDiscountAmount(10.0, 2000);
+        assertEquals("discount > price", expected, actual);
     }
 
     @Test
     public void calculateDiscount_amountDiscountEqualZero_returnZero() throws Exception {
-        assertDiscountAmount("discount == 0", 10.0, 0, 0.0);
+        BigDecimal expected = BigDecimal.valueOf(0.0).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal actual = calculateDiscountAmount(10.0, 0);
+        assertEquals("discount == 0", expected, actual);
     }
 
     // unit
     @Test
     public void calculateDiscount_unitDiscountGreaterThanZero_returnRightValue() throws Exception {
-        assertDiscountUnit("unitOff > 0", 10.0, 1.0, 2.0, 2.0);
+        BigDecimal expected = BigDecimal.valueOf(2.0).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal actual = calculateDiscountUnit(10.0, 1.0, 2.0);
+        assertEquals("unitOff > 0", expected, actual);
     }
 
     @Test
     public void calculateDiscount_unitDiscountEqualZero_returnZero() throws Exception {
-        assertDiscountUnit("unitOff == 0", 10.0, 1.0, 0.0, 0.0);
+        BigDecimal expected = BigDecimal.valueOf(0.0).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal actual = calculateDiscountUnit(10.0, 1.0, 0.0);
+        assertEquals("unitOff == 0", expected, actual);
     }
 
     // gift
     @Test
     public void calculateDiscount_giftBalanceLessThanPrice_returnRightValue() throws Exception {
-        assertDiscountGift("giftBalance < price", 10.0, 100, 1.0);
+        BigDecimal expected = BigDecimal.valueOf(1.0).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal actual = calculateDiscountGift(10.0, 100);
+        assertEquals("giftBalance < price", expected, actual);
     }
 
     @Test
     public void calculateDiscount_giftBalanceGreaterThanPrice_returnRightValue() throws Exception {
-        assertDiscountGift("giftBalance > price", 10.0, 20000, 10.0);
+        BigDecimal expected = BigDecimal.valueOf(10.0).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal actual = calculateDiscountGift(10.0, 20000);
+        assertEquals("giftBalance > price", expected, actual);
     }
 
     @Test
     public void calculateDiscount_giftBalanceEqualPrice_returnRightValue() throws Exception {
-        assertDiscountGift("giftBalance == price", 10.0, 10000, 10.0);
+        BigDecimal expected = BigDecimal.valueOf(10.0).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal actual = calculateDiscountGift(10.0, 10000);
+        assertEquals("giftBalance == price", expected, actual);
     }
 
     @Test
     public void calculateDiscount_giftBalanceEqualZero_returnZero() throws Exception {
-        assertDiscountGift("giftBalance == 0", 10.0, 0, 0.0);
+        BigDecimal expected = BigDecimal.valueOf(0.0).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal actual = calculateDiscountGift(10.0, 0);
+        assertEquals("giftBalance == 0", expected, actual);
     }
 
     @Test
     public void calculateDiscount_giftBalanceLessThanZero_returnRightValue() throws Exception {
-        assertDiscountGift("giftBalance < 0", 10.0, -100, -1.0);
+        BigDecimal expected = BigDecimal.valueOf(-1.0).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal actual = calculateDiscountGift(10.0, -100);
+        assertEquals("giftBalance < 0", expected, actual);
     }
 
     // exception
@@ -213,134 +266,100 @@ public class VoucherifyUtilsTest {
 
     @Test(expected = RuntimeException.class)
     public void calculateDiscount_percentageMoreThanHundred_throwException() throws Exception {
-        assertDiscountPercentage("discount > 100", 10.0, 110.0, 0.0);
+        calculateDiscountPercentage(10.0, 110.0);
     }
 
     @Test(expected = RuntimeException.class)
     public void calculateDiscount_percentageLessThanZero_throwException() throws Exception {
-        assertPricePercentage("discount < 0", 10.0, -10.0, 0.0);
+        calculateDiscountPercentage(10.0, -10.0);
     }
 
     @Test(expected = RuntimeException.class)
     public void calculateDiscount_percentageNull_throwException() throws Exception {
-        assertDiscountPercentage("discount == null", 10.0, null, 0.0);
+        calculateDiscountPercentage(10.0, null);
     }
 
     @Test(expected = RuntimeException.class)
     public void calculateDiscount_amountLessThanZero_throwException() throws Exception {
-        assertDiscountAmount("discount < 0", 10.0, -10, 0.0);
+        calculateDiscountAmount(10.0, -10);
     }
 
     @Test(expected = RuntimeException.class)
     public void calculateDiscount_amountNull_throwException() throws Exception {
-        assertDiscountAmount("discount == null", 10.0, null, 0.0);
+        calculateDiscountAmount(10.0, null);
     }
 
     @Test(expected = RuntimeException.class)
     public void calculateDiscount_unitLessThanZero_throwException() throws Exception {
-        assertDiscountUnit("unitOff < 0", 10.0, 1.0, -2.0, 0.0);
+        calculateDiscountUnit(10.0, 1.0, -2.0);
     }
 
     @Test(expected = RuntimeException.class)
     public void calculateDiscount_unitNull_throwException() throws Exception {
-        assertDiscountUnit("unitOff == null", 10.0, 1.0, null, 0.0);
+        calculateDiscountUnit(10.0, 1.0, null);
     }
 
     @Test(expected = RuntimeException.class)
     public void calculateDiscount_giftNull_throwException() throws Exception {
-        assertDiscountGift("giftBalance == null", 10.0, null, 0.0);
+        calculateDiscountGift(10.0, null);
     }
 
-    private void assertPricePercentage(String description,
-                                       Double basePriceDouble,
-                                       Double discountDouble,
-                                       Double expectedDouble) {
+    private BigDecimal calculatePricePercentage(Double basePriceDouble, Double discountDouble) {
         BigDecimal basePrice = new BigDecimal(basePriceDouble);
         Discount discount = createDiscount(DiscountType.PERCENT, null, discountDouble, null, null);
         VoucherResponse voucherResponse = createVoucherResponse("", true, discount, null, null, null);
-        BigDecimal actual = VoucherifyUtils.calculatePrice(basePrice, voucherResponse, null);
-        assertEquals(description, expectedDouble, actual.doubleValue(), 0.01);
+        return VoucherifyUtils.calculatePrice(basePrice, voucherResponse, null);
     }
 
-    private void assertPriceAmount(String description,
-                                   Double basePriceDouble,
-                                   Integer discountInt,
-                                   Double expectedDouble) {
+    private BigDecimal calculatePriceAmount(Double basePriceDouble, Integer discountInt) {
         BigDecimal basePrice = new BigDecimal(basePriceDouble);
         Discount discount = createDiscount(DiscountType.AMOUNT, discountInt, null, null, null);
         VoucherResponse voucherResponse = createVoucherResponse("", true, discount, null, null, null);
-        BigDecimal actual = VoucherifyUtils.calculatePrice(basePrice, voucherResponse, null);
-        assertEquals(description, expectedDouble, actual.doubleValue(), 0.01);
+        return VoucherifyUtils.calculatePrice(basePrice, voucherResponse, null);
     }
 
-    private void assertPriceUnit(String description,
-                                 Double basePriceDouble,
-                                 Double unitPriceDouble,
-                                 Double unitOffDouble,
-                                 Double expectedDouble) {
+    private BigDecimal calculatePriceUnit(Double basePriceDouble, Double unitPriceDouble, Double unitOffDouble) {
         BigDecimal basePrice = new BigDecimal(basePriceDouble);
         BigDecimal unitPrice = new BigDecimal(unitPriceDouble);
         Discount discount = createDiscount(DiscountType.UNIT, null, null, unitOffDouble, null);
         VoucherResponse voucherResponse = createVoucherResponse("", true, discount, null, null, null);
-        BigDecimal actual = VoucherifyUtils.calculatePrice(basePrice, voucherResponse, unitPrice);
-        assertEquals(description, expectedDouble, actual.doubleValue(), 0.01);
+        return VoucherifyUtils.calculatePrice(basePrice, voucherResponse, unitPrice);
     }
 
-    private void assertPriceGift(String description,
-                                 Double basePriceDouble,
-                                 Integer giftBalanceInt,
-                                 Double expectedDouble) {
+    private BigDecimal calculatePriceGift(Double basePriceDouble, Integer giftBalanceInt) {
         BigDecimal basePrice = new BigDecimal(basePriceDouble);
         Gift gift = new Gift(giftBalanceInt, giftBalanceInt);
         VoucherResponse voucherResponse = createVoucherResponse("", true, null, gift, null, null);
-        BigDecimal actual = VoucherifyUtils.calculatePrice(basePrice, voucherResponse, null);
-        assertEquals(description, expectedDouble, actual.doubleValue(), 0.01);
+        return VoucherifyUtils.calculatePrice(basePrice, voucherResponse, null);
     }
 
-    private void assertDiscountPercentage(String description,
-                                          Double basePriceDouble,
-                                          Double discountDouble,
-                                          Double expectedDouble) {
+    private BigDecimal calculateDiscountPercentage(Double basePriceDouble, Double discountDouble) {
         BigDecimal basePrice = new BigDecimal(basePriceDouble);
         Discount discount = createDiscount(DiscountType.PERCENT, null, discountDouble, null, null);
         VoucherResponse voucherResponse = createVoucherResponse("", true, discount, null, null, null);
-        BigDecimal actual = VoucherifyUtils.calculateDiscount(basePrice, voucherResponse, null);
-        assertEquals(description, expectedDouble, actual.doubleValue(), 0.01);
+        return VoucherifyUtils.calculateDiscount(basePrice, voucherResponse, null);
     }
 
-    private void assertDiscountAmount(String description,
-                                      Double basePriceDouble,
-                                      Integer discountInt,
-                                      Double expectedDouble) {
+    private BigDecimal calculateDiscountAmount(Double basePriceDouble, Integer discountInt) {
         BigDecimal basePrice = new BigDecimal(basePriceDouble);
         Discount discount = createDiscount(DiscountType.AMOUNT, discountInt, null, null, null);
         VoucherResponse voucherResponse = createVoucherResponse("", true, discount, null, null, null);
-        BigDecimal actual = VoucherifyUtils.calculateDiscount(basePrice, voucherResponse, null);
-        assertEquals(description, expectedDouble, actual.doubleValue(), 0.01);
+        return VoucherifyUtils.calculateDiscount(basePrice, voucherResponse, null);
     }
 
-    private void assertDiscountUnit(String description,
-                                    Double basePriceDouble,
-                                    Double unitPriceDouble,
-                                    Double unitOffDouble,
-                                    Double expectedDouble) {
+    private BigDecimal calculateDiscountUnit(Double basePriceDouble, Double unitPriceDouble, Double unitOffDouble) {
         BigDecimal basePrice = new BigDecimal(basePriceDouble);
         BigDecimal unitPrice = new BigDecimal(unitPriceDouble);
         Discount discount = createDiscount(DiscountType.UNIT, null, null, unitOffDouble, null);
         VoucherResponse voucherResponse = createVoucherResponse("", true, discount, null, null, null);
-        BigDecimal actual = VoucherifyUtils.calculateDiscount(basePrice, voucherResponse, unitPrice);
-        assertEquals(description, expectedDouble, actual.doubleValue(), 0.01);
+        return VoucherifyUtils.calculateDiscount(basePrice, voucherResponse, unitPrice);
     }
 
-    private void assertDiscountGift(String description,
-                                    Double basePriceDouble,
-                                    Integer giftBalanceInt,
-                                    Double expectedDouble) {
+    private BigDecimal calculateDiscountGift(Double basePriceDouble, Integer giftBalanceInt) {
         BigDecimal basePrice = new BigDecimal(basePriceDouble);
         Gift gift = new Gift(giftBalanceInt, giftBalanceInt);
         VoucherResponse voucherResponse = createVoucherResponse("", true, null, gift, null, null);
-        BigDecimal actual = VoucherifyUtils.calculateDiscount(basePrice, voucherResponse, null);
-        assertEquals(description, expectedDouble, actual.doubleValue(), 0.01);
+        return VoucherifyUtils.calculateDiscount(basePrice, voucherResponse, null);
     }
 
     private VoucherResponse createVoucherResponse(String code,
