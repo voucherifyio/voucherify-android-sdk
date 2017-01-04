@@ -6,12 +6,12 @@ import io.voucherify.android.client.model.Gift;
 import io.voucherify.android.client.model.VoucherResponse;
 
 public class ModelHelper {
-    public static VoucherResponse createVoucherResponse(String code,
-                                                  boolean valid,
-                                                  Discount discount,
-                                                  Gift gift,
-                                                  String reason,
-                                                  String trackingId) {
+    public static VoucherResponse createFakeVoucherResponse(String code,
+                                                            boolean valid,
+                                                            Discount discount,
+                                                            Gift gift,
+                                                            String reason,
+                                                            String trackingId) {
         VoucherResponse result = new VoucherResponse();
         result.setCode(code);
         result.setValid(valid);
@@ -22,11 +22,11 @@ public class ModelHelper {
         return result;
     }
 
-    public static Discount createDiscount(DiscountType type,
-                                    Integer amountOff,
-                                    Double percentOff,
-                                    Double unitOff,
-                                    String unitType) {
+    public static Discount createFakeDiscount(DiscountType type,
+                                              Integer amountOff,
+                                              Double percentOff,
+                                              Double unitOff,
+                                              String unitType) {
         Discount result = new Discount();
         result.setType(type);
         result.setAmountOff(amountOff);

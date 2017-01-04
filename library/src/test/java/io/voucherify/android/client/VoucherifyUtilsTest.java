@@ -8,8 +8,8 @@ import java.math.RoundingMode;
 import io.voucherify.android.client.model.Discount;
 import io.voucherify.android.client.model.VoucherResponse;
 
-import static io.voucherify.android.helper.ModelHelper.createDiscount;
-import static io.voucherify.android.helper.ModelHelper.createVoucherResponse;
+import static io.voucherify.android.helper.ModelHelper.createFakeDiscount;
+import static io.voucherify.android.helper.ModelHelper.createFakeVoucherResponse;
 import static io.voucherify.android.helper.VoucherifyUtilsHelper.calculateDiscountAmount;
 import static io.voucherify.android.helper.VoucherifyUtilsHelper.calculateDiscountGift;
 import static io.voucherify.android.helper.VoucherifyUtilsHelper.calculateDiscountPercentage;
@@ -122,8 +122,8 @@ public class VoucherifyUtilsTest {
     @Test(expected = RuntimeException.class)
     public void calculatePrice_invalidType_throwException() throws Exception {
         BigDecimal basePrice = new BigDecimal(10);
-        Discount discount = createDiscount(null, null, null, null, null);
-        VoucherResponse voucherResponse = createVoucherResponse("", true, discount, null, null, null);
+        Discount discount = createFakeDiscount(null, null, null, null, null);
+        VoucherResponse voucherResponse = createFakeVoucherResponse("", true, discount, null, null, null);
         VoucherifyUtils.calculatePrice(basePrice, voucherResponse, null);
     }
 
@@ -267,8 +267,8 @@ public class VoucherifyUtilsTest {
     @Test(expected = RuntimeException.class)
     public void calculateDiscount_invalidType_throwException() throws Exception {
         BigDecimal basePrice = new BigDecimal(10);
-        Discount discount = createDiscount(null, null, null, null, null);
-        VoucherResponse voucherResponse = createVoucherResponse("", true, discount, null, null, null);
+        Discount discount = createFakeDiscount(null, null, null, null, null);
+        VoucherResponse voucherResponse = createFakeVoucherResponse("", true, discount, null, null, null);
         VoucherifyUtils.calculateDiscount(basePrice, voucherResponse, null);
     }
 
