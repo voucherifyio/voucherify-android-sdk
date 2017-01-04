@@ -24,23 +24,21 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ValidationTest {
-
     @Mock
     VoucherifyApi api;
 
     private Validation validation;
-    private MockSuccessCall<VoucherResponse> mockSuccessCall;
 
     @Before
     public void setUp() {
         validation = new Validation(api, Schedulers.trampoline(), null);
-        mockSuccessCall = new MockSuccessCall<>();
+        MockSuccessCall<VoucherResponse> mockSuccessCall = new MockSuccessCall<>();
+        when(api.validateVoucher(ArgumentMatchers.<String, String>anyMap()))
+                .thenReturn(mockSuccessCall);
     }
 
     @Test
     public void validateVoucher_passCode_invokeApiValidateVoucherWithRightQuery() throws Exception {
-        when(api.validateVoucher(ArgumentMatchers.<String, String>anyMap()))
-                .thenReturn(mockSuccessCall);
         validation.validateVoucher("SAMPLE_CODE");
         Map<String, String> queryParams = new LinkedHashMap<>();
         queryParams.put("channel", "android");
@@ -51,8 +49,6 @@ public class ValidationTest {
 
     @Test
     public void validateVoucher_passCodeAndAmount_invokeApiValidateVoucherWithRightQuery() throws Exception {
-        when(api.validateVoucher(ArgumentMatchers.<String, String>anyMap()))
-                .thenReturn(mockSuccessCall);
         validation.validateVoucher("SAMPLE_CODE", 100);
         Map<String, String> queryParams = new LinkedHashMap<>();
         queryParams.put("channel", "android");
@@ -64,8 +60,6 @@ public class ValidationTest {
 
     @Test
     public void validateVoucher_passCodeAndAmountAndOrderItem_invokeApiValidateVoucherWithRightQuery() throws Exception {
-        when(api.validateVoucher(ArgumentMatchers.<String, String>anyMap()))
-                .thenReturn(mockSuccessCall);
         List<OrderItem> orderItems = new ArrayList<>();
         orderItems.add(new OrderItem("0", "sku_0", 1));
         validation.validateVoucher("SAMPLE_CODE", 100, orderItems);
