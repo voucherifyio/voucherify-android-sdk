@@ -40,22 +40,22 @@ public class ValidationTest {
     @Test
     public void validateVoucher_passCode_invokeApiValidateVoucherWithRightQuery() throws Exception {
         validation.validateVoucher("SAMPLE_CODE");
-        Map<String, String> queryParams = new LinkedHashMap<>();
-        queryParams.put("channel", "android");
-        queryParams.put("code", "SAMPLE_CODE");
 
-        verify(api, times(1)).validateVoucher(queryParams);
+        Map<String, String> expectedQueryParams = new LinkedHashMap<>();
+        expectedQueryParams.put("channel", "android");
+        expectedQueryParams.put("code", "SAMPLE_CODE");
+        verify(api, times(1)).validateVoucher(expectedQueryParams);
     }
 
     @Test
     public void validateVoucher_passCodeAndAmount_invokeApiValidateVoucherWithRightQuery() throws Exception {
         validation.validateVoucher("SAMPLE_CODE", 100);
-        Map<String, String> queryParams = new LinkedHashMap<>();
-        queryParams.put("channel", "android");
-        queryParams.put("code", "SAMPLE_CODE");
-        queryParams.put("amount", "100");
 
-        verify(api, times(1)).validateVoucher(queryParams);
+        Map<String, String> expectedQueryParams = new LinkedHashMap<>();
+        expectedQueryParams.put("channel", "android");
+        expectedQueryParams.put("code", "SAMPLE_CODE");
+        expectedQueryParams.put("amount", "100");
+        verify(api, times(1)).validateVoucher(expectedQueryParams);
     }
 
     @Test
@@ -64,14 +64,13 @@ public class ValidationTest {
         orderItems.add(new OrderItem("0", "sku_0", 1));
         validation.validateVoucher("SAMPLE_CODE", 100, orderItems);
 
-        Map<String, String> queryParams = new LinkedHashMap<>();
-        queryParams.put("channel", "android");
-        queryParams.put("code", "SAMPLE_CODE");
-        queryParams.put("amount", "100");
-        queryParams.put("item[0][product_id]", "0");
-        queryParams.put("item[0][sku_id]", "sku_0");
-        queryParams.put("item[0][quantity]", "1");
-
-        verify(api, times(1)).validateVoucher(queryParams);
+        Map<String, String> expectedQueryParams = new LinkedHashMap<>();
+        expectedQueryParams.put("channel", "android");
+        expectedQueryParams.put("code", "SAMPLE_CODE");
+        expectedQueryParams.put("amount", "100");
+        expectedQueryParams.put("item[0][product_id]", "0");
+        expectedQueryParams.put("item[0][sku_id]", "sku_0");
+        expectedQueryParams.put("item[0][quantity]", "1");
+        verify(api, times(1)).validateVoucher(expectedQueryParams);
     }
 }
