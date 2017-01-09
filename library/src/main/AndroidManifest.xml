@@ -1,4 +1,4 @@
-<manifest package="pl.rspective.voucherify.android.client"
+<manifest package="io.voucherify.android.client"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />

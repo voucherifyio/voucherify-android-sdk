@@ -34,7 +34,7 @@
                 android:layout_gravity="center"
                 android:src="@drawable/voucherify_logo"/>
 
-            <pl.rspective.voucherify.android.view.VoucherCheckoutView
+            <io.voucherify.android.view.VoucherCheckoutView
                 android:id="@+id/voucher_checkout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
