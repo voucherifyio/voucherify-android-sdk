@@ -1,0 +1,13 @@
+check.dependsOn 'lint'
+
+def configDir = "${project.rootDir}/config"
+
+android {
+    lintOptions {
+        abortOnError true
+        xmlReport false
+        htmlReport true
+        lintConfig file("$configDir/lint/lint.xml")
+        htmlOutput file("$reportsDir/lint/lint-result.html")
+    }
+}
