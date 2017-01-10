@@ -2,7 +2,7 @@
 <resources>
 
     <style name="VoucherCodeLabel" parent="ThemeOverlay.AppCompat.Light">
-        <item name="android:textSize">20dp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textColorHint">@android:color/white</item>
         <item name="colorAccent">@android:color/white</item>

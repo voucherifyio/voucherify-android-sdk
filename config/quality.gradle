@@ -1,6 +1,6 @@
 apply plugin: 'checkstyle'
 
-check.dependsOn 'checkstyle'
+check.dependsOn 'checkstyle', 'lint'
 
 def configDir = "${project.rootDir}/config"
 
@@ -10,4 +10,14 @@ task checkstyle(type: Checkstyle) {
     include '**/*.java'
     exclude '**/gen/**'
     classpath = files()
+}
+
+android {
+    lintOptions {
+        abortOnError true
+        xmlReport false
+        htmlReport true
+        lintConfig file("$configDir/lint/lint.xml")
+        htmlOutput file("$reportsDir/lint/lint-result.html")
+    }
 }

@@ -126,7 +126,7 @@ public class VoucherCheckoutView extends RelativeLayout {
             throw new IllegalStateException("VoucherifyClient not provided.");
         }
 
-        String voucherCode = voucherCodeEditText.getText().toString();
+        String voucherCode = voucherCodeEditText.getText().toString().trim();
 
         voucherifyClient.vouchers().validations().async()
                 .validateVoucher(voucherCode, new VoucherifyCallback<VoucherResponse, VoucherifyError>() {
