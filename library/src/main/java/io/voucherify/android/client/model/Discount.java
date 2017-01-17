@@ -22,19 +22,37 @@ public class Discount {
         return type;
     }
 
+    public void setType(DiscountType type) {
+        this.type = type;
+    }
+
     public Integer getAmountOff() {
         return amountOff;
+    }
+
+    public void setAmountOff(Integer amountOff) {
+        this.amountOff = amountOff;
     }
 
     public Double getPercentOff() {
         return percentOff;
     }
 
+    public void setPercentOff(Double percentOff) {
+        this.percentOff = percentOff;
+    }
     public Double getUnitOff() {
         return unitOff;
     }
 
+    public void setUnitOff(Double unitOff) {
+        this.unitOff = unitOff;
+    }
     public String getUnitType() {
         return unitType;
+    }
+
+    public void setUnitType(String unitType) {
+        this.unitType = unitType;
     }
 }
