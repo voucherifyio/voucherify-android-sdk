@@ -88,9 +88,13 @@ public class VoucherifyAndroidClient {
      * @return
      */
     private OkHttpClient createOkHttpClient(Builder builder) {
+        Interceptor headerIterceptor =
+                createHeaderInterceptor(builder.clientId, builder.clientToken, builder.origin);
+        Interceptor loggerInterceptor = createLoggerInterceptor(builder.logLevel);
+
         return new OkHttpClient.Builder()
-                .addInterceptor(createHeaderInterceptor(builder.clientId, builder.clientToken, builder.origin))
-                .addInterceptor(createLoggerInterceptor(builder.logLevel))
+                .addInterceptor(headerIterceptor)
+                .addInterceptor(loggerInterceptor)
                 .build();
     }
 
@@ -112,15 +116,21 @@ public class VoucherifyAndroidClient {
      * @param clientToken
      * @return
      */
-    private Interceptor createHeaderInterceptor(final String clientId, final String clientToken, final String origin) {
+    private Interceptor createHeaderInterceptor(final String clientId,
+                                                final String clientToken,
+                                                final String origin) {
+        final String headerOrigin =
+                (origin == null || origin.isEmpty()) ? Constants.VOUCHERIFY_DEFAULT_ORIGIN : origin;
+        final String channel = Constants.VOUCHERIFY_CHANNEL_NAME;
+
         return new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {
                 Request.Builder builder = chain.request().newBuilder();
                 builder.addHeader(Constants.HTTP_HEADER_CLIENT_ID, clientId);
                 builder.addHeader(Constants.HTTP_HEADER_CLIENT_TOKEN, clientToken);
-                builder.addHeader(Constants.HTTP_HEADER_ORIGIN, origin == null || origin.isEmpty() ? Constants.VOUCHERIFY_DEFAULT_ORIGIN : origin);
-                builder.addHeader(Constants.HTTP_HEADER_VOUCHERIFY_CHANNEL, Constants.VOUCHERIFY_CHANNEL_NAME);
+                builder.addHeader(Constants.HTTP_HEADER_ORIGIN, headerOrigin);
+                builder.addHeader(Constants.HTTP_HEADER_VOUCHERIFY_CHANNEL, channel);
                 return chain.proceed(builder.build());
             }
         };

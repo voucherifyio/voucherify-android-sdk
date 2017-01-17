@@ -9,7 +9,7 @@ public class PublishEntry {
 
     private String customer;
     private String channel;
-    
+
     @SerializedName("published_at")
     private Date publishedAt;
 
@@ -23,7 +23,6 @@ public class PublishEntry {
         return channel;
     }
 
-    
     public Date getPublishedAt() {
         return publishedAt;
     }

@@ -63,7 +63,7 @@ public class VoucherCheckoutView extends RelativeLayout {
         voucherCodeEditText = (EditText) inflatedView.findViewById(R.id.et_voucher_code);
         voucherCodeEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -73,7 +73,7 @@ public class VoucherCheckoutView extends RelativeLayout {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) { }
         });
         validateButton = (Button) inflatedView.findViewById(R.id.btn_validate);
         validateButton.setOnClickListener(new OnClickListener() {
@@ -128,7 +128,8 @@ public class VoucherCheckoutView extends RelativeLayout {
 
         String voucherCode = voucherCodeEditText.getText().toString().trim();
 
-        voucherifyClient.vouchers().validations().async().validateVoucher(voucherCode, new VoucherifyCallback<VoucherResponse, VoucherifyError>() {
+        voucherifyClient.vouchers().validations().async()
+                .validateVoucher(voucherCode, new VoucherifyCallback<VoucherResponse, VoucherifyError>() {
             @Override
             public void onSuccess(final VoucherResponse result) {
                 if (onValidatedListener != null) {
@@ -139,7 +140,8 @@ public class VoucherCheckoutView extends RelativeLayout {
                         }
                         onValidatedListener.onValid(result);
                     } else {
-                        voucherCodeEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, invalidVoucherIcon, null);
+                        voucherCodeEditText
+                                .setCompoundDrawablesWithIntrinsicBounds(null, null, invalidVoucherIcon, null);
                         if (!validAnimation.hasStarted() || validAnimation.hasEnded()) {
                             voucherCodeEditText.startAnimation(invalidAnimation);
                         }
@@ -172,7 +174,7 @@ public class VoucherCheckoutView extends RelativeLayout {
      *
      * @param listener
      */
-    public void setOnValidatedListener(OnValidatedListener listener){
+    public void setOnValidatedListener(OnValidatedListener listener) {
         this.onValidatedListener = listener;
     }
 

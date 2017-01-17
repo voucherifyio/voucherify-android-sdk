@@ -58,7 +58,8 @@ public class Validation extends AbsModule<Validation.ExtAsync, Validation.ExtRxJ
             for (OrderItem item : orderItems) {
                 queryParams.put("item[" + index + "][product_id]", item.getProductId());
                 queryParams.put("item[" + index + "][sku_id]", item.getSkuId());
-                queryParams.put("item[" + index + "][quantity]", item.getQuantity() != null ? item.getQuantity().toString() : null);
+                queryParams.put("item[" + index + "][quantity]",
+                        item.getQuantity() != null ? item.getQuantity().toString() : null);
                 index++;
             }
         }
@@ -95,7 +96,9 @@ public class Validation extends AbsModule<Validation.ExtAsync, Validation.ExtRxJ
             });
         }
 
-        public Observable<VoucherResponse> validateVoucher(final String code, final Integer amount, final List<OrderItem> orderItems) {
+        public Observable<VoucherResponse> validateVoucher(final String code,
+                                                           final Integer amount,
+                                                           final List<OrderItem> orderItems) {
             return RxUtils.defer(new RxUtils.DefFunc<VoucherResponse>() {
                 @Override
                 public VoucherResponse method() throws IOException {
@@ -110,11 +113,16 @@ public class Validation extends AbsModule<Validation.ExtAsync, Validation.ExtRxJ
             RxUtils.subscribe(scheduler, rx().validateVoucher(code), callback);
         }
 
-        public void validateVoucher(String code, Integer amount, VoucherifyCallback<VoucherResponse, VoucherifyError> callback) {
+        public void validateVoucher(String code,
+                                    Integer amount,
+                                    VoucherifyCallback<VoucherResponse, VoucherifyError> callback) {
             RxUtils.subscribe(scheduler, rx().validateVoucher(code, amount), callback);
         }
 
-        public void validateVoucher(String code, Integer amount, List<OrderItem> orderItems, VoucherifyCallback<VoucherResponse, VoucherifyError> callback) {
+        public void validateVoucher(String code,
+                                    Integer amount,
+                                    List<OrderItem> orderItems,
+                                    VoucherifyCallback<VoucherResponse, VoucherifyError> callback) {
             RxUtils.subscribe(scheduler, rx().validateVoucher(code, amount, orderItems), callback);
         }
     }

@@ -9,44 +9,41 @@ import java.util.List;
  */
 public class VoucherRedemption {
 
-	/**
-	 * Value of voucher's quantity
-	 */
-	private Integer quantity;
+    /**
+     * Value of voucher's quantity
+     */
+    private Integer quantity;
 
-	/**
-	 * Value of redeemed voucher's quantity
-	 */
-	@SerializedName("redeemed_quantity")
-	private int redeemedQuantity;
+    /**
+     * Value of redeemed voucher's quantity
+     */
+    @SerializedName("redeemed_quantity")
+    private int redeemedQuantity;
 
-	/**
-	 *
-	 */
-	@SerializedName("redemption_entries")
-	private List<RedemptionEntry> redemptionEntries;
+    /**
+     *
+     */
+    @SerializedName("redemption_entries")
+    private List<RedemptionEntry> redemptionEntries;
 
-	/**
-	 *
-	 * @return
-	 */
-	public Integer getQuantity() {
-		return quantity;
-	}
+    /**
+     * @return
+     */
+    public Integer getQuantity() {
+        return quantity;
+    }
 
-	/**
-	 *
-	 * @return
-	 */
-	public int getRedeemedQuantity() {
-		return redeemedQuantity;
-	}
+    /**
+     * @return
+     */
+    public int getRedeemedQuantity() {
+        return redeemedQuantity;
+    }
 
-	/**
-	 *
-	 * @return
-	 */
-	public List<RedemptionEntry> getRedemptionEntries() {
-		return redemptionEntries;
-	}
+    /**
+     * @return
+     */
+    public List<RedemptionEntry> getRedemptionEntries() {
+        return redemptionEntries;
+    }
 }
