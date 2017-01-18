@@ -6,6 +6,10 @@ import io.voucherify.android.client.model.Gift;
 import io.voucherify.android.client.model.VoucherResponse;
 
 public class ModelHelper {
+
+    private ModelHelper() {
+    }
+
     public static VoucherResponse createFakeVoucherResponse(String code,
                                                             boolean valid,
                                                             Discount discount,

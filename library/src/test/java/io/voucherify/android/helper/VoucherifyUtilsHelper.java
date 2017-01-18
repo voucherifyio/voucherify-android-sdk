@@ -12,6 +12,10 @@ import static io.voucherify.android.helper.ModelHelper.createFakeDiscount;
 import static io.voucherify.android.helper.ModelHelper.createFakeVoucherResponse;
 
 public class VoucherifyUtilsHelper {
+
+    private VoucherifyUtilsHelper() {
+    }
+
     public static BigDecimal calculatePricePercentage(Double basePriceDouble, Double discountDouble) {
         BigDecimal basePrice = new BigDecimal(basePriceDouble);
         Discount discount = createFakeDiscount(DiscountType.PERCENT, null, discountDouble, null, null);
@@ -55,7 +59,8 @@ public class VoucherifyUtilsHelper {
         return VoucherifyUtils.calculateDiscount(basePrice, voucherResponse, null);
     }
 
-    public static BigDecimal calculateDiscountUnit(Double basePriceDouble, Double unitPriceDouble, Double unitOffDouble) {
+    public static BigDecimal calculateDiscountUnit(
+            Double basePriceDouble, Double unitPriceDouble, Double unitOffDouble) {
         BigDecimal basePrice = new BigDecimal(basePriceDouble);
         BigDecimal unitPrice = new BigDecimal(unitPriceDouble);
         Discount discount = createFakeDiscount(DiscountType.UNIT, null, null, unitOffDouble, null);

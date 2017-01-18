@@ -59,7 +59,8 @@ public class ValidationTest {
     }
 
     @Test
-    public void validateVoucher_passCodeAndAmountAndOrderItem_invokeApiValidateVoucherWithRightQuery() throws Exception {
+    public void validateVoucher_passCodeAndAmountAndOrderItem_invokeApiValidateVoucherWithRightQuery()
+            throws Exception {
         List<OrderItem> orderItems = new ArrayList<>();
         orderItems.add(new OrderItem("0", "sku_0", 1));
         validation.validateVoucher("SAMPLE_CODE", 100, orderItems);
