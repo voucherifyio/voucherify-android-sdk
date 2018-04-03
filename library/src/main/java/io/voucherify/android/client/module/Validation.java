@@ -15,13 +15,8 @@ import io.voucherify.android.client.model.VoucherResponse;
 import io.voucherify.android.client.utils.RxUtils;
 
 public class Validation extends AbsModule<Validation.ExtAsync, Validation.ExtRxJava> {
-    private final VoucherifyApi api;
 
     private static final String CHANNEL = "android";
-
-    private final String trackingId;
-
-    private final Scheduler scheduler;
 
     /**
      *
@@ -30,10 +25,7 @@ public class Validation extends AbsModule<Validation.ExtAsync, Validation.ExtRxJ
      * @param trackingId custom tracking id to track voucher consumers
      */
     public Validation(VoucherifyApi api, Scheduler scheduler, String trackingId) {
-        super(api, scheduler);
-        this.api = api;
-        this.scheduler = scheduler;
-        this.trackingId = trackingId;
+        super(api, scheduler, trackingId);
     }
 
     public VoucherResponse validateVoucher(String code) throws IOException {

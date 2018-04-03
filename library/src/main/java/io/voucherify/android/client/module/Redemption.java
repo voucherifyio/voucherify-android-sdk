@@ -12,13 +12,6 @@ import io.voucherify.android.client.model.VoucherRedemptionResult;
 import io.voucherify.android.client.utils.RxUtils;
 
 public class Redemption extends AbsModule<Redemption.ExtAsync, Redemption.ExtRxJava> {
-
-    private final VoucherifyApi api;
-
-    private final Scheduler scheduler;
-
-    private final String trackingId;
-
     /**
      *
      * @param api describes Voucherify REST API
@@ -26,10 +19,7 @@ public class Redemption extends AbsModule<Redemption.ExtAsync, Redemption.ExtRxJ
      * @param trackingId custom tracking id to track voucher consumers
      */
     public Redemption(VoucherifyApi api, Scheduler scheduler, String trackingId) {
-        super(api, scheduler);
-        this.api = api;
-        this.scheduler = scheduler;
-        this.trackingId = trackingId;
+        super(api, scheduler, trackingId);
     }
 
     @Override

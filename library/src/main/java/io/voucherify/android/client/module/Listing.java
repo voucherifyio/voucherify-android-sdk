@@ -12,12 +12,6 @@ import io.voucherify.android.client.utils.RxUtils;
 
 public class Listing extends AbsModule<Listing.ExtAsync, Listing.ExtRxJava> {
 
-    private final VoucherifyApi api;
-
-    private final Scheduler scheduler;
-
-    private final String trackingId;
-
     /**
      *
      * @param api describes Voucherify REST API
@@ -25,10 +19,7 @@ public class Listing extends AbsModule<Listing.ExtAsync, Listing.ExtRxJava> {
      * @param trackingId custom tracking id to track voucher consumers
      */
     public Listing(VoucherifyApi api, Scheduler scheduler, String trackingId) {
-        super(api, scheduler);
-        this.api = api;
-        this.scheduler = scheduler;
-        this.trackingId = trackingId;
+        super(api, scheduler, trackingId);
     }
 
     @Override

@@ -9,18 +9,13 @@ import android.widget.TextView;
 
 import java.math.BigDecimal;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
-import io.voucherify.android.client.model.VoucherRedemptionResult;
-import io.voucherify.android.client.model.VouchersList;
-import okhttp3.logging.HttpLoggingInterceptor;
 import io.voucherify.android.client.VoucherifyAndroidClient;
 import io.voucherify.android.client.VoucherifyUtils;
 import io.voucherify.android.client.exception.VoucherifyError;
 import io.voucherify.android.client.model.VoucherResponse;
 import io.voucherify.android.view.OnValidatedListener;
 import io.voucherify.android.view.VoucherCheckoutView;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -73,22 +68,6 @@ public class MainActivity extends AppCompatActivity {
                 voucherCheckout.setVoucherErrorMessage(error.getMessage());
             }
         });
-
-        voucherifyClient.vouchers().listing().rx().list()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        new Consumer<VouchersList>() {
-                            @Override
-                            public void accept(VouchersList voucherResponse) throws Exception {
-
-                            }
-                        }, new Consumer<Throwable>() {
-                            @Override
-                            public void accept(Throwable throwable) throws Exception {
-
-                            }
-                        });
     }
 
     private void updateDiscountDetails(VoucherResponse result) {
