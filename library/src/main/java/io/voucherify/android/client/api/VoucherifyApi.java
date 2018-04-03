@@ -5,6 +5,7 @@ import java.util.Map;
 import io.voucherify.android.client.model.VoucherRedemptionContext;
 import io.voucherify.android.client.model.VoucherRedemptionResult;
 import io.voucherify.android.client.model.VoucherResponse;
+import io.voucherify.android.client.model.VouchersList;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -49,5 +50,15 @@ public interface VoucherifyApi {
     @POST("/client/v1/redeem")
     Call<VoucherRedemptionResult> redeemVoucher(@Query("code") String code,
                                                 @Body VoucherRedemptionContext redemptionContext);
+
+    /**
+     * Method used to list a vouchers
+     * @param trackingId
+     *          an id enabling you to correlate who has redeemed the voucher
+     * @return
+     */
+    @GET("/client/v1/vouchers")
+    Call<VouchersList> listVouchers(@Query("tracking_id") String trackingId);
+
 
 }

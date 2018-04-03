@@ -7,15 +7,18 @@ public final class VoucherModule {
 
     private Validation validation;
     private Redemption redemption;
+    private Listing listing;
 
     /**
      *
      * @param validation
      * @param redemption
+     * @param listing
      */
-    public VoucherModule(Validation validation, Redemption redemption) {
+    public VoucherModule(Validation validation, Redemption redemption, Listing listing) {
         this.validation = validation;
         this.redemption = redemption;
+        this.listing = listing;
     }
 
     public Validation validations() {
@@ -25,5 +28,7 @@ public final class VoucherModule {
     public Redemption redemptions() {
         return this.redemption;
     }
+
+    public Listing listing() { return this.listing; }
 
 }

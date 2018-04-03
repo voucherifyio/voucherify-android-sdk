@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import io.reactivex.Scheduler;
 import io.voucherify.android.client.api.VoucherifyApi;
+import io.voucherify.android.client.module.Listing;
 import io.voucherify.android.client.module.Redemption;
 import io.voucherify.android.client.module.Validation;
 import io.voucherify.android.client.module.VoucherModule;
@@ -41,7 +42,8 @@ public class VoucherifyAndroidClient {
 
         this.voucherModule = new VoucherModule(
                 new Validation(voucherifyApi, scheduler, builder.trackingId),
-                new Redemption(voucherifyApi, scheduler, builder.trackingId)
+                new Redemption(voucherifyApi, scheduler, builder.trackingId),
+                new Listing(voucherifyApi, scheduler, builder.trackingId)
         );
     }
 

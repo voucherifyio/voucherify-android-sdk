@@ -9,6 +9,11 @@ import android.widget.TextView;
 
 import java.math.BigDecimal;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+import io.voucherify.android.client.model.VoucherRedemptionResult;
+import io.voucherify.android.client.model.VouchersList;
 import okhttp3.logging.HttpLoggingInterceptor;
 import io.voucherify.android.client.VoucherifyAndroidClient;
 import io.voucherify.android.client.VoucherifyUtils;
@@ -32,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        voucherifyClient = new VoucherifyAndroidClient.Builder("011240bf-d5fc-4ef1-9e82-11eb68c43bf5", "9e2230c5-71fb-460a-91c6-fbee64707a20")
+        voucherifyClient = new VoucherifyAndroidClient.Builder("a743822e-c47f-4fd4-b569-7e1a3a575e33", "f6d246a0-83c0-485f-b2bd-805033d83a90")
                 .withCustomTrackingId("demo-android")
                 .setLogLevel(HttpLoggingInterceptor.Level.BODY)
                 .build();
@@ -68,6 +73,22 @@ public class MainActivity extends AppCompatActivity {
                 voucherCheckout.setVoucherErrorMessage(error.getMessage());
             }
         });
+
+        voucherifyClient.vouchers().listing().rx().list()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        new Consumer<VouchersList>() {
+                            @Override
+                            public void accept(VouchersList voucherResponse) throws Exception {
+
+                            }
+                        }, new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable throwable) throws Exception {
+
+                            }
+                        });
     }
 
     private void updateDiscountDetails(VoucherResponse result) {
@@ -78,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
             tvDiscount.setText(String.format(getString(R.string.discountTitle), discount.toString()));
             tvNewPrice.setText(String.format(getString(R.string.priceAfterDiscountTitle), newPrice.toString()));
-        } catch(Exception e) {/* ignoring wrong etProductPrice value */}
+        } catch (Exception e) {/* ignoring wrong etProductPrice value */}
     }
 
 }

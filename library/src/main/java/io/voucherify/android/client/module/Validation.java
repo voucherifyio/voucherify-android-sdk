@@ -25,7 +25,7 @@ public class Validation extends AbsModule<Validation.ExtAsync, Validation.ExtRxJ
 
     /**
      *
-     * @param api describes Voucherif REST API
+     * @param api describes Voucherify REST API
      * @param scheduler of threads for current platform
      * @param trackingId custom tracking id to track voucher consumers
      */

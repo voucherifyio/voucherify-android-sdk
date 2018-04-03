@@ -21,7 +21,7 @@ public class Redemption extends AbsModule<Redemption.ExtAsync, Redemption.ExtRxJ
 
     /**
      *
-     * @param api describes Voucherif REST API
+     * @param api describes Voucherify REST API
      * @param scheduler of threads for current platform
      * @param trackingId custom tracking id to track voucher consumers
      */
