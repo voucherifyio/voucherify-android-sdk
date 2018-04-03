@@ -52,6 +52,7 @@ dependencies {
 ```
 -keepattributes Signature
 -dontwarn rx.**
+-dontwarn io.reactivex.**
 -dontwarn retrofit2.**
 -keep class retrofit2.** { *; }
 -keep class io.voucherify.android.client.** { *; }
@@ -96,7 +97,7 @@ androidClient = new VoucherifyAndroidClient.Builder(YOUR-PUBLIC-CLIENT-APPLICATI
 
 ## Synchronous, Rx or Async?
 
-All the methods in SDK are provided directly or in asynchronous or rx version:
+All the methods in SDK are provided directly or in asynchronous or rx (RxJava2) version:
 
 Every method has a corresponding asynchronous extension which can be accessed through the `async()` or `rx()` method of the vouchers module.
 
@@ -123,7 +124,7 @@ client.vouchers().validations().async().validateVoucher("VOUCHER_CODE", new Vouc
 });
 ```
 
-or using RxJava:
+or using RxJava (RxJava2):
 
 ```java
 client.vouchers().validations()
