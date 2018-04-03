@@ -164,6 +164,7 @@ client.vouchers().validations()
 
 ---
 
+
 #### Redemptions API
 
 ### [Redeem Voucher]
@@ -174,6 +175,14 @@ client.vouchers().validations()
 
 ```java
     client.vouchers().redemptions().redeem(String code, VoucherRedemptionContext redemptionContext)
+```
+
+#### Listing vouchers API
+
+### [List Vouchers]
+
+```java
+    client.vouchers().listing().list()
 ```
 
 ## Voucher Checkout View
@@ -289,3 +298,4 @@ MIT. See the [LICENSE](https://github.com/voucherifyio/voucherify-android-sdk/bl
 
 [Validate Voucher]: https://docs.voucherify.io/reference#vouchers-validate
 [Redeem Voucher]: https://docs.voucherify.io/reference#redeem-voucher-client-side
+[List Vouchers]: https://docs.voucherify.io/reference
