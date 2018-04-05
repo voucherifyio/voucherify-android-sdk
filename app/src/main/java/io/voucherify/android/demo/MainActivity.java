@@ -7,11 +7,22 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import io.voucherify.android.client.VoucherifyAndroidClient;
 import io.voucherify.android.client.VoucherifyUtils;
 import io.voucherify.android.client.exception.VoucherifyError;
+import io.voucherify.android.client.model.Order;
+import io.voucherify.android.client.model.OrderItem;
+import io.voucherify.android.client.model.Tier;
+import io.voucherify.android.client.model.VoucherRedemptionContext;
+import io.voucherify.android.client.model.VoucherRedemptionResult;
 import io.voucherify.android.client.model.VoucherResponse;
 import io.voucherify.android.view.OnValidatedListener;
 import io.voucherify.android.view.VoucherCheckoutView;

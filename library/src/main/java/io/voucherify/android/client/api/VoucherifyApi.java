@@ -9,6 +9,8 @@ import io.voucherify.android.client.model.VouchersList;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -36,6 +38,7 @@ public interface VoucherifyApi {
      * @return
      */
     @POST("/client/v1/redeem")
+    @Headers("Content-Type: application/json")
     Call<VoucherRedemptionResult> redeemVoucher(@Query("code") String code,
                                                 @Query("tracking_id") String trackingId);
 
@@ -49,6 +52,7 @@ public interface VoucherifyApi {
      * @return redemption result (including redemption id)
      */
     @POST("/client/v1/redeem")
+    @Headers("Content-Type: application/json")
     Call<VoucherRedemptionResult> redeemVoucher(@Query("code") String code,
                                                 @Body VoucherRedemptionContext redemptionContext);
 
@@ -82,6 +86,7 @@ public interface VoucherifyApi {
      * @return
      */
     @POST("/client/v1/promotions/tiers/{tierId}/redemption")
+    @Headers("Content-Type: application/json")
     Call<VoucherRedemptionResult> redeemPromotion(@Path("tierId") String tierId, @Query("tracking_id") String trackingId);
 
     /**
@@ -93,5 +98,6 @@ public interface VoucherifyApi {
      * @return redemption result (including redemption id)
      */
     @POST("/client/v1/promotions/tiers/{tierId}/redemption")
+    @Headers("Content-Type: application/json")
     Call<VoucherRedemptionResult> redeemPromotion(@Path("tierId") String tierId, @Body VoucherRedemptionContext redemptionContext);
 }
