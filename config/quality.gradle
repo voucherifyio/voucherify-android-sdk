@@ -1,5 +1,9 @@
 apply plugin: 'checkstyle'
 
+checkstyle {
+    toolVersion = '7.2'
+}
+
 check.dependsOn 'checkstyle', 'lint'
 
 def configDir = "${project.rootDir}/config"

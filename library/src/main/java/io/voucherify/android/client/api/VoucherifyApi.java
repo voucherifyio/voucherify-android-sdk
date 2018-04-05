@@ -87,7 +87,8 @@ public interface VoucherifyApi {
      */
     @POST("/client/v1/promotions/tiers/{tierId}/redemption")
     @Headers("Content-Type: application/json")
-    Call<VoucherRedemptionResult> redeemPromotion(@Path("tierId") String tierId, @Query("tracking_id") String trackingId);
+    Call<VoucherRedemptionResult> redeemPromotion(@Path("tierId") String tierId,
+                                                  @Query("tracking_id") String trackingId);
 
     /**
      * Method used to redeem promotion
@@ -99,5 +100,6 @@ public interface VoucherifyApi {
      */
     @POST("/client/v1/promotions/tiers/{tierId}/redemption")
     @Headers("Content-Type: application/json")
-    Call<VoucherRedemptionResult> redeemPromotion(@Path("tierId") String tierId, @Body VoucherRedemptionContext redemptionContext);
+    Call<VoucherRedemptionResult> redeemPromotion(@Path("tierId") String tierId,
+                                                  @Body VoucherRedemptionContext redemptionContext);
 }

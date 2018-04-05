@@ -37,7 +37,8 @@ public class Redemption extends AbsModule<Redemption.ExtAsync, Redemption.ExtRxJ
         return api.redeemPromotion(tier.getId(), trackingId).execute().body();
     }
 
-    public VoucherRedemptionResult redeem(Tier tier, VoucherRedemptionContext redemptionContext) throws IOException {
+    public VoucherRedemptionResult redeem(Tier tier, VoucherRedemptionContext redemptionContext)
+            throws IOException {
         return api.redeemPromotion(tier.getId(), redemptionContext).execute().body();
     }
 
@@ -45,8 +46,8 @@ public class Redemption extends AbsModule<Redemption.ExtAsync, Redemption.ExtRxJ
         return api.redeemVoucher(code, trackingId).execute().body();
     }
 
-    public VoucherRedemptionResult redeem(String code,
-                                          VoucherRedemptionContext redemptionContext) throws IOException {
+    public VoucherRedemptionResult redeem(
+            String code, VoucherRedemptionContext redemptionContext) throws IOException {
         return api.redeemVoucher(code, redemptionContext).execute().body();
     }
 
@@ -60,8 +61,8 @@ public class Redemption extends AbsModule<Redemption.ExtAsync, Redemption.ExtRxJ
             });
         }
 
-        public Observable<VoucherRedemptionResult> redeem(final String code,
-                                                          final VoucherRedemptionContext redemptionContext) {
+        public Observable<VoucherRedemptionResult> redeem(
+                final String code, final VoucherRedemptionContext redemptionContext) {
             return RxUtils.defer(new RxUtils.DefFunc<VoucherRedemptionResult>() {
                 @Override
                 public VoucherRedemptionResult method() throws IOException {
@@ -79,7 +80,8 @@ public class Redemption extends AbsModule<Redemption.ExtAsync, Redemption.ExtRxJ
             });
         }
 
-        public Observable<VoucherRedemptionResult> redeem(final Tier tier, final VoucherRedemptionContext redemptionContext) {
+        public Observable<VoucherRedemptionResult> redeem(
+                final Tier tier, final VoucherRedemptionContext redemptionContext) {
             return RxUtils.defer(new RxUtils.DefFunc<VoucherRedemptionResult>() {
                 @Override
                 public VoucherRedemptionResult method() throws IOException {

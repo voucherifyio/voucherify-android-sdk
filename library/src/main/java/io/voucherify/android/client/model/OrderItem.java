@@ -42,6 +42,7 @@ public class OrderItem {
         return quantity;
     }
 
-    public Integer getPrice() { return price; }
-
+    public Integer getPrice() {
+        return price;
+    }
 }

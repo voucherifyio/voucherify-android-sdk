@@ -29,6 +29,8 @@ public final class VoucherModule {
         return this.redemption;
     }
 
-    public Listing listing() { return this.listing; }
+    public Listing listing() {
+        return this.listing;
+    }
 
 }

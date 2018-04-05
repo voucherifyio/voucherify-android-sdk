@@ -62,16 +62,17 @@ public class ValidationTest {
     public void validateVoucher_passCodeAndAmountAndOrderItem_invokeApiValidateVoucherWithRightQuery()
             throws Exception {
         List<OrderItem> orderItems = new ArrayList<>();
-        orderItems.add(new OrderItem("0", "sku_0", 1));
+        orderItems.add(new OrderItem("0", "sku_0", 1, 10));
         validation.validate("SAMPLE_CODE", 100, orderItems);
 
         Map<String, String> expectedQueryParams = new LinkedHashMap<>();
-        expectedQueryParams.put("channel", "android");
-        expectedQueryParams.put("code", "SAMPLE_CODE");
         expectedQueryParams.put("amount", "100");
         expectedQueryParams.put("item[0][product_id]", "0");
         expectedQueryParams.put("item[0][sku_id]", "sku_0");
+        expectedQueryParams.put("item[0][price]", "10");
         expectedQueryParams.put("item[0][quantity]", "1");
+        expectedQueryParams.put("channel", "android");
+        expectedQueryParams.put("code", "SAMPLE_CODE");
         verify(api, times(1)).validateVoucher(expectedQueryParams);
     }
 }
