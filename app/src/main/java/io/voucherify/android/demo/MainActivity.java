@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        voucherifyClient = new VoucherifyAndroidClient.Builder("a743822e-c47f-4fd4-b569-7e1a3a575e33", "f6d246a0-83c0-485f-b2bd-805033d83a90")
+        voucherifyClient = new VoucherifyAndroidClient.Builder("c7306167-294a-4c06-aa5b-d81ee8155a00", "07bca261-3bd3-49cc-a58a-8ffce2d20d1b")
                 .withCustomTrackingId("demo-android")
                 .setLogLevel(HttpLoggingInterceptor.Level.BODY)
                 .build();

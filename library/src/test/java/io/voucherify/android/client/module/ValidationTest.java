@@ -39,7 +39,7 @@ public class ValidationTest {
 
     @Test
     public void validateVoucher_passCode_invokeApiValidateVoucherWithRightQuery() throws Exception {
-        validation.validateVoucher("SAMPLE_CODE");
+        validation.validate("SAMPLE_CODE");
 
         Map<String, String> expectedQueryParams = new LinkedHashMap<>();
         expectedQueryParams.put("channel", "android");
@@ -49,7 +49,7 @@ public class ValidationTest {
 
     @Test
     public void validateVoucher_passCodeAndAmount_invokeApiValidateVoucherWithRightQuery() throws Exception {
-        validation.validateVoucher("SAMPLE_CODE", 100);
+        validation.validate("SAMPLE_CODE", 100);
 
         Map<String, String> expectedQueryParams = new LinkedHashMap<>();
         expectedQueryParams.put("channel", "android");
@@ -63,7 +63,7 @@ public class ValidationTest {
             throws Exception {
         List<OrderItem> orderItems = new ArrayList<>();
         orderItems.add(new OrderItem("0", "sku_0", 1));
-        validation.validateVoucher("SAMPLE_CODE", 100, orderItems);
+        validation.validate("SAMPLE_CODE", 100, orderItems);
 
         Map<String, String> expectedQueryParams = new LinkedHashMap<>();
         expectedQueryParams.put("channel", "android");
