@@ -213,6 +213,10 @@ These methods are __deprecated__ now and will be removed soon:
     client.vouchers().listing().list()
 ```
 
+```java
+    client.vouchers().listing().list(String customer)
+```
+
 ## Voucher Checkout View
 
 You can use VoucherCheckoutView to quickly add a UI for discount codes validation.

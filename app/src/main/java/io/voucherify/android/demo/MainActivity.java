@@ -7,22 +7,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 import io.voucherify.android.client.VoucherifyAndroidClient;
 import io.voucherify.android.client.VoucherifyUtils;
 import io.voucherify.android.client.exception.VoucherifyError;
-import io.voucherify.android.client.model.Order;
-import io.voucherify.android.client.model.OrderItem;
-import io.voucherify.android.client.model.Tier;
-import io.voucherify.android.client.model.VoucherRedemptionContext;
-import io.voucherify.android.client.model.VoucherRedemptionResult;
 import io.voucherify.android.client.model.VoucherResponse;
 import io.voucherify.android.view.OnValidatedListener;
 import io.voucherify.android.view.VoucherCheckoutView;
@@ -43,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        voucherifyClient = new VoucherifyAndroidClient.Builder("c7306167-294a-4c06-aa5b-d81ee8155a00", "07bca261-3bd3-49cc-a58a-8ffce2d20d1b")
+        voucherifyClient = new VoucherifyAndroidClient.Builder("011240bf-d5fc-4ef1-9e82-11eb68c43bf5", "9e2230c5-71fb-460a-91c6-fbee64707a20")
                 .withCustomTrackingId("demo-android")
                 .setLogLevel(HttpLoggingInterceptor.Level.BODY)
                 .build();

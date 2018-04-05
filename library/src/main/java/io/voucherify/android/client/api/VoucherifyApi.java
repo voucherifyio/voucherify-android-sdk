@@ -9,7 +9,6 @@ import io.voucherify.android.client.model.VouchersList;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -58,12 +57,13 @@ public interface VoucherifyApi {
 
     /**
      * Method used to list a vouchers
-     * @param trackingId
-     *          an id enabling you to correlate who has redeemed the voucher
+     * @param queryParams
+     *         - tracking_id
+     *         - customer
      * @return
      */
     @GET("/client/v1/vouchers")
-    Call<VouchersList> listVouchers(@Query("tracking_id") String trackingId);
+    Call<VouchersList> listVouchers(@QueryMap Map<String, String> queryParams);
 
     /**
      * Method used to validate promotion
