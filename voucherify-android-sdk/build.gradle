@@ -2,6 +2,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.neenbedankt.android-apt'
 apply from: '../config/quality.gradle'
 
+version = "1.1.0"
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.0"
@@ -10,7 +12,7 @@ android {
         minSdkVersion 10
         targetSdkVersion 25
         versionCode 20
-        versionName "1.1.0"
+        versionName version
     }
     buildTypes {
         release {
@@ -55,11 +57,11 @@ ext {
     siteUrl = 'https://github.com/voucherifyio/voucherify-android-sdk'
     gitUrl = 'https://github.com/voucherifyio/voucherify-android-sdk.git'
 
-    libraryVersion = '1.1.0'
+    libraryVersion = version
 
-    developerId = 'szandrzej'
-    developerName = 'Andrzej Szmajnta'
-    developerEmail = 'andrzej.szmajnta@rspective.pl'
+    developerId = 'rspective'
+    developerName = 'Rspective Developer'
+    developerEmail = 'dev@rspective.pl'
 
     licenseName = 'MIT License'
     licenseUrl = 'https://opensource.org/licenses/MIT'
