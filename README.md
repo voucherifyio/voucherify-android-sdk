@@ -30,6 +30,8 @@ API:
 
 ---
 
+ [ ![Download](https://api.bintray.com/packages/rspective/io.voucherify.android.client/voucherify-android-sdk/images/download.svg?version=1.1.0) ](https://bintray.com/rspective/io.voucherify.android.client/voucherify-android-sdk/1.1.0/link)
+
 ## Setup
 
 ###### Using Gradle:
