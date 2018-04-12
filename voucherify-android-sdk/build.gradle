@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.neenbedankt.android-apt'
 apply from: '../config/quality.gradle'
 
-version = "1.1.0"
+version = '1.1.4'
 
 android {
     compileSdkVersion 25
@@ -68,5 +68,5 @@ ext {
     allLicenses = ["MIT"]
 }
 
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
+apply from: './install.gradle'
+apply from: './bintray.gradle'
