@@ -24,6 +24,8 @@ API:
 <a href="#validations-api">Validations</a>
 |
 <a href="#redemptions-api">Redemptions</a>
+|
+<a href="#listing-api">Voucher Listing</a>
 </p>
 
 ---
@@ -52,6 +54,7 @@ dependencies {
 ```
 -keepattributes Signature
 -dontwarn rx.**
+-dontwarn io.reactivex.**
 -dontwarn retrofit2.**
 -keep class retrofit2.** { *; }
 -keep class io.voucherify.android.client.** { *; }
@@ -96,10 +99,11 @@ androidClient = new VoucherifyAndroidClient.Builder(YOUR-PUBLIC-CLIENT-APPLICATI
 
 ## Synchronous, Rx or Async?
 
-All the methods in SDK are provided directly or in asynchronous or rx version:
+All the methods in SDK are provided directly or in asynchronous or rx (RxJava2) version:
 
 Every method has a corresponding asynchronous extension which can be accessed through the `async()` or `rx()` method of the vouchers module.
 
+__If used directly, methods must be run in separate thread to avoid NetworkOnMainThreadException__
 ```java
 try {
     VoucherResponse voucher = client.vouchers().validations().validateVoucher(VOUCHER_CODE);
@@ -123,7 +127,7 @@ client.vouchers().validations().async().validateVoucher("VOUCHER_CODE", new Vouc
 });
 ```
 
-or using RxJava:
+or using RxJava (RxJava2):
 
 ```java
 client.vouchers().validations()
@@ -131,14 +135,14 @@ client.vouchers().validations()
         .validateVoucher("VOUCHER_CODE")
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Action1<VoucherResponse>() {
+        .subscribe(new Consumer<VoucherResponse>() {
             @Override
-            public void call(VoucherResponse voucher) {
+            public void apply(VoucherResponse voucher) {
 
             }
-        }, new Action1<Throwable>() {
+        }, new Consumer<Throwable>() {
             @Override
-            public void call(Throwable throwable) {
+            public void apply(Throwable throwable) {
             }
         });
 ```
@@ -150,18 +154,34 @@ client.vouchers().validations()
 ### [Validate Voucher]
 
 ```java
+    client.vouchers().validations().validate(String code)
+```
+
+```java
+    client.vouchers().validations().validate(String code, Integer amount)
+```
+
+```java
+    client.vouchers().validations().validate(String code, Integer amount, List<OrderItem> orderItems)
+```
+
+These methods are __deprecated__ now and will be removed soon:
+```java
     client.vouchers().validations().validateVoucher(String code)
-```
-
-```java
     client.vouchers().validations().validateVoucher(String code, Integer amount)
-```
-
-```java
     client.vouchers().validations().validateVoucher(String code, Integer amount, List<OrderItem> orderItems)
 ```
 
----
+### [Validate Promotions]
+
+```java
+    client.vouchers().validations().validate(Integer amount)
+```
+
+```java
+    client.vouchers().validations().validate(Integer amount, List<OrderItem> orderItems)
+```
+
 
 #### Redemptions API
 
@@ -173,6 +193,28 @@ client.vouchers().validations()
 
 ```java
     client.vouchers().redemptions().redeem(String code, VoucherRedemptionContext redemptionContext)
+```
+
+### [Redeem Promotions]
+
+```java
+    client.vouchers().redemptions().redeem(Tier tier)
+```
+
+```java
+    client.vouchers().redemptions().redeem(Tier tier, VoucherRedemptionContext redemptionContext)
+```
+
+#### Listing vouchers API
+
+### [List Vouchers]
+
+```java
+    client.vouchers().listing().list()
+```
+
+```java
+    client.vouchers().listing().list(String customer)
 ```
 
 ## Voucher Checkout View
@@ -264,6 +306,7 @@ For example to set the button background color to light green:
 Bug reports and pull requests are welcome through [GitHub Issues](https://github.com/voucherifyio/voucherify-android-sdk/issues).
 
 ## Changelog
+- **2018-04-05** - `1.1.0` - Added API for Promotions and Vouchers Listing
 - **2017-01-02** - `1.0.0` - Unify API with other voucherify SDKs.
 - **2016-09-20** - `0.6.0` - Redeem a voucher.
 - **2016-09-06** - `0.5.0` - Added order items.
@@ -288,3 +331,6 @@ MIT. See the [LICENSE](https://github.com/voucherifyio/voucherify-android-sdk/bl
 
 [Validate Voucher]: https://docs.voucherify.io/reference#vouchers-validate
 [Redeem Voucher]: https://docs.voucherify.io/reference#redeem-voucher-client-side
+[List Vouchers]: https://docs.voucherify.io/reference
+[Validate Promotions]:  https://docs.voucherify.io/reference
+[Redeem Promotions]:  https://docs.voucherify.io/reference

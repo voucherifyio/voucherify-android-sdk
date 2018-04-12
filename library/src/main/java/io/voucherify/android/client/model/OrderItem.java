@@ -12,6 +12,8 @@ public class OrderItem {
 
     private Integer quantity;
 
+    private Integer price;
+
     public OrderItem() {
     }
 
@@ -19,6 +21,13 @@ public class OrderItem {
         this.productId = productId;
         this.skuId = skuId;
         this.quantity = quantity;
+    }
+
+    public OrderItem(String productId, String skuId, Integer quantity, Integer price) {
+        this.productId = productId;
+        this.skuId = skuId;
+        this.quantity = quantity;
+        this.price = price;
     }
 
     public String getProductId() {
@@ -33,4 +42,7 @@ public class OrderItem {
         return quantity;
     }
 
+    public Integer getPrice() {
+        return price;
+    }
 }

@@ -14,6 +14,8 @@ abstract class AbsModule<A, R> {
      */
     final VoucherifyApi api;
 
+    final String trackingId;
+
     /**
      * The type of object used to do async calls
      */
@@ -29,9 +31,10 @@ abstract class AbsModule<A, R> {
      * @param api describes Voucherif REST API
      * @param scheduler of threads for current platform
      */
-    AbsModule(VoucherifyApi api, Scheduler scheduler) {
+    AbsModule(VoucherifyApi api, Scheduler scheduler, String trackingId) {
         this.api = api;
         this.scheduler = scheduler;
+        this.trackingId = trackingId;
 
         this.extAsync = createAsyncExtension();
         this.extRxJava = createRxJavaExtension();

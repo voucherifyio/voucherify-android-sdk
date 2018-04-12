@@ -9,13 +9,13 @@ import android.widget.TextView;
 
 import java.math.BigDecimal;
 
-import okhttp3.logging.HttpLoggingInterceptor;
 import io.voucherify.android.client.VoucherifyAndroidClient;
 import io.voucherify.android.client.VoucherifyUtils;
 import io.voucherify.android.client.exception.VoucherifyError;
 import io.voucherify.android.client.model.VoucherResponse;
 import io.voucherify.android.view.OnValidatedListener;
 import io.voucherify.android.view.VoucherCheckoutView;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
             tvDiscount.setText(String.format(getString(R.string.discountTitle), discount.toString()));
             tvNewPrice.setText(String.format(getString(R.string.priceAfterDiscountTitle), newPrice.toString()));
-        } catch(Exception e) {/* ignoring wrong etProductPrice value */}
+        } catch (Exception e) {/* ignoring wrong etProductPrice value */}
     }
 
 }
