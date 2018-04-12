@@ -41,3 +41,30 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.5.0'
 }
+
+ext {
+    bintrayRepo = 'io.voucherify.android.client'
+    bintrayName = 'voucherify-android-sdk'
+
+    publishedGroupId = 'io.voucherify.android.client'
+    libraryName = 'Voucherify Android SDK'
+    artifact = 'voucherify-android-sdk'
+
+    libraryDescription = 'Android SDK for Voucherify'
+
+    siteUrl = 'https://github.com/voucherifyio/voucherify-android-sdk'
+    gitUrl = 'https://github.com/voucherifyio/voucherify-android-sdk.git'
+
+    libraryVersion = '1.1.0'
+
+    developerId = 'szandrzej'
+    developerName = 'Andrzej Szmajnta'
+    developerEmail = 'andrzej.szmajnta@rspective.pl'
+
+    licenseName = 'MIT License'
+    licenseUrl = 'https://opensource.org/licenses/MIT'
+    allLicenses = ["MIT"]
+}
+
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
