@@ -14,5 +14,6 @@ android:
     - 'google-gdk-license-.+'
 before_install:
    - export JAVA8_HOME=/usr/lib/jvm/java-8-oracle
+   - touch local.properties
 script:
    - ./gradlew check
