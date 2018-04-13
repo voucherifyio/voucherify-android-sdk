@@ -2,7 +2,7 @@ package io.voucherify.android.client.api;
 
 import java.util.Map;
 
-import io.voucherify.android.client.model.VoucherRedemptionContext;
+import io.voucherify.android.client.model.RedemptionContext;
 import io.voucherify.android.client.model.VoucherRedemptionResult;
 import io.voucherify.android.client.model.VoucherResponse;
 import io.voucherify.android.client.model.VouchersList;
@@ -53,7 +53,8 @@ public interface VoucherifyApi {
     @POST("/client/v1/redeem")
     @Headers("Content-Type: application/json")
     Call<VoucherRedemptionResult> redeemVoucher(@Query("code") String code,
-                                                @Body VoucherRedemptionContext redemptionContext);
+                                                @Body RedemptionContext redemptionContext,
+                                                @Query("tracking_id") String trackingId);
 
     /**
      * Method used to list a vouchers
@@ -77,18 +78,6 @@ public interface VoucherifyApi {
     @GET("/client/v1/promotions/validation")
     Call<VoucherResponse> validatePromotion(@QueryMap Map<String, String> queryParams);
 
-    /**
-     * Method used to redeem promotion
-     * @param tierId
-     *          identifies your promotion campaign tier
-     * @param trackingId
-     *          an id enabling you to correlate who has redeemed the voucher
-     * @return
-     */
-    @POST("/client/v1/promotions/tiers/{tierId}/redemption")
-    @Headers("Content-Type: application/json")
-    Call<VoucherRedemptionResult> redeemPromotion(@Path("tierId") String tierId,
-                                                  @Query("tracking_id") String trackingId);
 
     /**
      * Method used to redeem promotion
@@ -101,5 +90,6 @@ public interface VoucherifyApi {
     @POST("/client/v1/promotions/tiers/{tierId}/redemption")
     @Headers("Content-Type: application/json")
     Call<VoucherRedemptionResult> redeemPromotion(@Path("tierId") String tierId,
-                                                  @Body VoucherRedemptionContext redemptionContext);
+                                                  @Body RedemptionContext redemptionContext,
+                                                  @Query("tracking_id") String trackingId);
 }

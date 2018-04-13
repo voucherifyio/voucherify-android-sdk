@@ -8,7 +8,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import io.reactivex.schedulers.Schedulers;
 import io.voucherify.android.client.api.VoucherifyApi;
-import io.voucherify.android.client.model.VoucherRedemptionContext;
+import io.voucherify.android.client.model.RedemptionContext;
 import io.voucherify.android.client.model.VoucherRedemptionResult;
 import io.voucherify.android.helper.MockSuccessCall;
 
@@ -31,7 +31,7 @@ public class RedemptionTest {
         MockSuccessCall<VoucherRedemptionResult> mockSuccessCall = new MockSuccessCall<>();
         when(api.redeemVoucher(anyString(), anyString()))
                 .thenReturn(mockSuccessCall);
-        when(api.redeemVoucher(anyString(), any(VoucherRedemptionContext.class)))
+        when(api.redeemVoucher(anyString(), any(RedemptionContext.class), anyString()))
                 .thenReturn(mockSuccessCall);
     }
 
@@ -43,8 +43,8 @@ public class RedemptionTest {
 
     @Test
     public void redeem_passCOdeAndContext_invokeRedeemVoucherWithRightParameters() throws Exception {
-        VoucherRedemptionContext voucherRedemptionContext = new VoucherRedemptionContext(null);
+        RedemptionContext voucherRedemptionContext = new RedemptionContext(null);
         redemption.redeem("SAMPLE_CODE", voucherRedemptionContext);
-        verify(api, times(1)).redeemVoucher("SAMPLE_CODE", voucherRedemptionContext);
+        verify(api, times(1)).redeemVoucher("SAMPLE_CODE", voucherRedemptionContext, "TRACKING_ID");
     }
 }

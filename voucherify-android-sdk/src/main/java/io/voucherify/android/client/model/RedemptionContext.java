@@ -2,7 +2,7 @@ package io.voucherify.android.client.model;
 
 import java.util.Map;
 
-public class VoucherRedemptionContext {
+public class RedemptionContext {
 
     private final Customer customer;
 
@@ -10,21 +10,21 @@ public class VoucherRedemptionContext {
 
     private final Map<String, Object> metadata;
 
-    public VoucherRedemptionContext(Customer customer, Order order, Map<String, Object> metadata) {
+    public RedemptionContext(Customer customer, Order order, Map<String, Object> metadata) {
         this.customer = customer;
         this.order = order;
         this.metadata = metadata;
     }
 
-    public VoucherRedemptionContext(Customer customer, Order order) {
+    public RedemptionContext(Customer customer, Order order) {
         this(customer, order, null);
     }
 
-    public VoucherRedemptionContext(Customer customer, Map<String, Object> metadata) {
+    public RedemptionContext(Customer customer, Map<String, Object> metadata) {
         this(customer, null, metadata);
     }
 
-    public VoucherRedemptionContext(Customer customer) {
+    public RedemptionContext(Customer customer) {
         this(customer, null, null);
     }
 

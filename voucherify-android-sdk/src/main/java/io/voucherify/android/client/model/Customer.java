@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Customer {
+public class Customer implements Querable {
 
     private String id;
 
@@ -88,6 +88,23 @@ public class Customer {
 
     public String getObject() {
         return object;
+    }
+
+    @Override
+    public void createQuery(Map<String, String> map) {
+        map.put("customer[id]", id);
+        map.put("customer[source_id]", sourceId);
+        map.put("customer[name]", name);
+        map.put("customer[email]", email);
+        map.put("customer[created_at]", createdAt.toString());
+        map.put("customer[object]", object);
+
+        if (metadata != null) {
+            for (Map.Entry<String, Object> ob : metadata.entrySet()) {
+                map.put("customer[metadata][" + ob.getKey() + "]", ob.getValue().toString());
+            }
+        }
+
     }
 
     public static class Builder {

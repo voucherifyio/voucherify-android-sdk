@@ -1,6 +1,10 @@
 package io.voucherify.android.client.model;
 
 public class Tier {
+
+    public static Tier create(String id){
+        return new Tier(id);
+    }
     private String id;
 
     public Tier(String id) {

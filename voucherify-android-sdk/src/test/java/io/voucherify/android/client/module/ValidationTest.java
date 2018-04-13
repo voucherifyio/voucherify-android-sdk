@@ -14,7 +14,9 @@ import java.util.Map;
 
 import io.reactivex.schedulers.Schedulers;
 import io.voucherify.android.client.api.VoucherifyApi;
+import io.voucherify.android.client.model.Order;
 import io.voucherify.android.client.model.OrderItem;
+import io.voucherify.android.client.model.ValidationContext;
 import io.voucherify.android.client.model.VoucherResponse;
 import io.voucherify.android.helper.MockSuccessCall;
 
@@ -49,7 +51,7 @@ public class ValidationTest {
 
     @Test
     public void validateVoucher_passCodeAndAmount_invokeApiValidateVoucherWithRightQuery() throws Exception {
-        validation.validate("SAMPLE_CODE", 100);
+        validation.validate("SAMPLE_CODE", ValidationContext.create(100));
 
         Map<String, String> expectedQueryParams = new LinkedHashMap<>();
         expectedQueryParams.put("channel", "android");
@@ -63,7 +65,7 @@ public class ValidationTest {
             throws Exception {
         List<OrderItem> orderItems = new ArrayList<>();
         orderItems.add(new OrderItem("0", "sku_0", 1, 10));
-        validation.validate("SAMPLE_CODE", 100, orderItems);
+        validation.validate("SAMPLE_CODE", ValidationContext.create(100, orderItems));
 
         Map<String, String> expectedQueryParams = new LinkedHashMap<>();
         expectedQueryParams.put("amount", "100");
