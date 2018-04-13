@@ -1,6 +1,5 @@
 apply plugin: 'com.jfrog.bintray'
 
-version = libraryVersion
 
 if (project.hasProperty("android")) { // Android libraries
     task sourcesJar(type: Jar) {
@@ -48,6 +47,7 @@ bintray {
         publish = false
         publicDownloadNumbers = true
         version {
+            name = libraryVersion
             desc = libraryDescription
             gpg {
                 sign = true //Determines whether to GPG sign the files. The default is false
