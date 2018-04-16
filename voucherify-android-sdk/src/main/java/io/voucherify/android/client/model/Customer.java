@@ -96,7 +96,9 @@ public class Customer implements Querable {
         map.put("customer[source_id]", sourceId);
         map.put("customer[name]", name);
         map.put("customer[email]", email);
-        map.put("customer[created_at]", createdAt.toString());
+        if (createdAt != null) {
+            map.put("customer[created_at]", createdAt.toString());
+        }
         map.put("customer[object]", object);
 
         if (metadata != null) {

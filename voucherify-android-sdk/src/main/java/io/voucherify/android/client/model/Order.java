@@ -3,7 +3,7 @@ package io.voucherify.android.client.model;
 import java.util.List;
 import java.util.Map;
 
-public class Order implements Querable{
+public class Order implements Querable {
     private Integer amount;
     private List<OrderItem> items;
 

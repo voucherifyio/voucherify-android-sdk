@@ -3,7 +3,7 @@ package io.voucherify.android.client.model;
 import java.util.List;
 import java.util.Map;
 
-public class ValidationContext implements Querable{
+public class ValidationContext implements Querable {
 
     public static ValidationContext create(Integer amount) {
         return new ValidationContext(null, new Order(100, null));
@@ -51,13 +51,13 @@ public class ValidationContext implements Querable{
 
     @Override
     public void createQuery(Map<String, String> query) {
-        if(customer != null){
+        if (customer != null) {
             customer.createQuery(query);
         }
-        if(order != null) {
+        if (order != null) {
             order.createQuery(query);
         }
-        if(metadata != null) {
+        if (metadata != null) {
             for (Map.Entry<String, Object> ob : metadata.entrySet()) {
                 query.put("metadata[" + ob.getKey() + "]", ob.getValue().toString());
             }

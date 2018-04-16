@@ -14,7 +14,6 @@ import java.util.Map;
 
 import io.reactivex.schedulers.Schedulers;
 import io.voucherify.android.client.api.VoucherifyApi;
-import io.voucherify.android.client.model.Order;
 import io.voucherify.android.client.model.OrderItem;
 import io.voucherify.android.client.model.ValidationContext;
 import io.voucherify.android.client.model.VoucherResponse;

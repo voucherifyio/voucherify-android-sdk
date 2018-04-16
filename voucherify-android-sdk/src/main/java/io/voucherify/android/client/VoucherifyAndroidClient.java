@@ -7,7 +7,6 @@ import io.voucherify.android.client.api.VoucherifyApi;
 import io.voucherify.android.client.module.Listing;
 import io.voucherify.android.client.module.Redemption;
 import io.voucherify.android.client.module.Validation;
-import io.voucherify.android.client.module.VoucherModule;
 import io.voucherify.android.client.utils.Platform;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;

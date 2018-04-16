@@ -36,6 +36,7 @@ bintray {
     user = properties.getProperty("bintray.user")
     key = properties.getProperty("bintray.apikey")
 
+    dryRun = false
     configurations = ['archives']
     pkg {
         repo = bintrayRepo

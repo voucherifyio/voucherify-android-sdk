@@ -1,8 +1,9 @@
 package io.voucherify.android.client.module;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
@@ -10,9 +11,8 @@ import io.reactivex.Scheduler;
 import io.voucherify.android.client.api.VoucherifyApi;
 import io.voucherify.android.client.callback.VoucherifyCallback;
 import io.voucherify.android.client.exception.VoucherifyError;
-import io.voucherify.android.client.model.OrderItem;
-import io.voucherify.android.client.model.VoucherResponse;
 import io.voucherify.android.client.model.ValidationContext;
+import io.voucherify.android.client.model.VoucherResponse;
 import io.voucherify.android.client.utils.RxUtils;
 
 public class Validation extends AbsModule<Validation.ExtAsync, Validation.ExtRxJava> {
@@ -46,9 +46,12 @@ public class Validation extends AbsModule<Validation.ExtAsync, Validation.ExtRxJ
             queryParams.put("tracking_id", trackingId);
         }
 
-        if(context != null) {
+        if (context != null) {
             context.createQuery(queryParams);
         }
+
+        Collection<String> values = queryParams.values();
+        values.removeAll(Collections.singleton(null));
         return queryParams;
     }
 
