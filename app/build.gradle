@@ -29,4 +29,5 @@ dependencies {
     implementation 'com.android.support:design:27.0.1'
 
     implementation project (':voucherify-android-sdk')
+//    implementation 'io.voucherify.android.client:voucherify-android-sdk:1.1.4'
 }
