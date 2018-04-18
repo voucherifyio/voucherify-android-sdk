@@ -187,6 +187,11 @@ public class VoucherifyAndroidClient {
             return this;
         }
 
+        public Builder withEndpoint(String endpoint) {
+            this.endpoint = endpoint;
+            return this;
+        }
+
         public Builder withOrigin(String origin) {
             this.origin = origin;
             return this;
