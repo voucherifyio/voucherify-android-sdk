@@ -30,13 +30,16 @@ API:
 
 ---
 
+ [ ![Download](https://api.bintray.com/packages/rspective/io.voucherify.android.client/voucherify-android-sdk/images/download.svg?version=1.1.0) ](https://bintray.com/rspective/io.voucherify.android.client/voucherify-android-sdk/1.1.0/link)
+[![Build Status](https://travis-ci.org/voucherifyio/voucherify-android-sdk.svg?branch=develop)](https://travis-ci.org/voucherifyio/voucherify-android-sdk)
+
 ## Setup
 
 ###### Using Gradle:
 
 ```groovy
 dependencies {
-    compile 'io.voucherify.android.client:voucherify-android-sdk:1.0.0'
+    compile 'io.voucherify.android.client:voucherify-android-sdk:1.1.0'
 }
 ```
 
@@ -46,7 +49,7 @@ dependencies {
 <dependency>
     <groupId>io.voucherify.android.client</groupId>
     <artifactId>voucherify-android-sdk</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
 </dependency>
 ```
 

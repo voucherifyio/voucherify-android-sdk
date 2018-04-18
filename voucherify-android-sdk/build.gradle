@@ -2,6 +2,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.neenbedankt.android-apt'
 apply from: '../config/quality.gradle'
 
+version = '1.1.4'
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.0"
@@ -10,7 +12,7 @@ android {
         minSdkVersion 10
         targetSdkVersion 25
         versionCode 20
-        versionName "1.1.0"
+        versionName version
     }
     buildTypes {
         release {
@@ -41,3 +43,30 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.5.0'
 }
+
+ext {
+    bintrayRepo = 'io.voucherify.android.client'
+    bintrayName = 'voucherify-android-sdk'
+
+    publishedGroupId = 'io.voucherify.android.client'
+    libraryName = 'Voucherify Android SDK'
+    artifact = 'voucherify-android-sdk'
+
+    libraryDescription = 'Android SDK for Voucherify'
+
+    siteUrl = 'https://github.com/voucherifyio/voucherify-android-sdk'
+    gitUrl = 'https://github.com/voucherifyio/voucherify-android-sdk.git'
+
+    libraryVersion = version
+
+    developerId = 'rspective'
+    developerName = 'Rspective Developer'
+    developerEmail = 'dev@rspective.pl'
+
+    licenseName = 'MIT License'
+    licenseUrl = 'https://opensource.org/licenses/MIT'
+    allLicenses = ["MIT"]
+}
+
+apply from: './install.gradle'
+apply from: './bintray.gradle'
