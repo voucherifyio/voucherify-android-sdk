@@ -1,13 +1,13 @@
 package io.voucherify.android.client.model;
 
-public class Tier {
+public class PromotionTier {
 
-    public static Tier create(String id) {
-        return new Tier(id);
+    public static PromotionTier create(String id) {
+        return new PromotionTier(id);
     }
     private String id;
 
-    public Tier(String id) {
+    public PromotionTier(String id) {
         this.id = id;
     }
 

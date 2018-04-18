@@ -185,7 +185,7 @@ client.validations()
 ### [Redeem Promotions]
 
 ```java
-    client.redemptions().redeem(Tier tier, RedemptionContext context)
+    client.redemptions().redeem(PromotionTier promotionTier, RedemptionContext context)
 ```
 
 #### Listing vouchers API
@@ -289,7 +289,7 @@ For example to set the button background color to light green:
 Bug reports and pull requests are welcome through [GitHub Issues](https://github.com/voucherifyio/voucherify-android-sdk/issues).
 
 ## Changelog
-- **2018-04-16** - `2.0.0` - New SDK API 
+- **2018-04-16** - `2.0.0` - Adjusted API for Validation and Redemption
 - **2018-04-05** - `1.1.0` - Added API for Promotions and Vouchers Listing
 - **2017-01-02** - `1.0.0` - Unify API with other voucherify SDKs.
 - **2016-09-20** - `0.6.0` - Redeem a voucher.
