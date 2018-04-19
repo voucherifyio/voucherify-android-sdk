@@ -2,6 +2,7 @@ package io.voucherify.android.client.api;
 
 import java.util.Map;
 
+import io.voucherify.android.client.model.PromotionResponse;
 import io.voucherify.android.client.model.RedemptionContext;
 import io.voucherify.android.client.model.VoucherRedemptionResult;
 import io.voucherify.android.client.model.VoucherResponse;
@@ -76,7 +77,7 @@ public interface VoucherifyApi {
      * @return
      */
     @GET("/client/v1/promotions/validation")
-    Call<VoucherResponse> validatePromotion(@QueryMap Map<String, String> queryParams);
+    Call<PromotionResponse> validatePromotion(@QueryMap Map<String, String> queryParams);
 
 
     /**

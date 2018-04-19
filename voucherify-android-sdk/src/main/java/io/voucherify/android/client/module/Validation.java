@@ -11,6 +11,7 @@ import io.reactivex.Scheduler;
 import io.voucherify.android.client.api.VoucherifyApi;
 import io.voucherify.android.client.callback.VoucherifyCallback;
 import io.voucherify.android.client.exception.VoucherifyError;
+import io.voucherify.android.client.model.PromotionResponse;
 import io.voucherify.android.client.model.ValidationContext;
 import io.voucherify.android.client.model.VoucherResponse;
 import io.voucherify.android.client.utils.RxUtils;
@@ -23,7 +24,7 @@ public class Validation extends AbsModule<Validation.ExtAsync, Validation.ExtRxJ
         super(api, scheduler, trackingId);
     }
 
-    public VoucherResponse validate(ValidationContext context) throws IOException {
+    public PromotionResponse validate(ValidationContext context) throws IOException {
         Map<String, String> queryParams = createQueryParamsForContext(context);
         return api.validatePromotion(queryParams).execute().body();
     }
@@ -87,10 +88,10 @@ public class Validation extends AbsModule<Validation.ExtAsync, Validation.ExtRxJ
             });
         }
 
-        public Observable<VoucherResponse> validate(final ValidationContext context) {
-            return RxUtils.defer(new RxUtils.DefFunc<VoucherResponse>() {
+        public Observable<PromotionResponse> validate(final ValidationContext context) {
+            return RxUtils.defer(new RxUtils.DefFunc<PromotionResponse>() {
                 @Override
-                public VoucherResponse method() throws IOException {
+                public PromotionResponse method() throws IOException {
                     return Validation.this.validate(context);
                 }
             });
@@ -113,7 +114,7 @@ public class Validation extends AbsModule<Validation.ExtAsync, Validation.ExtRxJ
 
         public void validate(
                 ValidationContext context,
-                VoucherifyCallback<VoucherResponse, VoucherifyError> callback) {
+                VoucherifyCallback<PromotionResponse, VoucherifyError> callback) {
             RxUtils.subscribe(scheduler, rx().validate(context), callback);
         }
     }
