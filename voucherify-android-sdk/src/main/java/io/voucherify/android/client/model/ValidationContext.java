@@ -6,11 +6,11 @@ import java.util.Map;
 public class ValidationContext implements Querable {
 
     public static ValidationContext create(Integer amount) {
-        return new ValidationContext(null, new Order(100, null));
+        return new ValidationContext(null, new Order(amount, null));
     }
 
     public static ValidationContext create(Integer amount, List<OrderItem> items) {
-        return new ValidationContext(null, new Order(100, items));
+        return new ValidationContext(null, new Order(amount, items));
     }
 
     private final Customer customer;
