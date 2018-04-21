@@ -39,7 +39,7 @@ API:
 
 ```groovy
 dependencies {
-    compile 'io.voucherify.android.client:voucherify-android-sdk:1.1.0'
+    compile 'io.voucherify.android.client:voucherify-android-sdk:2.0.0'
 }
 ```
 
@@ -49,7 +49,7 @@ dependencies {
 <dependency>
     <groupId>io.voucherify.android.client</groupId>
     <artifactId>voucherify-android-sdk</artifactId>
-    <version>1.1.0</version>
+    <version>2.0.0</version>
 </dependency>
 ```
 
@@ -67,7 +67,7 @@ dependencies {
 ```
 
 NOTE:
-The SDK requires at least Java 6 or Android 2.3.3 (API 10)
+The SDK requires at least Java 6 or Android 4.0.4 (API 14)
 
 ### Configuration
 The `VoucherifyAndroidClient` manages your interaction with the Voucherify API.
@@ -109,7 +109,7 @@ Every method has a corresponding asynchronous extension which can be accessed th
 __If used directly, methods must be run in separate thread to avoid NetworkOnMainThreadException__
 ```java
 try {
-    VoucherResponse voucher = client.vouchers().validations().validateVoucher(VOUCHER_CODE);
+    VoucherResponse voucher = client.validations().validateVoucher(VOUCHER_CODE);
 } catch (IOExceptions e) {
     // error
 }
@@ -118,7 +118,7 @@ try {
 or asynchronously:
 
 ```java
-client.vouchers().validations().async().validateVoucher("VOUCHER_CODE", new VoucherifyCallback<VoucherResponse>() {
+client.validations().async().validateVoucher("VOUCHER_CODE", new VoucherifyCallback<VoucherResponse>() {
     @Override
     public void onSuccess(VoucherResponse result) {
     }
@@ -133,19 +133,19 @@ client.vouchers().validations().async().validateVoucher("VOUCHER_CODE", new Vouc
 or using RxJava (RxJava2):
 
 ```java
-client.vouchers().validations()
+client.validations()
         .rx()
         .validateVoucher("VOUCHER_CODE")
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(new Consumer<VoucherResponse>() {
             @Override
-            public void apply(VoucherResponse voucher) {
+            public void accept(VoucherResponse voucher) {
 
             }
         }, new Consumer<Throwable>() {
             @Override
-            public void apply(Throwable throwable) {
+            public void accept(Throwable throwable) {
             }
         });
 ```
@@ -157,55 +157,35 @@ client.vouchers().validations()
 ### [Validate Voucher]
 
 ```java
-    client.vouchers().validations().validate(String code)
+    client.validations().validate(String code)
 ```
 
 ```java
-    client.vouchers().validations().validate(String code, Integer amount)
-```
-
-```java
-    client.vouchers().validations().validate(String code, Integer amount, List<OrderItem> orderItems)
-```
-
-These methods are __deprecated__ now and will be removed soon:
-```java
-    client.vouchers().validations().validateVoucher(String code)
-    client.vouchers().validations().validateVoucher(String code, Integer amount)
-    client.vouchers().validations().validateVoucher(String code, Integer amount, List<OrderItem> orderItems)
+    client.validations().validate(String code, ValidationContext context)
 ```
 
 ### [Validate Promotions]
 
 ```java
-    client.vouchers().validations().validate(Integer amount)
+    client.validations().validate(ValidationContext context)
 ```
-
-```java
-    client.vouchers().validations().validate(Integer amount, List<OrderItem> orderItems)
-```
-
 
 #### Redemptions API
 
 ### [Redeem Voucher]
 
 ```java
-    client.vouchers().redemptions().redeem(String code)
+    client.redemptions().redeem(String code)
 ```
 
 ```java
-    client.vouchers().redemptions().redeem(String code, VoucherRedemptionContext redemptionContext)
+    client.redemptions().redeem(String code, RedemptionContext context)
 ```
 
 ### [Redeem Promotions]
 
 ```java
-    client.vouchers().redemptions().redeem(Tier tier)
-```
-
-```java
-    client.vouchers().redemptions().redeem(Tier tier, VoucherRedemptionContext redemptionContext)
+    client.redemptions().redeem(PromotionTier promotionTier, RedemptionContext context)
 ```
 
 #### Listing vouchers API
@@ -213,11 +193,11 @@ These methods are __deprecated__ now and will be removed soon:
 ### [List Vouchers]
 
 ```java
-    client.vouchers().listing().list()
+    client.listing().list()
 ```
 
 ```java
-    client.vouchers().listing().list(String customer)
+    client.listing().list(String customer)
 ```
 
 ## Voucher Checkout View
@@ -309,6 +289,7 @@ For example to set the button background color to light green:
 Bug reports and pull requests are welcome through [GitHub Issues](https://github.com/voucherifyio/voucherify-android-sdk/issues).
 
 ## Changelog
+- **2018-04-16** - `2.0.0` - Adjusted API for Validation and Redemption
 - **2018-04-05** - `1.1.0` - Added API for Promotions and Vouchers Listing
 - **2017-01-02** - `1.0.0` - Unify API with other voucherify SDKs.
 - **2016-09-20** - `0.6.0` - Redeem a voucher.

@@ -7,7 +7,6 @@ import io.voucherify.android.client.api.VoucherifyApi;
 import io.voucherify.android.client.module.Listing;
 import io.voucherify.android.client.module.Redemption;
 import io.voucherify.android.client.module.Validation;
-import io.voucherify.android.client.module.VoucherModule;
 import io.voucherify.android.client.utils.Platform;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -23,11 +22,15 @@ public class VoucherifyAndroidClient {
 
     private final String endpoint;
 
-    private VoucherModule voucherModule;
-
     private VoucherifyApi voucherifyApi;
 
     private Scheduler scheduler;
+
+    private Validation validation;
+
+    private Redemption redemption;
+
+    private Listing listing;
 
     private VoucherifyAndroidClient(Builder builder) {
         if (builder.clientToken.isEmpty() || builder.clientId.isEmpty()) {
@@ -40,18 +43,21 @@ public class VoucherifyAndroidClient {
 
         this.voucherifyApi = createRetrofitService(builder);
 
-        this.voucherModule = new VoucherModule(
-                new Validation(voucherifyApi, scheduler, builder.trackingId),
-                new Redemption(voucherifyApi, scheduler, builder.trackingId),
-                new Listing(voucherifyApi, scheduler, builder.trackingId)
-        );
+        validation = new Validation(voucherifyApi, scheduler, builder.trackingId);
+        redemption = new Redemption(voucherifyApi, scheduler, builder.trackingId);
+        listing = new Listing(voucherifyApi, scheduler, builder.trackingId);
     }
 
-    /**
-     * Returns the Vouchers module.
-     */
-    public VoucherModule vouchers() {
-        return voucherModule;
+    public Validation validations() {
+        return validation;
+    }
+
+    public Redemption redemptions() {
+        return redemption;
+    }
+
+    public Listing listing() {
+        return listing;
     }
 
     /**
@@ -178,6 +184,11 @@ public class VoucherifyAndroidClient {
             }
 
             this.logLevel = logLevel;
+            return this;
+        }
+
+        public Builder withEndpoint(String endpoint) {
+            this.endpoint = endpoint;
             return this;
         }
 

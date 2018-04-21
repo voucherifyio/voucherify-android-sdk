@@ -1,8 +1,9 @@
 package io.voucherify.android.client.module;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
@@ -10,7 +11,8 @@ import io.reactivex.Scheduler;
 import io.voucherify.android.client.api.VoucherifyApi;
 import io.voucherify.android.client.callback.VoucherifyCallback;
 import io.voucherify.android.client.exception.VoucherifyError;
-import io.voucherify.android.client.model.OrderItem;
+import io.voucherify.android.client.model.PromotionResponse;
+import io.voucherify.android.client.model.ValidationContext;
 import io.voucherify.android.client.model.VoucherResponse;
 import io.voucherify.android.client.utils.RxUtils;
 
@@ -18,22 +20,12 @@ public class Validation extends AbsModule<Validation.ExtAsync, Validation.ExtRxJ
 
     private static final String CHANNEL = "android";
 
-    /**
-     *
-     * @param api describes Voucherify REST API
-     * @param scheduler of threads for current platform
-     * @param trackingId custom tracking id to track voucher consumers
-     */
     public Validation(VoucherifyApi api, Scheduler scheduler, String trackingId) {
         super(api, scheduler, trackingId);
     }
 
-    public VoucherResponse validate(Integer amount) throws IOException {
-        return validate(amount, null);
-    }
-
-    public VoucherResponse validate(Integer amount, List<OrderItem> orderItems) throws IOException {
-        Map<String, String> queryParams = createQueryParamsForOrderItems(amount, orderItems);
+    public PromotionResponse validate(ValidationContext context) throws IOException {
+        Map<String, String> queryParams = createQueryParamsForContext(context);
         return api.validatePromotion(queryParams).execute().body();
     }
 
@@ -41,55 +33,26 @@ public class Validation extends AbsModule<Validation.ExtAsync, Validation.ExtRxJ
         return validate(code, null);
     }
 
-    public VoucherResponse validate(String code, Integer amount) throws IOException {
-        return validate(code, amount, null);
-    }
-
-    public VoucherResponse validate(String code, Integer amount, List<OrderItem> orderItems) throws IOException {
-        Map<String, String> queryParams = createQueryParamsForOrderItems(amount, orderItems);
+    public VoucherResponse validate(String code, ValidationContext context) throws IOException {
+        Map<String, String> queryParams = createQueryParamsForContext(context);
         queryParams.put("code", code);
         return api.validateVoucher(queryParams).execute().body();
     }
 
-    @Deprecated
-    public VoucherResponse validateVoucher(String code) throws IOException {
-        return validate(code, null);
-    }
-
-    @Deprecated
-    public VoucherResponse validateVoucher(String code, Integer amount) throws IOException {
-        return validate(code, amount, null);
-    }
-
-    @Deprecated
-    public VoucherResponse validateVoucher(String code, Integer amount, List<OrderItem> orderItems) throws IOException {
-        Map<String, String> queryParams = createQueryParamsForOrderItems(amount, orderItems);
-        queryParams.put("code", code);
-        return api.validateVoucher(queryParams).execute().body();
-    }
-
-    private Map<String, String> createQueryParamsForOrderItems(Integer amount, List<OrderItem> orderItems) {
+    private Map<String, String> createQueryParamsForContext(ValidationContext context) {
         Map<String, String> queryParams = new LinkedHashMap<>();
+
+        queryParams.put("channel", CHANNEL);
         if (trackingId != null) {
             queryParams.put("tracking_id", trackingId);
         }
-        if (amount != null) {
-            queryParams.put("amount", amount.toString());
-        }
-        if (orderItems != null) {
-            int index = 0;
-            for (OrderItem item : orderItems) {
-                queryParams.put("item[" + index + "][product_id]", item.getProductId());
-                queryParams.put("item[" + index + "][sku_id]", item.getSkuId());
-                queryParams.put("item[" + index + "][price]",
-                        item.getPrice() != null ? item.getPrice().toString() : null);
-                queryParams.put("item[" + index + "][quantity]",
-                        item.getQuantity() != null ? item.getQuantity().toString() : null);
-                index++;
-            }
-        }
-        queryParams.put("channel", CHANNEL);
 
+        if (context != null) {
+            context.createQuery(queryParams);
+        }
+
+        Collection<String> values = queryParams.values();
+        values.removeAll(Collections.singleton(null));
         return queryParams;
     }
 
@@ -105,37 +68,6 @@ public class Validation extends AbsModule<Validation.ExtAsync, Validation.ExtRxJ
 
     public class ExtRxJava {
 
-        @Deprecated
-        public Observable<VoucherResponse> validateVoucher(final String code) {
-            return RxUtils.defer(new RxUtils.DefFunc<VoucherResponse>() {
-                @Override
-                public VoucherResponse method() throws IOException {
-                    return Validation.this.validate(code);
-                }
-            });
-        }
-
-        @Deprecated
-        public Observable<VoucherResponse> validateVoucher(final String code, final Integer amount) {
-            return RxUtils.defer(new RxUtils.DefFunc<VoucherResponse>() {
-                @Override
-                public VoucherResponse method() throws IOException {
-                    return Validation.this.validate(code, amount);
-                }
-            });
-        }
-
-        @Deprecated
-        public Observable<VoucherResponse> validateVoucher(final String code,
-                                                    final Integer amount,
-                                                    final List<OrderItem> orderItems) {
-            return RxUtils.defer(new RxUtils.DefFunc<VoucherResponse>() {
-                @Override
-                public VoucherResponse method() throws IOException {
-                    return Validation.this.validate(code, amount, orderItems);
-                }
-            });
-        }
 
         public Observable<VoucherResponse> validate(final String code) {
             return RxUtils.defer(new RxUtils.DefFunc<VoucherResponse>() {
@@ -146,95 +78,44 @@ public class Validation extends AbsModule<Validation.ExtAsync, Validation.ExtRxJ
             });
         }
 
-        public Observable<VoucherResponse> validate(final String code, final Integer amount) {
-            return RxUtils.defer(new RxUtils.DefFunc<VoucherResponse>() {
-                @Override
-                public VoucherResponse method() throws IOException {
-                    return Validation.this.validate(code, amount);
-                }
-            });
-        }
-
         public Observable<VoucherResponse> validate(final String code,
-                                                           final Integer amount,
-                                                           final List<OrderItem> orderItems) {
+                                                    final ValidationContext context) {
             return RxUtils.defer(new RxUtils.DefFunc<VoucherResponse>() {
                 @Override
                 public VoucherResponse method() throws IOException {
-                    return Validation.this.validate(code, amount, orderItems);
+                    return Validation.this.validate(code, context);
                 }
             });
         }
 
-        public Observable<VoucherResponse> validate(final Integer amount) {
-            return RxUtils.defer(new RxUtils.DefFunc<VoucherResponse>() {
+        public Observable<PromotionResponse> validate(final ValidationContext context) {
+            return RxUtils.defer(new RxUtils.DefFunc<PromotionResponse>() {
                 @Override
-                public VoucherResponse method() throws IOException {
-                    return Validation.this.validate(amount);
-                }
-            });
-        }
-
-        public Observable<VoucherResponse> validate(final Integer amount,
-                                                    final List<OrderItem> orderItems) {
-            return RxUtils.defer(new RxUtils.DefFunc<VoucherResponse>() {
-                @Override
-                public VoucherResponse method() throws IOException {
-                    return Validation.this.validate(amount, orderItems);
+                public PromotionResponse method() throws IOException {
+                    return Validation.this.validate(context);
                 }
             });
         }
     }
 
     public class ExtAsync {
-        @Deprecated
-        public void validateVoucher(String code, VoucherifyCallback<VoucherResponse, VoucherifyError> callback) {
-            RxUtils.subscribe(scheduler, rx().validate(code), callback);
-        }
-
-        @Deprecated
-        public void validateVoucher(String code,
-                             Integer amount,
-                             VoucherifyCallback<VoucherResponse, VoucherifyError> callback) {
-            RxUtils.subscribe(scheduler, rx().validate(code, amount), callback);
-        }
-
-        @Deprecated
-        public void validateVoucher(String code,
-                             Integer amount,
-                             List<OrderItem> orderItems,
-                             VoucherifyCallback<VoucherResponse, VoucherifyError> callback) {
-            RxUtils.subscribe(scheduler, rx().validate(code, amount, orderItems), callback);
-        }
 
         public void validate(String code, VoucherifyCallback<VoucherResponse, VoucherifyError> callback) {
             RxUtils.subscribe(scheduler, rx().validate(code), callback);
         }
 
-        public void validate(String code,
-                                    Integer amount,
-                                    VoucherifyCallback<VoucherResponse, VoucherifyError> callback) {
-            RxUtils.subscribe(scheduler, rx().validate(code, amount), callback);
-        }
-
-        public void validate(String code,
-                                    Integer amount,
-                                    List<OrderItem> orderItems,
-                                    VoucherifyCallback<VoucherResponse, VoucherifyError> callback) {
-            RxUtils.subscribe(scheduler, rx().validate(code, amount, orderItems), callback);
-        }
-
         public void validate(
-                Integer amount,
+                String code,
+                ValidationContext context,
                 VoucherifyCallback<VoucherResponse, VoucherifyError> callback) {
-            RxUtils.subscribe(scheduler, rx().validate(amount), callback);
+            RxUtils.subscribe(scheduler, rx().validate(code, context), callback);
         }
 
+
         public void validate(
-                             Integer amount,
-                             List<OrderItem> orderItems,
-                             VoucherifyCallback<VoucherResponse, VoucherifyError> callback) {
-            RxUtils.subscribe(scheduler, rx().validate(amount, orderItems), callback);
+                ValidationContext context,
+                VoucherifyCallback<PromotionResponse, VoucherifyError> callback) {
+            RxUtils.subscribe(scheduler, rx().validate(context), callback);
         }
     }
 
