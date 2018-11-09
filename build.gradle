@@ -25,3 +25,10 @@ allprojects {
         mavenCentral()
     }
 }
+
+ext {
+    minSdkVersion = 16
+    targetSdkVersion = 27
+    compileSdkVersion = 27
+    buildToolsVersion = '26.0.2'
+}

@@ -1,0 +1,34 @@
+ext {
+
+    def androidAppcompatVersion = '27.0.1'
+    def rxAndroidVersion        = '2.0.2'
+    def rxJavaVersion           = '2.1.12'
+    def retrofitVersion         = '2.4.0'
+    def okHttpVersion           = '3.11.0'
+
+    def jUnitVersion            = '4.12'
+    def mockitoVersion          = '2.5.0'
+
+    rxJavaDependencies = [
+            rxJava    : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            rxAndroid : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}"
+    ]
+
+    networkDependencies = [
+            retrofit              : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+            retrofitGsonConverter : "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
+            okHttp3               : "com.squareup.okhttp3:okhttp:${okHttpVersion}",
+            okHttp3UrlConnection  : "com.squareup.okhttp3:okhttp-urlconnection:${okHttpVersion}",
+            okHttp3Logging        : "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}"
+    ]
+
+    androidSupportDependencies = [
+            appcompat : "com.android.support:appcompat-v7:${androidAppcompatVersion}",
+            design    : "com.android.support:design:${androidAppcompatVersion}"
+    ]
+
+    testDependencies = [
+            jUnit : "junit:junit:${jUnitVersion}",
+            mockito : "org.mockito:mockito-core:${mockitoVersion}"
+    ]
+}
