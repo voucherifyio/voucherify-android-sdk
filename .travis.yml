@@ -4,8 +4,7 @@ jdk:
 android:
   components:
     - tools
-    - build-tools-25.0.0
-    - build-tools-27.0.0
+    - build-tools-26.0.2
     - android-27
     - extra-google-m2repository
     - extra-android-m2repository
@@ -16,5 +15,6 @@ android:
 before_install:
    - export JAVA8_HOME=/usr/lib/jvm/java-8-oracle
    - touch local.properties
+   - yes | sdkmanager "platforms;android-26.0.2"
 script:
    - ./gradlew check
