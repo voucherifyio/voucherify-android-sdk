@@ -67,7 +67,7 @@ dependencies {
 ```
 
 NOTE:
-The SDK requires at least Java 6 or Android 4.0.4 (API 14)
+The SDK requires at least Java 6 or Android 4.1 (API 16)
 
 ### Configuration
 The `VoucherifyAndroidClient` manages your interaction with the Voucherify API.
