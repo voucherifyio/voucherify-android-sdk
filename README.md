@@ -21,13 +21,17 @@
 
 <p align="center">
 API:
-<a href="#vouchers-api">Vouchers</a>
+<a href="#validations-api">Validations</a>
 |
 <a href="#redemptions-api">Redemptions</a>
 |
+<a href="#listing-api">Voucher Listing</a>
 </p>
 
 ---
+
+ [ ![Download](https://api.bintray.com/packages/rspective/io.voucherify.android.client/voucherify-android-sdk/images/download.svg?version=1.1.0) ](https://bintray.com/rspective/io.voucherify.android.client/voucherify-android-sdk/1.1.0/link)
+[![Build Status](https://travis-ci.org/voucherifyio/voucherify-android-sdk.svg?branch=develop)](https://travis-ci.org/voucherifyio/voucherify-android-sdk)
 
 ## Setup
 
@@ -35,7 +39,7 @@ API:
 
 ```groovy
 dependencies {
-    compile 'io.voucherify.android.client:voucherify-android-sdk:1.0.0'
+    compile 'io.voucherify.android.client:voucherify-android-sdk:2.1.0'
 }
 ```
 
@@ -45,7 +49,7 @@ dependencies {
 <dependency>
     <groupId>io.voucherify.android.client</groupId>
     <artifactId>voucherify-android-sdk</artifactId>
-    <version>1.0.0</version>
+    <version>2.1.0</version>
 </dependency>
 ```
 
@@ -53,6 +57,7 @@ dependencies {
 ```
 -keepattributes Signature
 -dontwarn rx.**
+-dontwarn io.reactivex.**
 -dontwarn retrofit2.**
 -keep class retrofit2.** { *; }
 -keep class io.voucherify.android.client.** { *; }
@@ -62,7 +67,7 @@ dependencies {
 ```
 
 NOTE:
-The SDK requires at least Java 6 or Android 2.3.3 (API 10)
+The SDK requires at least Java 6 or Android 4.1 (API 16)
 
 ### Configuration
 The `VoucherifyAndroidClient` manages your interaction with the Voucherify API.
@@ -97,13 +102,14 @@ androidClient = new VoucherifyAndroidClient.Builder(YOUR-PUBLIC-CLIENT-APPLICATI
 
 ## Synchronous, Rx or Async?
 
-All the methods in SDK are provided directly or in asynchronous or rx version:
+All the methods in SDK are provided directly or in asynchronous or rx (RxJava2) version:
 
 Every method has a corresponding asynchronous extension which can be accessed through the `async()` or `rx()` method of the vouchers module.
 
+__If used directly, methods must be run in separate thread to avoid NetworkOnMainThreadException__
 ```java
 try {
-    VoucherResponse voucher = client.vouchers().validations().validateVoucher(VOUCHER_CODE);
+    VoucherResponse voucher = client.validations().validateVoucher(VOUCHER_CODE);
 } catch (IOExceptions e) {
     // error
 }
@@ -112,7 +118,7 @@ try {
 or asynchronously:
 
 ```java
-client.vouchers().validations().async().validateVoucher("VOUCHER_CODE", new VoucherifyCallback<VoucherResponse>() {
+client.validations().async().validateVoucher("VOUCHER_CODE", new VoucherifyCallback<VoucherResponse>() {
     @Override
     public void onSuccess(VoucherResponse result) {
     }
@@ -124,22 +130,22 @@ client.vouchers().validations().async().validateVoucher("VOUCHER_CODE", new Vouc
 });
 ```
 
-or using RxJava:
+or using RxJava (RxJava2):
 
 ```java
-client.vouchers().validations()
+client.validations()
         .rx()
         .validateVoucher("VOUCHER_CODE")
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Action1<VoucherResponse>() {
+        .subscribe(new Consumer<VoucherResponse>() {
             @Override
-            public void call(VoucherResponse voucher) {
+            public void accept(VoucherResponse voucher) {
 
             }
-        }, new Action1<Throwable>() {
+        }, new Consumer<Throwable>() {
             @Override
-            public void call(Throwable throwable) {
+            public void accept(Throwable throwable) {
             }
         });
 ```
@@ -151,29 +157,47 @@ client.vouchers().validations()
 ### [Validate Voucher]
 
 ```java
-    client.vouchers().validations().validateVoucher(String code)
+    client.validations().validate(String code)
 ```
 
 ```java
-    client.vouchers().validations().validateVoucher(String code, Integer amount)
+    client.validations().validate(String code, ValidationContext context)
 ```
+
+### [Validate Promotions]
 
 ```java
-    client.vouchers().validations().validateVoucher(String code, Integer amount, List<OrderItem> orderItems)
+    client.validations().validate(ValidationContext context)
 ```
-
----
 
 #### Redemptions API
 
 ### [Redeem Voucher]
 
 ```java
-    client.vouchers().redemptions().redeem(String code)
+    client.redemptions().redeem(String code)
 ```
 
 ```java
-    client.vouchers().redemptions().redeem(String code, VoucherRedemptionContext redemptionContext)
+    client.redemptions().redeem(String code, RedemptionContext context)
+```
+
+### [Redeem Promotions]
+
+```java
+    client.redemptions().redeem(PromotionTier promotionTier, RedemptionContext context)
+```
+
+#### Listing vouchers API
+
+### [List Vouchers]
+
+```java
+    client.listing().list()
+```
+
+```java
+    client.listing().list(String customer)
 ```
 
 ## Voucher Checkout View
@@ -265,6 +289,9 @@ For example to set the button background color to light green:
 Bug reports and pull requests are welcome through [GitHub Issues](https://github.com/voucherifyio/voucherify-android-sdk/issues).
 
 ## Changelog
+- **2018-11-17** - `2.1.0` - Increased minSdkVersion to 16 and updated external dependencies
+- **2018-04-16** - `2.0.0` - Adjusted API for Validation and Redemption
+- **2018-04-05** - `1.1.0` - Added API for Promotions and Vouchers Listing
 - **2017-01-02** - `1.0.0` - Unify API with other voucherify SDKs.
 - **2016-09-20** - `0.6.0` - Redeem a voucher.
 - **2016-09-06** - `0.5.0` - Added order items.
@@ -289,3 +316,6 @@ MIT. See the [LICENSE](https://github.com/voucherifyio/voucherify-android-sdk/bl
 
 [Validate Voucher]: https://docs.voucherify.io/reference#vouchers-validate
 [Redeem Voucher]: https://docs.voucherify.io/reference#redeem-voucher-client-side
+[List Vouchers]: https://docs.voucherify.io/reference
+[Validate Promotions]:  https://docs.voucherify.io/reference
+[Redeem Promotions]:  https://docs.voucherify.io/reference

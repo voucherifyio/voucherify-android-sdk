@@ -1,78 +1,70 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
     android:clipChildren="false"
-    android:clipToPadding="false">
+    android:clipToPadding="false"
+    android:fillViewport="true">
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/primary"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="vertical"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
-        tools:context=".MainActivity"
-        android:clipChildren="false"
-        android:clipToPadding="false">
+        tools:context=".MainActivity">
 
-        <LinearLayout
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/voucherify_logo" />
+
+        <io.voucherify.android.view.VoucherCheckoutView
+            android:id="@+id/voucher_checkout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:orientation="vertical"
-            android:id="@+id/linearLayout"
+            android:layout_marginTop="30dp"
+            app:validateButtonText="Apply"
+            app:voucherCodeHint="Coupon Code"
             android:clipChildren="false"
-            android:clipToPadding="false">
+            android:clipToPadding="false" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/voucherify_logo"/>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:theme="@style/TextLabel">
 
-            <io.voucherify.android.view.VoucherCheckoutView
-                android:id="@+id/voucher_checkout"
+            <EditText
+                android:id="@+id/et_product_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                app:validateButtonText="Apply"
-                app:voucherCodeHint="Coupon Code"
-                android:clipChildren="false"
-                android:clipToPadding="false" />
+                android:layout_marginTop="20dp"
+                android:hint="Product price"
+                android:inputType="numberDecimal"
+                android:text="10.00"
+                android:textColor="@android:color/white" />
+        </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:theme="@style/TextLabel">
-                <EditText
-                    android:id="@+id/et_product_price"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:inputType="numberDecimal"
-                    android:textColor="@android:color/white"
-                    android:hint="Product price"
-                    android:numeric="decimal"
-                    android:text="10.00" />
-                </android.support.design.widget.TextInputLayout>
+        <TextView
+            android:id="@+id/tv_discount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp" />
 
-            <TextView
-                android:id="@+id/tv_discount"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp" />
-
-            <TextView
-                android:id="@+id/tv_new_price"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp" />
-        </LinearLayout>
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/tv_new_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp" />
+    </LinearLayout>
 
 </ScrollView>

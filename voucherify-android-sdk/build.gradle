@@ -1,0 +1,69 @@
+apply plugin: 'com.android.library'
+apply from: '../config/quality.gradle'
+apply from: 'dependencies.gradle'
+
+version = '2.1.0'
+
+android {
+    compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        versionCode 21
+        versionName version
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+
+    implementation androidSupportDependencies.values()
+
+    implementation networkDependencies.retrofit
+    implementation networkDependencies.retrofitGsonConverter
+    implementation networkDependencies.okHttp3
+    implementation networkDependencies.okHttp3UrlConnection
+
+    api networkDependencies.okHttp3Logging
+    api rxJavaDependencies.values()
+
+    implementation testDependencies.values()
+}
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'voucherify-android-sdk'
+
+    publishedGroupId = 'io.voucherify.android.client'
+    libraryName = 'Voucherify Android SDK'
+    artifact = 'voucherify-android-sdk'
+
+    libraryDescription = 'Android SDK for Voucherify'
+
+    siteUrl = 'https://github.com/voucherifyio/voucherify-android-sdk'
+    gitUrl = 'https://github.com/voucherifyio/voucherify-android-sdk.git'
+
+    libraryVersion = version
+
+    developerId = 'rspective'
+    developerName = 'Rspective Developer'
+    developerEmail = 'dev@rspective.pl'
+
+    licenseName = 'MIT License'
+    licenseUrl = 'https://opensource.org/licenses/MIT'
+    allLicenses = ["MIT"]
+}
+
+apply from: './install.gradle'
+apply from: './bintray.gradle'

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/til_voucher_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/voucher_code_hint"
+            android:theme="@style/VoucherCodeLabel"
+            android:clipChildren="false"
+            android:clipToPadding="false">
+
+            <EditText
+                android:id="@+id/et_voucher_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                style="@style/VoucherCodeEditText"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/btn_validate"
+            android:text="@string/validate_button_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:enabled="false"
+            style="@style/VoucherValidateButton" />
+    </LinearLayout>
+</merge>
