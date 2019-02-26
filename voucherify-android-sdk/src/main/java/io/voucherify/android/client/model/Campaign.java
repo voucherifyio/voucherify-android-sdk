@@ -7,7 +7,7 @@ import java.util.Date;
 public class Campaign {
 
     private String id;
-    
+
     private String object;
 
     @SerializedName("start_date")
