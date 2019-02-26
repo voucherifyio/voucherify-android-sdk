@@ -299,6 +299,7 @@ For example to set the button background color to light green:
 Bug reports and pull requests are welcome through [GitHub Issues](https://github.com/voucherifyio/voucherify-android-sdk/issues).
 
 ## Changelog
+- **2019-02-26** - `2.2.0` - Add method to list promotion tiers
 - **2018-11-17** - `2.1.0` - Increased minSdkVersion to 16 and updated external dependencies
 - **2018-04-16** - `2.0.0` - Adjusted API for Validation and Redemption
 - **2018-04-05** - `1.1.0` - Added API for Promotions and Vouchers Listing
