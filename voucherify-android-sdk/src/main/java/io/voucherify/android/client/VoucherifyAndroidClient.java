@@ -5,6 +5,7 @@ import java.io.IOException;
 import io.reactivex.Scheduler;
 import io.voucherify.android.client.api.VoucherifyApi;
 import io.voucherify.android.client.module.Listing;
+import io.voucherify.android.client.module.Promotion;
 import io.voucherify.android.client.module.Redemption;
 import io.voucherify.android.client.module.Validation;
 import io.voucherify.android.client.utils.Platform;
@@ -32,6 +33,8 @@ public class VoucherifyAndroidClient {
 
     private Listing listing;
 
+    private Promotion promotion;
+
     private VoucherifyAndroidClient(Builder builder) {
         if (builder.clientToken.isEmpty() || builder.clientId.isEmpty()) {
             throw new IllegalArgumentException("Client token and client id must be defined.");
@@ -46,6 +49,7 @@ public class VoucherifyAndroidClient {
         validation = new Validation(voucherifyApi, scheduler, builder.trackingId);
         redemption = new Redemption(voucherifyApi, scheduler, builder.trackingId);
         listing = new Listing(voucherifyApi, scheduler, builder.trackingId);
+        promotion = new Promotion(voucherifyApi, scheduler, builder.trackingId);
     }
 
     public Validation validations() {
@@ -58,6 +62,10 @@ public class VoucherifyAndroidClient {
 
     public Listing listing() {
         return listing;
+    }
+
+    public Promotion promotions() {
+        return promotion;
     }
 
     /**
