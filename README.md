@@ -41,7 +41,7 @@ API:
 
 ```groovy
 dependencies {
-    compile 'io.voucherify.android.client:voucherify-android-sdk:2.1.0'
+    compile 'io.voucherify.android.client:voucherify-android-sdk:2.2.0'
 }
 ```
 
@@ -51,7 +51,7 @@ dependencies {
 <dependency>
     <groupId>io.voucherify.android.client</groupId>
     <artifactId>voucherify-android-sdk</artifactId>
-    <version>2.1.0</version>
+    <version>2.2.0</version>
 </dependency>
 ```
 
