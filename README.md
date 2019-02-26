@@ -26,6 +26,8 @@ API:
 <a href="#redemptions-api">Redemptions</a>
 |
 <a href="#listing-api">Voucher Listing</a>
+|
+<a href="#promotions">Promotions</a>
 </p>
 
 ---
@@ -200,6 +202,14 @@ client.validations()
     client.listing().list(String customer)
 ```
 
+#### Promotions
+
+### [List Promotion Tiers]
+
+```java
+    client.promotions().list(Boolean isAvailable, int limit, int page)
+```
+
 ## Voucher Checkout View
 
 You can use VoucherCheckoutView to quickly add a UI for discount codes validation.
@@ -319,3 +329,4 @@ MIT. See the [LICENSE](https://github.com/voucherifyio/voucherify-android-sdk/bl
 [List Vouchers]: https://docs.voucherify.io/reference
 [Validate Promotions]:  https://docs.voucherify.io/reference
 [Redeem Promotions]:  https://docs.voucherify.io/reference
+[List Promotion Tiers]: https://docs.voucherify.io/v2018-08-01/reference#list-promotion-tiers-client-side
