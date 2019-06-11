@@ -95,7 +95,7 @@ Other additional params which can be set:
 androidClient = new VoucherifyAndroidClient.Builder(YOUR-PUBLIC-CLIENT-APPLICATION-ID, YOUR-PUBLIC-CLIENT-APPLICATION-TOKEN)
        .withCustomTrackingId(YOUR-CUSTOM-TRACKNG-ID)
        .withOrigin("http://my-android-origin")
-       .setEndpoint("10.0.3.2:8080")
+       .withEndpoint("10.0.3.2:8080")
        .setLogLevel(HttpLoggingInterceptor.Level.BODY)
        .build();
 
