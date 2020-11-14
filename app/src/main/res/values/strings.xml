@@ -1,10 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">VoucherifySdk</string>
+    <string name="app_name">voucherify-android-sdk</string>
 
     <string name="discountTitle">"Discount: %1$s"</string>
     <string name="priceAfterDiscountTitle">"Price after discount: %1$s"</string>
     <string name="errorVoucherMessage">"Invalid - %1$s. Try to use 'test'"</string>
-
 </resources>

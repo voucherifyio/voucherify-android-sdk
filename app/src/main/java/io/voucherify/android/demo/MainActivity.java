@@ -2,11 +2,12 @@ package io.voucherify.android.demo;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -46,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void initVoucherifyClient() {
         voucherifyClient = new VoucherifyAndroidClient.Builder(
-                "011240bf-d5fc-4ef1-9e82-11eb68c43bf5",
-                "9e2230c5-71fb-460a-91c6-fbee64707a20")
+                "2a236910-20e6-44a7-89d9-756a2efa29fc",
+                "8a74f8cb-91de-4017-afcd-bf013a6c9aa4")
                 .withCustomTrackingId("demo-android")
                 .setLogLevel(HttpLoggingInterceptor.Level.BODY)
                 .build();
