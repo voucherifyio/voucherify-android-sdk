@@ -1,1 +1,3 @@
-include ':app', ':voucherify-android-sdk'
+include ':voucherify-android-sdk'
+include ':app'
+rootProject.name = "voucherify-android-sdk"

@@ -1,8 +1,11 @@
-apply plugin: 'com.android.library'
+plugins {
+    id 'com.android.library'
+}
+
 apply from: '../config/quality.gradle'
 apply from: 'dependencies.gradle'
 
-version = '2.2.0'
+version = '3.0.0'
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
@@ -11,24 +14,29 @@ android {
     defaultConfig {
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 22
+        versionCode 23
         versionName version
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
+
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
-    lintOptions {
-        abortOnError false
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
 dependencies {
 
-    implementation androidSupportDependencies.values()
+    implementation androidxDependencies.appcompat
+    implementation androidxDependencies.design
 
     implementation networkDependencies.retrofit
     implementation networkDependencies.retrofitGsonConverter
@@ -38,7 +46,11 @@ dependencies {
     api networkDependencies.okHttp3Logging
     api rxJavaDependencies.values()
 
-    implementation testDependencies.values()
+    testImplementation testDependencies.jUnit
+    testImplementation testDependencies.mockito
+
+    androidTestImplementation testDependencies.espresso
+    androidTestImplementation testDependencies.espressoJunit
 }
 
 ext {
