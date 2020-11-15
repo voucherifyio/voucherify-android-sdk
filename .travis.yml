@@ -13,7 +13,7 @@ android:
     - 'android-sdk-license-.+'
     - 'google-gdk-license-.+'
 before_install:
-   - yes | sudo sdkmanager --licenses
+   - yes | sdkmanager --licenses
    - export JAVA8_HOME=/usr/lib/jvm/java-8-oracle
    - touch local.properties
    - chmod +x gradlew
