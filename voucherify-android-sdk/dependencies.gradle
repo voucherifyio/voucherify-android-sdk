@@ -4,8 +4,8 @@ ext {
     def appcompatVersion        = '1.2.0'
     def rxAndroidVersion        = '2.0.2'
     def rxJavaVersion           = '2.1.12'
-    def retrofitVersion         = '2.4.0'
-    def okHttpVersion           = '3.11.0'
+    def retrofitVersion         = '2.9.0'
+    def okHttpVersion           = '4.9.0'
 
     def jUnitVersion            = '4.+'
     def mockitoVersion          = '2.5.0'
