@@ -1,6 +1,6 @@
 package io.voucherify.android.client.module;
 
-import io.reactivex.Scheduler;
+import io.reactivex.rxjava3.core.Scheduler;
 import io.voucherify.android.client.api.VoucherifyApi;
 
 abstract class AbsModule<A, R> {
