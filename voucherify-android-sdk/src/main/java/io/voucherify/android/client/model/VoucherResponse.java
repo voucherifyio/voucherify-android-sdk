@@ -6,6 +6,11 @@ public class VoucherResponse {
 
     private String code;
 
+    private String campaign;
+
+    @SerializedName("campaign_id")
+    private String campaignId;
+
     private boolean valid;
 
     private Discount discount;
@@ -23,6 +28,22 @@ public class VoucherResponse {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getCampaign() {
+        return campaign;
+    }
+
+    public void setCampaign(String campaign) {
+        this.campaign = campaign;
+    }
+
+    public String getCampaignId() {
+        return campaignId;
+    }
+
+    public void setCampaignId(String campaignId) {
+        this.campaignId = campaignId;
     }
 
     public boolean isValid() {
