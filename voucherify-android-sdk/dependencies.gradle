@@ -2,8 +2,8 @@ ext {
 
     def materialVersion         = '1.2.1'
     def appcompatVersion        = '1.2.0'
-    def rxAndroidVersion        = '2.0.2'
-    def rxJavaVersion           = '2.1.12'
+    def rxAndroidVersion        = '3.0.0'
+    def rxJavaVersion           = '3.0.7'
     def retrofitVersion         = '2.9.0'
     def okHttpVersion           = '4.9.0'
 
@@ -13,8 +13,8 @@ ext {
     def espressoJunitVersion    = '1.2.1'
 
     rxJavaDependencies = [
-            rxJava    : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
-            rxAndroid : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}"
+            rxJava    : "io.reactivex.rxjava3:rxjava:${rxJavaVersion}",
+            rxAndroid : "io.reactivex.rxjava3:rxandroid:${rxAndroidVersion}"
     ]
 
     networkDependencies = [
