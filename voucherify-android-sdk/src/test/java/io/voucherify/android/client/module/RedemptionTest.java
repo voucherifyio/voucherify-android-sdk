@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import io.voucherify.android.client.api.VoucherifyApi;
 import io.voucherify.android.client.model.RedemptionContext;
 import io.voucherify.android.client.model.VoucherRedemptionResult;

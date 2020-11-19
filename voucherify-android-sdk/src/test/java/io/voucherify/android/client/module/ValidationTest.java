@@ -12,7 +12,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import io.voucherify.android.client.api.VoucherifyApi;
 import io.voucherify.android.client.model.OrderItem;
 import io.voucherify.android.client.model.ValidationContext;
