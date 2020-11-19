@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "io.voucherify.android.demo"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 6
         versionName "1.1.2"

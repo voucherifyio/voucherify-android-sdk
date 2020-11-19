@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import io.reactivex.Observable;
-import io.reactivex.Scheduler;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Scheduler;
 import io.voucherify.android.client.api.VoucherifyApi;
 import io.voucherify.android.client.callback.VoucherifyCallback;
 import io.voucherify.android.client.exception.VoucherifyError;
