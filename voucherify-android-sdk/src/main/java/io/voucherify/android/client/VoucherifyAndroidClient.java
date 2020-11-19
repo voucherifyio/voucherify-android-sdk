@@ -2,7 +2,7 @@ package io.voucherify.android.client;
 
 import java.io.IOException;
 
-import io.reactivex.Scheduler;
+import io.reactivex.rxjava3.core.Scheduler;
 import io.voucherify.android.client.api.VoucherifyApi;
 import io.voucherify.android.client.module.Listing;
 import io.voucherify.android.client.module.Promotion;
