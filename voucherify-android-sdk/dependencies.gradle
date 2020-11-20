@@ -1,17 +1,20 @@
 ext {
 
-    def androidAppcompatVersion = '27.0.1'
-    def rxAndroidVersion        = '2.0.2'
-    def rxJavaVersion           = '2.1.12'
-    def retrofitVersion         = '2.4.0'
-    def okHttpVersion           = '3.11.0'
+    def materialVersion         = '1.2.1'
+    def appcompatVersion        = '1.2.0'
+    def rxAndroidVersion        = '3.0.0'
+    def rxJavaVersion           = '3.0.7'
+    def retrofitVersion         = '2.9.0'
+    def okHttpVersion           = '4.9.0'
 
-    def jUnitVersion            = '4.12'
+    def jUnitVersion            = '4.+'
     def mockitoVersion          = '2.5.0'
+    def espressoVersion         = '3.3.0'
+    def espressoJunitVersion    = '1.2.1'
 
     rxJavaDependencies = [
-            rxJava    : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
-            rxAndroid : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}"
+            rxJava    : "io.reactivex.rxjava3:rxjava:${rxJavaVersion}",
+            rxAndroid : "io.reactivex.rxjava3:rxandroid:${rxAndroidVersion}"
     ]
 
     networkDependencies = [
@@ -22,13 +25,15 @@ ext {
             okHttp3Logging        : "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}"
     ]
 
-    androidSupportDependencies = [
-            appcompat : "com.android.support:appcompat-v7:${androidAppcompatVersion}",
-            design    : "com.android.support:design:${androidAppcompatVersion}"
+    androidxDependencies = [
+            appcompat : "androidx.appcompat:appcompat:${appcompatVersion}",
+            design    : "com.google.android.material:material:${materialVersion}"
     ]
 
     testDependencies = [
             jUnit : "junit:junit:${jUnitVersion}",
-            mockito : "org.mockito:mockito-core:${mockitoVersion}"
+            mockito : "org.mockito:mockito-core:${mockitoVersion}",
+            espresso : "androidx.test.espresso:espresso-core:${espressoVersion}",
+            espressoJunit : "androidx.test.espresso:espresso-core:${espressoJunitVersion}"
     ]
 }
