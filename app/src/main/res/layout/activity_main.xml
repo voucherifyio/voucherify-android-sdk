@@ -11,7 +11,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/primary"
+        android:background="@color/teal_200"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="vertical"
@@ -25,25 +25,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/voucherify_logo" />
+            android:src="@mipmap/voucherify_logo" />
 
-        <io.voucherify.android.view.VoucherCheckoutView
-            android:id="@+id/voucher_checkout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            app:validateButtonText="Apply"
-            app:voucherCodeHint="Coupon Code"
-            android:clipChildren="false"
-            android:clipToPadding="false" />
+                <io.voucherify.android.view.VoucherCheckoutView
+                    android:id="@+id/voucher_checkout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    app:validateButtonText="Apply"
+                    app:voucherCodeHint="Coupon Code"
+                    android:clipChildren="false"
+                    android:clipToPadding="false" />
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:theme="@style/TextLabel">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_product_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
                 android:inputType="numberDecimal"
                 android:text="10.00"
                 android:textColor="@android:color/white" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/tv_discount"

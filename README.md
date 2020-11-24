@@ -41,7 +41,7 @@ API:
 
 ```groovy
 dependencies {
-    compile 'io.voucherify.android.client:voucherify-android-sdk:2.2.0'
+    compile 'io.voucherify.android.client:voucherify-android-sdk:3.0.0'
 }
 ```
 
@@ -51,7 +51,7 @@ dependencies {
 <dependency>
     <groupId>io.voucherify.android.client</groupId>
     <artifactId>voucherify-android-sdk</artifactId>
-    <version>2.2.0</version>
+    <version>3.0.0</version>
 </dependency>
 ```
 
@@ -69,7 +69,7 @@ dependencies {
 ```
 
 NOTE:
-The SDK requires at least Java 6 or Android 4.1 (API 16)
+The SDK requires at least Java 6 or Android 5.0 (API 21)
 
 ### Configuration
 The `VoucherifyAndroidClient` manages your interaction with the Voucherify API.
@@ -95,7 +95,7 @@ Other additional params which can be set:
 androidClient = new VoucherifyAndroidClient.Builder(YOUR-PUBLIC-CLIENT-APPLICATION-ID, YOUR-PUBLIC-CLIENT-APPLICATION-TOKEN)
        .withCustomTrackingId(YOUR-CUSTOM-TRACKNG-ID)
        .withOrigin("http://my-android-origin")
-       .setEndpoint("10.0.3.2:8080")
+       .withEndpoint("10.0.3.2:8080")
        .setLogLevel(HttpLoggingInterceptor.Level.BODY)
        .build();
 
@@ -299,6 +299,8 @@ For example to set the button background color to light green:
 Bug reports and pull requests are welcome through [GitHub Issues](https://github.com/voucherifyio/voucherify-android-sdk/issues).
 
 ## Changelog
+- **2020-11-24** - `3.0.0` - Increase minSdkVersion to 21 and build tools to 30.0.2
+- **2020-09-25** - `2.3.0` - Add `campaign` and `campaign_id` in Voucher validation response
 - **2019-02-26** - `2.2.0` - Add method to list promotion tiers
 - **2018-11-17** - `2.1.0` - Increased minSdkVersion to 16 and updated external dependencies
 - **2018-04-16** - `2.0.0` - Adjusted API for Validation and Redemption
