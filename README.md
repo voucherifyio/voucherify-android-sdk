@@ -45,6 +45,14 @@ dependencies {
 }
 ```
 
+Also add Rspective's repository:
+
+```groovy
+    maven {
+        url  "https://dl.bintray.com/rspective/maven"
+    }
+```
+
 ###### Using Maven:
 
 ```xml

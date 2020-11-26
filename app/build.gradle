@@ -30,8 +30,8 @@ android {
 
 dependencies {
 
-//    implementation 'io.voucherify.android.client:voucherify-android-sdk:2.0.0'
-    implementation project (':voucherify-android-sdk')
+    implementation 'io.voucherify.android.client:voucherify-android-sdk:3.0.0'
+//    implementation project (':voucherify-android-sdk')
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
